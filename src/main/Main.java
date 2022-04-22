@@ -1,6 +1,7 @@
 package main;
 import java.util.ArrayList;
 
+import gui.ControlPane;
 import gui.GamePane;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import logic.GameLogic;
 import snake.Head;
 
 public class Main extends Application {
@@ -25,26 +27,41 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		HBox root = new HBox();
+		root.setMinWidth(1200);
+		root.setSpacing(10);
+//		root.setPadding(new Insets(10));
+		root.setPrefHeight(600);
 		GamePane gamePane = new GamePane(60,60);
-//		private ControlPane controlPane = new ControlPane();
+		ControlPane controlPane = new ControlPane(gamePane);
 		root.getChildren().add(gamePane);
-//		root.getChildren().add(controlPane);
-		Scene scene = new Scene(root, 600, 600);
+		root.getChildren().add(controlPane);
+		GameLogic.getInstance().setControlPane(controlPane);
+		GameLogic.getInstance().getMoving().start();
+		Scene scene = new Scene(root, 920, 600);
 
-		game = new Thread(() -> {
-			while (!gamePane.getGameEnd()) {
-				gamePane.getSnake().move();
-				gamePane.checkEat();
-				if(gamePane.getSnake().isCrash()) {
-					gamePane.setGameEnd(true);
-				}
-				try {
-					Thread.sleep(Head.speed); // move by using move() every 0.2 second
-				} catch (Exception ex) {
-				}
-			}
-		});
-		game.start();
+//		game = new Thread(() -> {
+//			while ((!GameLogic.getInstance().isGameEnd())) {
+//				if(!GameLogic.getInstance().isPause()) {
+//					Platform.runLater(new Runnable(){
+//						@Override
+//						public void run() {
+//							// TODO Auto-generated method stub
+//							gamePane.getSnake().requestFocus();
+//						}
+//					});
+//					gamePane.getSnake().move();
+//					gamePane.checkEat();
+//					if(gamePane.getSnake().isCrash()) {
+//						GameLogic.getInstance().setGameEnd(true);
+//					}
+//				}
+//				try {
+//					Thread.sleep(Head.speed); // move by using move() every 0.2 second
+//				} catch (Exception ex) {
+//				}
+//			}
+//		});
+//		game.start();
 		primaryStage.setTitle("Snake");
 		primaryStage.setScene(scene);
 		primaryStage.setMinHeight(600);

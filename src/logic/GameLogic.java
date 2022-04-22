@@ -1,130 +1,156 @@
 package logic;
 
+import Item.Food;
+import gui.ControlPane;
+import javafx.application.Platform;
+import snake.Head;
+import snake.Snake;
 
 public class GameLogic {
-	
+
 	private static GameLogic instance = null;
 	private boolean isGameEnd;
 	private boolean isGameWin;
-	private int mineX = 1;
-	private int mineY = 2;
-	private int tileCount;
+	private boolean isPause;
+	public int framerate;
+	private int score;
+	private Snake snake;
+	private Food food;
 	private ControlPane controlPane;
-	private boolean secureMode;
-	private SquareMark[][] boardMark = new SquareMark[5][5];
-	private SquareState[][] boardState = new SquareState[5][5];
-	
+
+	// ----------------------------------------------------------
+	private Thread moving = new Thread(() -> {
+		while (true) {
+			while ((!isGameEnd())) {
+				if (!isPause()) {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							controlPane.getGamePane().getSnake().requestFocus();
+						}
+					});
+					controlPane.getGamePane().getSnake().move();
+					controlPane.getGamePane().checkEat();
+					if (controlPane.getGamePane().getSnake().isCrash()) {
+						GameLogic.getInstance().setGameEnd(true);
+					}
+				}
+				try {
+					Thread.sleep(framerate);
+				} catch (Exception ex) {
+				}
+			}
+		}
+	});
+
+	public int getFramerate() {
+		return framerate;
+	}
+
+	public void setFramerate(int framerate) {
+		this.framerate = framerate;
+	}
+
+	public Thread getMoving() {
+		return moving;
+	}
+
+	public void setMoving(Thread moving) {
+		this.moving = moving;
+	}
+
 	private GameLogic() {
 		this.newGame();
 	}
-	
-	public void updateState(int x, int y,SquareState state) {
-		
-		
-		boardState[x][y] = state;
-		
-		checkGameEnd();
-		if(isGameEnd) {
-			if(isGameWin) {
-				controlPane.updateGameText("You win!");
-				return;	
-			}
-			else {
-				controlPane.updateGameText("You lose!");
-				return;	
 
-			}
-		}
-		else if(!isSecureMode()){
-			tileCount = tileCount - 1;
-			controlPane.updateGameText("Tiles left : " + getTileCount());
-		}
-		
-		
-	}
-	
-	private void checkGameEnd() {
-		if(boardState[mineX][mineY]==SquareState.REVEALED) {
-			this.setGameEnd(true);
-			this.setGameWin(false);
-		}
-		
-		else {
-			boolean allRevealed = true;
-			for(int i = 0;i<5;i++) {
-				for(int j = 0;j<5;j++) {
-					if(!(i == mineX && j == mineY)) {
-						if(boardState[i][j] != SquareState.REVEALED) {
-							allRevealed = false;
-							break;
-						}
-					}
-					else {
-						if(boardState[i][j] != SquareState.SECURED) {
-							allRevealed = false;
-							break;
-						}
-					}
-				}
-			}
-			if(allRevealed) {
-				this.setGameEnd(true);
-				this.setGameWin(true);
-			}
-		}
-	}
-	
 	public void newGame() {
 		this.setGameEnd(false);
-		this.tileCount = 25;
-		this.secureMode = false;
-		for(int i = 0;i<5;i++) {
-			for(int j = 0;j<5;j++) {
-				boardState[i][j] = SquareState.CONCEALED;
-				boardMark[i][j] = SquareMark.NOTHING;
-			}
+		this.setGameWin(false);
+		this.setScore(0);
+		this.setFramerate(200);
+		this.setPause(false);
+
+	}
+
+	public static GameLogic getInstance() {
+		if (instance == null) {
+			instance = new GameLogic();
 		}
-		
-		for(int i = mineX-1;i < mineX+2;i++) {
-			for(int j = mineY-1;j < mineY+2;j++) {
-				boardMark[i][j] = SquareMark.ONE;
+		return instance;
+	}
+
+	public boolean isPause() {
+		return isPause;
+	}
+
+	public void setPause(boolean pauseMode) {
+		this.isPause = pauseMode;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public Snake getSnake() {
+		return snake;
+	}
+
+	public void setSnake(Snake snake) {
+		this.snake = snake;
+	}
+
+	public Food getFood() {
+		return food;
+	}
+
+	public void setFood(Food food) {
+		this.food = food;
+	}
+
+	public void updateScore(int score) {
+		this.setScore(score);
+		checkGameEnd();
+		if (isGameEnd) {
+			if (isGameWin) {
+				controlPane.updateScoreText("You win!");
+				return;
+			} else {
+				controlPane.updateScoreText("You lose!");
+				return;
+
 			}
+		} else {
+			controlPane.updateScoreText("Score :" + this.score);
 		}
-		
-		boardMark[mineX][mineY] = SquareMark.MINE;
-	}
-	
-	public void toggleSecureMode() {
-		this.secureMode = !this.secureMode;
-	}
-	
-	public boolean isSecureMode() {
-		return secureMode;
 	}
 
-	public void setSecureMode(boolean secureMode) {
-		this.secureMode = secureMode;
+	public ControlPane getControlPane() {
+		return controlPane;
 	}
 
-	public int getTileCount() {
-		return tileCount;
+	private void checkGameEnd() {
+		if (score == 10) {
+			this.setGameEnd(true);
+			this.setGameWin(true);
+		}
 	}
 
-	public SquareMark[][] getBoardMark() {
-		return boardMark;
-	}
-
-	public SquareState[][] getBoardState() {
-		return boardState;
+	public void togglePauseMode() {
+		this.isPause = !this.isPause;
 	}
 
 	public boolean isGameEnd() {
 		return isGameEnd;
 	}
+
 	public void setGameEnd(boolean gameEnd) {
 		isGameEnd = gameEnd;
 	}
-
 
 	public boolean isGameWin() {
 		return isGameWin;
@@ -134,17 +160,8 @@ public class GameLogic {
 		this.isGameWin = isGameWin;
 	}
 
-	public static GameLogic getInstance() {
-		if(instance == null) {
-			instance = new GameLogic();
-		}
-		return instance;
-	}
-
 	public void setControlPane(ControlPane controlPane) {
 		this.controlPane = controlPane;
 	}
-	
-	
-	
+
 }

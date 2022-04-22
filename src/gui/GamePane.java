@@ -11,6 +11,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import logic.GameLogic;
 import snake.Head;
 import snake.Snake;
 import javafx.scene.input.KeyEvent;
@@ -18,14 +19,10 @@ import javafx.scene.input.KeyEvent;
 public class GamePane extends Pane {
 	private Snake snake;
 	private Food food;
-	private Boolean gameEnd;
-	private Boolean nextLevel;
 
 	public GamePane(int x,int y) {
 		snake = new Snake(x,y);
 		food = new Food();
-		setGameEnd(false);
-		setNextLevel(false);
 		this.getChildren().add(snake);
 		this.getChildren().add(food);
 		this.setMinHeight(600);
@@ -44,7 +41,7 @@ public class GamePane extends Pane {
 			int currentDirection = this.snake.getSnake().get(0).getDirection();
 			switch (k) {
 			case A:
-				if (currentDirection == 1 || currentDirection == 3) {
+				if ((currentDirection == 1 || currentDirection == 3) && (!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())) {
 					snake.getSnake().get(0).setRotate(90);
 					snake.getSnake().get(0).setDirection(0);
 					currentDirection = 0;
@@ -53,7 +50,7 @@ public class GamePane extends Pane {
 				}
 				break;
 			case W:
-				if (currentDirection == 0 || currentDirection == 2) {
+				if ((currentDirection == 0 || currentDirection == 2) && (!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())) {
 					snake.getSnake().get(0).setRotate(180);
 					snake.getSnake().get(0).setDirection(1);
 					currentDirection = 1;
@@ -62,7 +59,7 @@ public class GamePane extends Pane {
 				}
 				break;
 			case D:
-				if (currentDirection == 1 || currentDirection == 3) {
+				if ((currentDirection == 1 || currentDirection == 3) && (!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())) {
 					snake.getSnake().get(0).setRotate(270);
 					snake.getSnake().get(0).setDirection(2);
 					currentDirection = 2;
@@ -71,7 +68,7 @@ public class GamePane extends Pane {
 				}
 				break;
 			case S:
-				if (currentDirection == 0 || currentDirection == 2) {
+				if ((currentDirection == 0 || currentDirection == 2) && (!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())) {
 					snake.getSnake().get(0).setRotate(0);
 					snake.getSnake().get(0).setDirection(3);
 					currentDirection = 3;
@@ -81,14 +78,6 @@ public class GamePane extends Pane {
 				break;
 			}
 		});
-	}
-
-	public Boolean getNextLevel() {
-		return nextLevel;
-	}
-
-	public void setNextLevel(Boolean nextLevel) {
-		this.nextLevel = nextLevel;
 	}
 
 	public Snake getSnake() {
@@ -106,18 +95,11 @@ public class GamePane extends Pane {
 	public void setFood(Food food) {
 		this.food = food;
 	}
-
-	public Boolean getGameEnd() {
-		return gameEnd;
-	}
-
-	public void setGameEnd(Boolean gameEnd) {
-		this.gameEnd = gameEnd;
-	}
 	
 	public void checkEat() {
 		Head head = (Head) this.snake.getSnake().get(0);
 		if((head.getXLocation() == food.getXLocation()) && (head.getYLocation() == food.getYLocation()))  {
+			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore()+1);
 			snake.getSnake().get((snake.getLength())).setVisible(true);
 			snake.updateLength();
 			snake.setLength(snake.getLength());

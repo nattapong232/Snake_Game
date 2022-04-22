@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -12,62 +14,120 @@ import logic.GameLogic;
 public class ControlPane extends VBox {
 	Button bgm;
 	Button sfx;
-	Text currentScoreText;
+	Button newGameButton;
+	Button pauseButton;
+	Text pauseText;
+	Text scoreText;
 	Text scoreToNextLevelText;
 	GamePane gamePane;
 	public ControlPane(GamePane gamePane) {
 		this.gamePane = gamePane;
 		this.setAlignment(Pos.CENTER);
 		this.setPrefWidth(300);
+		this.setMinWidth(300);
+		this.setMaxWidth(300);
 		this.setSpacing(20);
 //		this.setPadding(new Insets(8));
 //		this.setPrefWidth(500);
-		initializeBgm();
-		initializesfx();
-		initializeCurrentScoreText();
+		initializeScoreText();
 		initializeScoreToNextLevelText();
-		initializeSecureModeButton();
-		this.getChildren().addAll(currentScoreText,scoreToNextLevelText,bgm,sfx);
+//		initializeBgm();
+//		initializeSfx();
+		initializeNewGameButton();
+		initializePauseModeButton();
+		initializePauseModeText();
+		this.getChildren().addAll(scoreText,scoreToNextLevelText,pauseText,pauseButton,newGameButton);
 	}
 
-	private void initializeGameText() {
-		currentScoreText = new Text("Score : " + gamePane.getTileCount());
-		gameText.setFont(Font.font(35));
+	private void initializeScoreText() {
+		scoreText = new Text("Score : " + GameLogic.getInstance().getScore());
+		scoreText.setFont(Font.font(30));
 	}
 
-	public void updateGameText(String text) {
-		gameText.setText(text);
+	private void initializeScoreToNextLevelText() {
+		scoreToNextLevelText = new Text("Score to next level: " + 10);
+		scoreToNextLevelText.setFont(Font.font(25));
+	}
+	
+	public void updateScoreText(String text) {
+		scoreText.setText(text);
+	}
+	
+	public void updateScoreToNextLevelText(String text) {
+		scoreText.setText(text);
 	}
 
 	private void initializeNewGameButton() {
 		newGameButton = new Button("New Game");
 		newGameButton.setPrefWidth(100);
+		newGameButton.setMinWidth(100);
 		newGameButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				GameLogic.getInstance().newGame();
-				secureModeButton.setText("Secure mode : OFF");
-				gameText.setText("Tiles left : "+GameLogic.getInstance().getTileCount());
-				for (MineSweeperSquare m : mineSweeperPane.getAllCells()) {
-					m.initializeCellColor();
-				}
+				pauseText.setText("Pause mode : OFF");
+				scoreText.setText("Score : "+GameLogic.getInstance().getScore());
+				gamePane.getSnake().initializeSnake();
+				gamePane.getFood().initializeFood();
+				System.out.println(GameLogic.getInstance().isGameEnd());
 			}
 		});
 	}
 
-	private void initializeSecureModeButton() {
-		secureModeButton = new Button("Secure mode : OFF");
-		secureModeButton.setPrefWidth(150);
-		secureModeButton.setOnAction(new EventHandler<ActionEvent>() {
+	private void initializePauseModeButton() {
+		pauseButton = new Button();
+		pauseButton.setGraphic(new ImageView(new Image("pause.png", 50, 50, false, false)));
+		pauseButton.setPrefWidth(50);
+		newGameButton.setMaxWidth(50);
+		newGameButton.setMaxHeight(50);
+		pauseButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				GameLogic.getInstance().toggleSecureMode();
-				if(GameLogic.getInstance().isSecureMode()) {
-					secureModeButton.setText("Secure mode : ON");
-				}
-				else {
-					secureModeButton.setText("Secure mode : OFF");
+				if(!GameLogic.getInstance().isGameEnd()) {
+					GameLogic.getInstance().togglePauseMode();
+					if(GameLogic.getInstance().isPause()) {
+						pauseText.setText("Pause mode : ON");
+					}
+					else {
+						pauseText.setText("Pause mode : OFF");
+					}
 				}
 			}
 		});
 	}
 
+	private void initializePauseModeText() {
+		pauseText = new Text("Pause mode : OFF");
+		pauseText.setFont(Font.font(30));
+	}
+
+	public GamePane getGamePane() {
+		return gamePane;
+	}
+
+	public void setGamePane(GamePane gamePane) {
+		this.gamePane = gamePane;
+	}
+	
+//	private void initializeBgm() {
+//		bgm = new Button();
+//		bgm.setGraphic(new ImageView("bgm.png"));
+//		bgm.setPrefWidth(150);
+//		bgm.setOnAction(new EventHandler<ActionEvent>() {
+//			public void handle(ActionEvent event) {
+//				GameLogic.getInstance().toggleBgm();
+//				//turn on sound,turn off sound
+//			}
+//		});
+//	}
+	
+//	private void initializeSfx() {
+//	sfx = new Button();
+//	sfx.setGraphic(new ImageView("bgm.png"));
+//	sfx.setPrefWidth(150);
+//	sfx.setOnAction(new EventHandler<ActionEvent>() {
+//		public void handle(ActionEvent event) {
+//			GameLogic.getInstance().toggleSfx();
+//			//turn on sound,turn off sound
+//		}
+//	});
+//}
 }

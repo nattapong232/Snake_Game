@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import snake.Head;
 
 public class Food extends ImageView implements Locatable,Moveable{
 	Coordinate location;
@@ -20,19 +21,8 @@ public class Food extends ImageView implements Locatable,Moveable{
 		this.setImage(this.picture);
 		this.setFitWidth(30);
 		this.setFitHeight(30);
-		//temporary
-		this.setTranslateX(this.location.getX());
-		this.setTranslateY(this.location.getY());
-//		this.setOnKeyPressed(event -> {
-//			KeyCode k = event.getCode();
-//			switch (k) {
-//			case T:
-//				this.location.setX(this.location.getX()+10);
-//				this.location.setY(this.location.getY()+10);
-//				this.setTranslateX(this.location.getX()+10);
-//				this.setTranslateY(this.location.getY()+10);
-//			}
-//		});
+		this.setTranslateX(this.getXLocation());
+		this.setTranslateY(this.getYLocation());
 	}
 	public int getXLocation() {
 		return location.getX();
@@ -70,5 +60,11 @@ public class Food extends ImageView implements Locatable,Moveable{
 	public void move() {
 		Random rand = new Random();
 		this.setLocation(rand.nextInt(19)*30, rand.nextInt(19)*30);
+	}
+	
+	public void initializeFood() { // initialize visibility, location, direction
+		this.setLocation(330, 450);
+		this.setTranslateX(this.getXLocation());
+		this.setTranslateY(this.getYLocation());
 	}
 }
