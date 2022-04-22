@@ -1,0 +1,15 @@
+package snake;
+import javafx.scene.image.Image;
+import base.Coordinate;
+import base.Body;
+public class Tail extends Body {
+	
+	public Tail(int x,int y) {
+		this.location = new Coordinate(x,y);
+		setPicture(new Image("body.jpg"));
+		this.setDirection(2);
+		this.setImage(this.picture);
+		this.setFitWidth(30);
+		this.setFitHeight(30);
+	}
+}
