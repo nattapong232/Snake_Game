@@ -14,6 +14,7 @@ public class Head extends Body implements Locatable{
 		this.setFitHeight(30);
 	}
 	public void initializeHead() {
+		this.setRotate(this.getRotate()*0);
 		this.setLocation(60, 60);
 		this.setDirection(3);
 		this.setTranslateX(this.getXLocation());

@@ -1,9 +1,9 @@
 package gui;
 import java.util.Random;
 
-import Item.Food;
 import interfaces.Locatable;
 import interfaces.Moveable;
+import item.Food;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;

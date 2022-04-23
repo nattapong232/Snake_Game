@@ -90,7 +90,6 @@ public class Snake extends Pane implements Moveable {
 		if (!isCrash) {
 			head.setTranslateX(head.getXLocation());
 			head.setTranslateY(head.getYLocation());
-
 			for (int i = 1; i < 400; i++) {
 				Tail tail = (Tail) snake.get(i);
 				int tempX = tail.getLocation().getX();
@@ -128,6 +127,7 @@ public class Snake extends Pane implements Moveable {
 			snake.get(i).setTranslateX(snake.get(i).getXLocation());
 			snake.get(i).setTranslateY(snake.get(i).getYLocation());
 		}
+		setCrash(false);
 		updateLength();
 	}
 

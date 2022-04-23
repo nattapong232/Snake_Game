@@ -1,7 +1,7 @@
 package logic;
 
-import Item.Food;
 import gui.ControlPane;
+import item.Food;
 import javafx.application.Platform;
 import snake.Head;
 import snake.Snake;
@@ -14,36 +14,42 @@ public class GameLogic {
 	private boolean isPause;
 	public int framerate;
 	private int score;
+	private int level;
 	private Snake snake;
 	private Food food;
 	private ControlPane controlPane;
 
 	// ----------------------------------------------------------
-	private Thread moving = new Thread(() -> {
-		while (true) {
-			while ((!isGameEnd())) {
-				if (!isPause()) {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							controlPane.getGamePane().getSnake().requestFocus();
-						}
-					});
-					controlPane.getGamePane().getSnake().move();
-					controlPane.getGamePane().checkEat();
-					if (controlPane.getGamePane().getSnake().isCrash()) {
-						GameLogic.getInstance().setGameEnd(true);
-					}
-				}
-				try {
-					Thread.sleep(framerate);
-				} catch (Exception ex) {
-				}
-			}
-		}
-	});
+//	private Thread moving = new Thread(() -> {
+//			while ((!isGameEnd())) {
+//				if (!isPause()) {
+//					Platform.runLater(new Runnable() {
+//						@Override
+//						public void run() {
+//							// TODO Auto-generated method stub
+//							controlPane.getGamePane().getSnake().requestFocus();
+//						}
+//					});
+//					controlPane.getGamePane().getSnake().move();
+//					controlPane.getGamePane().checkEat();
+//					if (controlPane.getGamePane().getSnake().isCrash()) {
+//						GameLogic.getInstance().setGameEnd(true);
+//					}
+//				}
+//				try {
+//					Thread.sleep(framerate);
+//				} catch (Exception ex) {
+//				}
+//		}
+//	});
+	public int getLevel() {
+		return level;
+	}
 
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 	public int getFramerate() {
 		return framerate;
 	}
@@ -52,24 +58,37 @@ public class GameLogic {
 		this.framerate = framerate;
 	}
 
-	public Thread getMoving() {
-		return moving;
-	}
-
-	public void setMoving(Thread moving) {
-		this.moving = moving;
-	}
-
 	private GameLogic() {
-		this.newGame();
+		this.newGame(1);
 	}
 
-	public void newGame() {
-		this.setGameEnd(false);
-		this.setGameWin(false);
-		this.setScore(0);
-		this.setFramerate(200);
-		this.setPause(false);
+	public void newGame(int level) {
+		switch (level) {
+		case 1:
+			this.setGameEnd(false);
+			this.setGameWin(false);
+			this.setScore(0);
+			this.setLevel(1);
+			this.setFramerate(400);
+			this.setPause(false);
+			break;
+		case 2:
+			this.setGameEnd(false);
+			this.setGameWin(false);
+			this.setScore(0);
+			this.setLevel(2);
+			this.setFramerate(400);
+			this.setPause(false);
+			break;
+		case 3:
+			this.setGameEnd(false);
+			this.setGameWin(false);
+			this.setScore(0);
+			this.setLevel(3);
+			this.setFramerate(400);
+			this.setPause(false);
+			break;
+		}
 
 	}
 
@@ -135,8 +154,12 @@ public class GameLogic {
 
 	private void checkGameEnd() {
 		if (score == 10) {
+			//temporary
 			this.setGameEnd(true);
 			this.setGameWin(true);
+			
+			//go to next level
+			//code
 		}
 	}
 

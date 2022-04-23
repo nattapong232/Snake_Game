@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -16,11 +17,14 @@ public class ControlPane extends VBox {
 	Button sfx;
 	Button newGameButton;
 	Button pauseButton;
+	Text levelText;
 	Text pauseText;
 	Text scoreText;
 	Text scoreToNextLevelText;
 	GamePane gamePane;
+
 	public ControlPane(GamePane gamePane) {
+		HBox hBox = new HBox();
 		this.gamePane = gamePane;
 		this.setAlignment(Pos.CENTER);
 		this.setPrefWidth(300);
@@ -29,14 +33,26 @@ public class ControlPane extends VBox {
 		this.setSpacing(20);
 //		this.setPadding(new Insets(8));
 //		this.setPrefWidth(500);
+		initializeLevelText();
 		initializeScoreText();
 		initializeScoreToNextLevelText();
-//		initializeBgm();
-//		initializeSfx();
+		initializeBgm();
+		initializeSfx();
 		initializeNewGameButton();
 		initializePauseModeButton();
 		initializePauseModeText();
-		this.getChildren().addAll(scoreText,scoreToNextLevelText,pauseText,pauseButton,newGameButton);
+		
+		hBox.getChildren().addAll(sfx,bgm);
+		this.getChildren().addAll(levelText, scoreText, scoreToNextLevelText, pauseText, hBox, pauseButton, newGameButton);
+	}
+
+	private void initializeLevelText() {
+		levelText = new Text("Level : " + GameLogic.getInstance().getLevel());
+		levelText.setFont(Font.font(30));
+	}
+
+	private void updateLevelText(String text) {
+		levelText.setText(text);
 	}
 
 	private void initializeScoreText() {
@@ -48,11 +64,11 @@ public class ControlPane extends VBox {
 		scoreToNextLevelText = new Text("Score to next level: " + 10);
 		scoreToNextLevelText.setFont(Font.font(25));
 	}
-	
+
 	public void updateScoreText(String text) {
 		scoreText.setText(text);
 	}
-	
+
 	public void updateScoreToNextLevelText(String text) {
 		scoreText.setText(text);
 	}
@@ -63,14 +79,22 @@ public class ControlPane extends VBox {
 		newGameButton.setMinWidth(100);
 		newGameButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				GameLogic.getInstance().newGame();
+				GameLogic.getInstance().newGame(1);
 				pauseText.setText("Pause mode : OFF");
-				scoreText.setText("Score : "+GameLogic.getInstance().getScore());
+				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
 				gamePane.getSnake().initializeSnake();
 				gamePane.getFood().initializeFood();
 				System.out.println(GameLogic.getInstance().isGameEnd());
 			}
 		});
+	}
+
+	public Button getNewGameButton() {
+		return newGameButton;
+	}
+
+	public void setNewGameButton(Button newGameButton) {
+		this.newGameButton = newGameButton;
 	}
 
 	private void initializePauseModeButton() {
@@ -81,12 +105,11 @@ public class ControlPane extends VBox {
 		newGameButton.setMaxHeight(50);
 		pauseButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				if(!GameLogic.getInstance().isGameEnd()) {
+				if (!GameLogic.getInstance().isGameEnd()) {
 					GameLogic.getInstance().togglePauseMode();
-					if(GameLogic.getInstance().isPause()) {
+					if (GameLogic.getInstance().isPause()) {
 						pauseText.setText("Pause mode : ON");
-					}
-					else {
+					} else {
 						pauseText.setText("Pause mode : OFF");
 					}
 				}
@@ -106,28 +129,28 @@ public class ControlPane extends VBox {
 	public void setGamePane(GamePane gamePane) {
 		this.gamePane = gamePane;
 	}
-	
-//	private void initializeBgm() {
-//		bgm = new Button();
-//		bgm.setGraphic(new ImageView("bgm.png"));
-//		bgm.setPrefWidth(150);
+
+	private void initializeBgm() {
+		bgm = new Button();
+		bgm.setGraphic(new ImageView(new Image("bgm.png", 30, 30, false, false)));
+		bgm.setPrefWidth(150);
 //		bgm.setOnAction(new EventHandler<ActionEvent>() {
 //			public void handle(ActionEvent event) {
 //				GameLogic.getInstance().toggleBgm();
 //				//turn on sound,turn off sound
 //			}
 //		});
-//	}
-	
-//	private void initializeSfx() {
-//	sfx = new Button();
-//	sfx.setGraphic(new ImageView("bgm.png"));
-//	sfx.setPrefWidth(150);
+	}
+
+	private void initializeSfx() {
+		sfx = new Button();
+		sfx.setGraphic(new ImageView(new Image("sfx.png", 30, 30, false, false)));
+		sfx.setPrefWidth(150);
 //	sfx.setOnAction(new EventHandler<ActionEvent>() {
 //		public void handle(ActionEvent event) {
 //			GameLogic.getInstance().toggleSfx();
 //			//turn on sound,turn off sound
 //		}
 //	});
-//}
+	}
 }
