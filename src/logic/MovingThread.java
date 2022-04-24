@@ -6,28 +6,28 @@ public class MovingThread extends Thread {
 	public void run() {
 		while (true) {
 			while ((!GameLogic.getInstance().isGameEnd())) {
-				// this will perform the task and wait 0.2 sec to perform the task again
-				// during this perform the task other threads will not work
-				// but this task is short (move,checkEat,isCrash) and it can quickly finished so
-				// it not affect other threads
 				if (!GameLogic.getInstance().isPause()) {
+					GameLogic.getInstance().getControlPane().getGamePane().getSnake().changeLocation();
+					GameLogic.getInstance().getControlPane().getGamePane().updateLocation();
+					GameLogic.getInstance().getControlPane().getGamePane().checkInteract();
+					if (GameLogic.getInstance().getControlPane().getGamePane().getSnake().isCrash()) {
+						System.out.println("Crash!");
+						GameLogic.getInstance().setGameEnd(true);
+						GameLogic.getInstance().setGameWin(false);
+						GameLogic.getInstance().checkGameEnd();
+					}
+					else {
+						GameLogic.getInstance().getControlPane().getGamePane().getSnake().move();
+						System.out.println(GameLogic.getInstance().getControlPane().getGamePane().getSnake().getXLocation());
+						System.out.println(GameLogic.getInstance().getControlPane().getGamePane().getSnake().getYLocation());
+					}
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							GameLogic.getInstance().getControlPane().getGamePane().getSnake().requestFocus();
-							GameLogic.getInstance().getControlPane().getGamePane().getSnake().move();
-							GameLogic.getInstance().getControlPane().getGamePane().checkEat();
-							if (GameLogic.getInstance().getControlPane().getGamePane().getSnake().isCrash()) {
-								GameLogic.getInstance().setGameEnd(true);
-							}
+							GameLogic.getInstance().getControlPane().getGamePane().requestFocus();
 						}
-					});
-//					GameLogic.getInstance().getControlPane().getGamePane().getSnake().move();
-//					GameLogic.getInstance().getControlPane().getGamePane().checkEat();
-//					if (GameLogic.getInstance().getControlPane().getGamePane().getSnake().isCrash()) {
-//						GameLogic.getInstance().setGameEnd(true);
-//					}
+					});				
 				}
 				System.out.println("Current Thread ID: " + Thread.currentThread().getId());
 				try {

@@ -1,7 +1,9 @@
 package logic;
 
 import gui.ControlPane;
-import item.Food;
+
+import item.Apple;
+import item.Mushroom;
 import javafx.application.Platform;
 import snake.Head;
 import snake.Snake;
@@ -16,9 +18,13 @@ public class GameLogic {
 	private int score;
 	private int level;
 	private Snake snake;
-	private Food food;
+	private Apple apple;
+	private Mushroom mushroom1;
+	private Mushroom mushroom2;
+	private Mushroom mushroom3;
 	private ControlPane controlPane;
 
+//	private MainMenuPane mainMenuPane;
 	// ----------------------------------------------------------
 //	private Thread moving = new Thread(() -> {
 //			while ((!isGameEnd())) {
@@ -49,7 +55,7 @@ public class GameLogic {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+
 	public int getFramerate() {
 		return framerate;
 	}
@@ -63,33 +69,38 @@ public class GameLogic {
 	}
 
 	public void newGame(int level) {
-		switch (level) {
-		case 1:
-			this.setGameEnd(false);
-			this.setGameWin(false);
-			this.setScore(0);
-			this.setLevel(1);
-			this.setFramerate(400);
-			this.setPause(false);
+		this.setGameEnd(false);
+		this.setGameWin(false);
+		this.setScore(0);
+		this.setLevel(level);
+		this.setFramerate(300);
+		this.setPause(false);
+		switch(level) {
+		case 2 :
+			this.setFramerate(100);
+			this.getInstance().getControlPane().getGamePane().getMushroom1().initialize();
 			break;
-		case 2:
-			this.setGameEnd(false);
-			this.setGameWin(false);
-			this.setScore(0);
-			this.setLevel(2);
-			this.setFramerate(400);
-			this.setPause(false);
+		case 3 :
+			this.setFramerate(100);
+			this.getInstance().getControlPane().getGamePane().getMushroom1().initialize();
+			this.getInstance().getControlPane().getGamePane().getMushroom2().initialize();
+			this.getInstance().getControlPane().getGamePane().getMushroom3().initialize();
 			break;
-		case 3:
-			this.setGameEnd(false);
-			this.setGameWin(false);
-			this.setScore(0);
-			this.setLevel(3);
-			this.setFramerate(400);
-			this.setPause(false);
+		case 4 :
+			this.setFramerate(100);
+			this.getInstance().getControlPane().getGamePane().getMushroom1().initialize();
+			this.getInstance().getControlPane().getGamePane().getMushroom2().initialize();
+			this.getInstance().getControlPane().getGamePane().getMushroom3().initialize();
+			break;
+		case 5 :
+			this.setFramerate(100);
+			this.getInstance().getControlPane().getGamePane().getMushroom1().initialize();
+			this.getInstance().getControlPane().getGamePane().getMushroom2().initialize();
+			this.getInstance().getControlPane().getGamePane().getMushroom3().initialize();
 			break;
 		}
-
+		
+		
 	}
 
 	public static GameLogic getInstance() {
@@ -123,28 +134,22 @@ public class GameLogic {
 		this.snake = snake;
 	}
 
-	public Food getFood() {
-		return food;
+	public Apple getFood() {
+		return apple;
 	}
 
-	public void setFood(Food food) {
-		this.food = food;
+	public void setFood(Apple apple) {
+		this.apple = apple;
 	}
 
 	public void updateScore(int score) {
 		this.setScore(score);
+		controlPane.updateScoreText("Score :" + this.score);
 		checkGameEnd();
-		if (isGameEnd) {
-			if (isGameWin) {
-				controlPane.updateScoreText("You win!");
-				return;
-			} else {
-				controlPane.updateScoreText("You lose!");
-				return;
-
-			}
-		} else {
-			controlPane.updateScoreText("Score :" + this.score);
+		if (score == 3) {
+			this.setGameEnd(true);
+			this.setGameWin(true);
+			GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
 		}
 	}
 
@@ -152,14 +157,15 @@ public class GameLogic {
 		return controlPane;
 	}
 
-	private void checkGameEnd() {
-		if (score == 10) {
-			//temporary
-			this.setGameEnd(true);
-			this.setGameWin(true);
-			
-			//go to next level
-			//code
+	public void checkGameEnd() {
+		if (isGameEnd) {
+			if (isGameWin) {
+				controlPane.updateScoreText("You win!");
+			} else {
+				controlPane.updateScoreText("You lose!");
+				GameLogic.getInstance().setLevel(1);
+				GameLogic.getInstance().setScore(0);
+			}
 		}
 	}
 

@@ -1,9 +1,8 @@
 package snake;
-import interfaces.Locatable;
 import javafx.scene.image.Image;
 import base.Coordinate;
 import base.Body;
-public class Head extends Body implements Locatable{
+public class Head extends Body{
 	public static int speed = 00;
 	public Head(int x,int y) {
 		this.location = new Coordinate(x,y);

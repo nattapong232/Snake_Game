@@ -1,9 +1,15 @@
 package gui;
+
+import java.util.ArrayList;
 import java.util.Random;
 
-import interfaces.Locatable;
+import base.Body;
+import base.Coordinate;
+import interfaces.Eatable;
 import interfaces.Moveable;
+import item.Apple;
 import item.Food;
+import item.Mushroom;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -18,67 +24,94 @@ import javafx.scene.input.KeyEvent;
 
 public class GamePane extends Pane {
 	private Snake snake;
-	private Food food;
+	private Apple apple;
+	private Mushroom mushroom1;
+	private Mushroom mushroom2;
+	private Mushroom mushroom3;
+	private ArrayList<Node>[][] locationTable;
 
-	public GamePane(int x,int y) {
-		snake = new Snake(x,y);
-		food = new Food();
+	public GamePane(int x, int y) {
+		snake = new Snake(x, y);
+		apple = new Apple();
+		mushroom1 = new Mushroom();
+		mushroom2 = new Mushroom();
+		mushroom3 = new Mushroom();
+		locationTable = (ArrayList<Node>[][]) new ArrayList[20][20];
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 20; j++) {
+				locationTable[i][j] = new ArrayList<Node>() ;
+			}
+		}
+		moveToRandomLocation(apple);
+		moveToRandomLocation(mushroom1);
+		moveToRandomLocation(mushroom2);
+		moveToRandomLocation(mushroom3);
 		this.getChildren().add(snake);
-		this.getChildren().add(food);
+		this.getChildren().add(apple);
+		this.getChildren().add(mushroom1);
+		this.getChildren().add(mushroom2);
+		this.getChildren().add(mushroom3);
 		this.setMinHeight(600);
 		this.setMinWidth(600);
 		Image image = new Image("background1.jpg", 600, 600, false, false);
 		BackgroundSize bgSize = new BackgroundSize(600, 600, false, false, false, false);
 		BackgroundImage bgImg = new BackgroundImage(image, null, null, null, bgSize);
 		this.setBackground(new Background(bgImg));
-		
+
 		this.setOnKeyPressed(event -> {
-			
+
 			KeyCode k = event.getCode();
-			//-----------------------------------
-			//------------input sound here------------
-			//-----------------------------------
+			// -----------------------------------
+			// ------------input sound here------------
+			// -----------------------------------
 			int currentDirection = this.snake.getSnake().get(0).getDirection();
 			switch (k) {
 			case A:
-				if ((currentDirection == 1 || currentDirection == 3) && (!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())) {
+				if ((currentDirection == 1 || currentDirection == 3) && (!GameLogic.getInstance().isPause())
+						&& (!GameLogic.getInstance().isGameEnd())) {
 					snake.getSnake().get(0).setRotate(90);
 					snake.getSnake().get(0).setDirection(0);
 					currentDirection = 0;
-					snake.move();
-					checkEat();
+//					snake.changeLocation();
+//					updateLocation();
+//					checkInteract();
+//					if (snake.isCrash()) {
+//						GameLogic.getInstance().setGameEnd(true);
+//						GameLogic.getInstance().setGameWin(false);
+//					}
+//					else {
+//						snake.move();
+//					}
 				}
 				break;
 			case W:
-				if ((currentDirection == 0 || currentDirection == 2) && (!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())) {
+				if ((currentDirection == 0 || currentDirection == 2) && (!GameLogic.getInstance().isPause())
+						&& (!GameLogic.getInstance().isGameEnd())) {
 					snake.getSnake().get(0).setRotate(180);
 					snake.getSnake().get(0).setDirection(1);
 					currentDirection = 1;
-					snake.move();
-					checkEat();
 				}
 				break;
 			case D:
-				if ((currentDirection == 1 || currentDirection == 3) && (!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())) {
+				if ((currentDirection == 1 || currentDirection == 3) && (!GameLogic.getInstance().isPause())
+						&& (!GameLogic.getInstance().isGameEnd())) {
 					snake.getSnake().get(0).setRotate(270);
 					snake.getSnake().get(0).setDirection(2);
 					currentDirection = 2;
-					snake.move();
-					checkEat();
 				}
 				break;
 			case S:
-				if ((currentDirection == 0 || currentDirection == 2) && (!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())) {
+				if ((currentDirection == 0 || currentDirection == 2) && (!GameLogic.getInstance().isPause())
+						&& (!GameLogic.getInstance().isGameEnd())) {
 					snake.getSnake().get(0).setRotate(0);
 					snake.getSnake().get(0).setDirection(3);
 					currentDirection = 3;
-					snake.move();
-					checkEat();
 				}
 				break;
 			}
 		});
 	}
+
 
 	public Snake getSnake() {
 		return snake;
@@ -88,59 +121,121 @@ public class GamePane extends Pane {
 		this.snake = snake;
 	}
 
-	public Food getFood() {
-		return food;
+	public Apple getApple() {
+		return apple;
 	}
 
-	public void setFood(Food food) {
-		this.food = food;
+	public void setApple(Apple apple) {
+		this.apple = apple;
 	}
-	
-	public void checkEat() {
-		Head head = (Head) this.snake.getSnake().get(0);
-		if((head.getXLocation() == food.getXLocation()) && (head.getYLocation() == food.getYLocation()))  {
-			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore()+1);
-			snake.getSnake().get((snake.getLength())).setVisible(true);
-			snake.updateLength();
-			snake.setLength(snake.getLength());
-			moveToRandomLocation(food);
-			System.out.println(food.getXLocation());
-			System.out.println(food.getYLocation());
-		}
+
+	public Mushroom getMushroom1() {
+		return mushroom1;
 	}
-	
-	public void moveToRandomLocation(Object o) {
-		boolean isChanged = true;
-		int currentX = ((Locatable) o).getXLocation();
-		int currentY = ((Locatable) o).getYLocation();
-		((Moveable)o).move();
-		int newX = ((Locatable) o).getXLocation();
-		int newY = ((Locatable) o).getYLocation();
-		if((newX == currentX) && (newY == currentY)) {
-			isChanged = false;
-		}
-		for (int i = 0;i<snake.getLength();i++) {
-			if((newX == snake.getSnake().get(i).getXLocation()) && (newY == snake.getSnake().get(i).getYLocation())) {
-				isChanged = false;
+
+	public void setMushroom1(Mushroom mushroom1) {
+		this.mushroom1 = mushroom1;
+	}
+
+	public Mushroom getMushroom2() {
+		return mushroom2;
+	}
+
+	public void setMushroom2(Mushroom mushroom2) {
+		this.mushroom2 = mushroom2;
+	}
+
+	public Mushroom getMushroom3() {
+		return mushroom3;
+	}
+
+	public void setMushroom3(Mushroom mushroom3) {
+		this.mushroom3 = mushroom3;
+	}
+
+	public void updateLocation() {
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 20; j++) {
+				locationTable[i][j].clear();
 			}
 		}
-		while (!isChanged) {
-			isChanged = true;
-			((Moveable)o).move();
-			newX = ((Locatable) o).getXLocation();
-			newY = ((Locatable) o).getYLocation();
-			if((newX == currentX) && (newY == currentY)) {
-				isChanged = false;
-			}
-			for (int i = 0;i<snake.getLength();i++) {
-				if((newX == snake.getSnake().get(i).getXLocation()) && (newY == snake.getSnake().get(i).getYLocation())) {
-					isChanged = false;
+		for (int i = 0; i < snake.getLength(); i++) {
+			Body tempBody = snake.getSnake().get(i);
+			locationTable[tempBody.getXLocation()/30][tempBody.getYLocation()/30].add(tempBody);
+		}
+		locationTable[apple.getXLocation()/30][apple.getYLocation()/30].add(apple);
+		for (int i = 0; i < Mushroom.amount; i++) {
+			Mushroom tempMushroom = Mushroom.allMushroom.get(i);
+			locationTable[tempMushroom.getXLocation()/30][tempMushroom.getYLocation()/30].add(tempMushroom);
+			locationTable[tempMushroom.getXLocation()/30+1][tempMushroom.getYLocation()/30].add(tempMushroom);
+			locationTable[tempMushroom.getXLocation()/30][tempMushroom.getYLocation()/30+1].add(tempMushroom);
+			locationTable[tempMushroom.getXLocation()/30+1][tempMushroom.getYLocation()/30+1].add(tempMushroom);
+		}
+
+	}
+
+	public void checkInteract() {
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 20; j++) {
+				if (locationTable[i][j] != null) {
+					ArrayList<Node> temp = locationTable[i][j];
+					if ((temp.size() > 1) && (temp.contains(snake.getHead()))) {
+						if ((temp.get(1) instanceof Eatable)) {
+							if((temp.get(1).isVisible()))
+							{
+								checkEat(i,j);
+							}
+						} else {
+							snake.setCrash(true);
+						}
+					}
 				}
 			}
 		}
-		if(o instanceof Node) {
-			((Node) o).setTranslateX(newX);
-			((Node) o).setTranslateY(newY);
+	}
+
+	// check what is eaten
+	public void checkEat(int x,int y) {
+		Node n = locationTable[x][y].get(1);
+		if (n instanceof Apple) {
+			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() + 1);
+			snake.getSnake().get((snake.getLength())).setVisible(true);
+			snake.updateLength();
+			snake.setLength(snake.getLength());
+			moveToRandomLocation((Moveable) n);
 		}
+		else if (n instanceof Mushroom)
+		{		
+//			Slow down
+			GameLogic.getInstance().setFramerate(200);
+			n.setVisible(false);
+//			Deduct point, increase snake length
+//			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 2);
+//			for (int i = 0; i < 3; i++) {
+//				snake.getSnake().get((snake.getLength())).setVisible(true);
+//				snake.updateLength();
+//			}
+//			moveToRandomLocation((Moveable) n);
+		}
+		updateLocation();
+	}
+
+
+
+	public void moveToRandomLocation(Moveable m) {
+		boolean isChanged = false;
+		int currentX = m.getXLocation();
+		int currentY = m.getYLocation();
+		while (!isChanged) {
+			m.randomLocation();
+			int newX = m.getXLocation();
+			int newY = m.getYLocation();
+			if(locationTable[newX/30][newY/30].isEmpty()) {
+				isChanged = true;
+			}
+		}
+		updateLocation();
+//		m.randomLocation();
+		m.move();
 	}
 }

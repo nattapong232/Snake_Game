@@ -17,6 +17,7 @@ public class ControlPane extends VBox {
 	Button sfx;
 	Button newGameButton;
 	Button pauseButton;
+	Button nextLevelButton;
 	Text levelText;
 	Text pauseText;
 	Text scoreText;
@@ -38,14 +39,56 @@ public class ControlPane extends VBox {
 		initializeScoreToNextLevelText();
 		initializeBgm();
 		initializeSfx();
+		initializeNextLevelButton();
 		initializeNewGameButton();
 		initializePauseModeButton();
 		initializePauseModeText();
 		
 		hBox.getChildren().addAll(sfx,bgm);
-		this.getChildren().addAll(levelText, scoreText, scoreToNextLevelText, pauseText, hBox, pauseButton, newGameButton);
+		this.getChildren().addAll(nextLevelButton,levelText, scoreText, scoreToNextLevelText, pauseText, hBox, pauseButton, newGameButton);
 	}
 
+	public Text getLevelText() {
+		return levelText;
+	}
+
+	public void setLevelText(Text levelText) {
+		this.levelText = levelText;
+	}
+
+	private void initializeNextLevelButton() {
+		nextLevelButton = new Button("Click to go to next level");
+		nextLevelButton.setFont(Font.font(30));
+		nextLevelButton.setVisible(false);
+		nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				if(nextLevelButton.isVisible()) {
+					nextLevelButton.setVisible(false);
+					GameLogic.getInstance().setLevel(GameLogic.getInstance().getLevel()+1);
+					GameLogic.getInstance().newGame(GameLogic.getInstance().getLevel());
+					pauseText.setText("Pause mode : OFF");
+					levelText.setText("Level : "+GameLogic.getInstance().getLevel());
+					scoreText.setText("Score : " + GameLogic.getInstance().getScore());
+					gamePane.getSnake().initializeSnake();
+					gamePane.getApple().initialize();
+					System.out.println(GameLogic.getInstance().isGameEnd());
+				}
+			}
+		});
+	}
+
+	public Button getNextLevelButton() {
+		return nextLevelButton;
+	}
+
+	public void setNextLevelButton(Button nextLevelButton) {
+		this.nextLevelButton = nextLevelButton;
+	}
+
+	private void updateNextLevelButtonText(String text) {
+		nextLevelButton.setText(text);
+	}
+	
 	private void initializeLevelText() {
 		levelText = new Text("Level : " + GameLogic.getInstance().getLevel());
 		levelText.setFont(Font.font(30));
@@ -81,9 +124,10 @@ public class ControlPane extends VBox {
 			public void handle(ActionEvent event) {
 				GameLogic.getInstance().newGame(1);
 				pauseText.setText("Pause mode : OFF");
+				levelText.setText("Level : "+GameLogic.getInstance().getLevel());
 				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
 				gamePane.getSnake().initializeSnake();
-				gamePane.getFood().initializeFood();
+				gamePane.getApple().initialize();
 				System.out.println(GameLogic.getInstance().isGameEnd());
 			}
 		});

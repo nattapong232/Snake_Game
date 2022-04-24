@@ -1,13 +1,13 @@
 package base;
 import base.Coordinate;
-import interfaces.Locatable;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-public class Body extends ImageView implements Locatable{
+public class Body extends ImageView{
 	protected Image picture;
 	protected Coordinate location;
 	protected int direction;

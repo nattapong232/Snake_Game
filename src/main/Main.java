@@ -24,11 +24,6 @@ import logic.MovingThread;
 import snake.Head;
 
 public class Main extends Application {
-//	private Pane root = new Pane();
-//	private ArrayList<Body> snake = new ArrayList<Body>();
-	private GamePane gamePane = new GamePane(60, 60);
-//	private int d = snake.getSnake().get(0).getDirection();
-	Thread game;
 
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
@@ -66,14 +61,14 @@ public class Main extends Application {
 		root2.getChildren().add(controlPane);
 
 		GameLogic.getInstance().setControlPane(controlPane);
-		MovingThread movingThread = new MovingThread();
-		movingThread.start();
 		Scene scene2 = new Scene(root2, 920, 600);
 
 		start.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				GameLogic.getInstance().getControlPane().getNewGameButton().fire();
 				GameLogic.getInstance().setPause(false);
+				MovingThread movingThread = new MovingThread();
+				movingThread.start();
 				primaryStage.setScene(scene2);
 			}
 		});
@@ -99,36 +94,13 @@ public class Main extends Application {
 			}
 		});
 
-//		game = new Thread(() -> {
-//			while ((!GameLogic.getInstance().isGameEnd())) {
-//				if(!GameLogic.getInstance().isPause()) {
-//					Platform.runLater(new Runnable(){
-//						@Override
-//						public void run() {
-//							// TODO Auto-generated method stub
-//							gamePane.getSnake().requestFocus();
-//						}
-//					});
-//					gamePane.getSnake().move();
-//					gamePane.checkEat();
-//					if(gamePane.getSnake().isCrash()) {
-//						GameLogic.getInstance().setGameEnd(true);
-//					}
-//				}
-//				try {
-//					Thread.sleep(Head.speed); // move by using move() every 0.2 second
-//				} catch (Exception ex) {
-//				}
-//			}
-//		});
-//		game.start();
 		primaryStage.setTitle("Snake Game");
 		primaryStage.setScene(scene1);
 		primaryStage.setMinHeight(600);
 		primaryStage.setMinWidth(600);
 		primaryStage.setMaxHeight(600);
 		primaryStage.setMaxWidth(600);
-//        primaryStage.setOnCloseRequest(event -> isDone = true);
+
 
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
@@ -138,7 +110,7 @@ public class Main extends Application {
 			}
 		});
 		primaryStage.show();
-		gamePane.getSnake().requestFocus();
+//		gamePane.getSnake().requestFocus();
 	}
 
 	public static void main(String[] args) {
