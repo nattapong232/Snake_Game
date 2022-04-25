@@ -1,5 +1,6 @@
 package logic;
 
+import gui.GamePane;
 import javafx.application.Platform;
 
 public class MovingThread extends Thread {
@@ -7,9 +8,10 @@ public class MovingThread extends Thread {
 		while (true) {
 			while ((!GameLogic.getInstance().isGameEnd())) {
 				if (!GameLogic.getInstance().isPause()) {
-					GameLogic.getInstance().getControlPane().getGamePane().getSnake().changeLocation();
-					GameLogic.getInstance().getControlPane().getGamePane().updateLocation();
-					GameLogic.getInstance().getControlPane().getGamePane().checkInteract();
+					GamePane temp = GameLogic.getInstance().getControlPane().getGamePane();
+					temp.getSnake().changeLocation();
+					temp.updateLocation();
+					temp.checkInteract(temp.getSnake().getHead().getXLocation(),temp.getSnake().getHead().getYLocation());
 					if (GameLogic.getInstance().getControlPane().getGamePane().getSnake().isCrash()) {
 						System.out.println("Crash!");
 						GameLogic.getInstance().setGameEnd(true);
@@ -17,9 +19,7 @@ public class MovingThread extends Thread {
 						GameLogic.getInstance().checkGameEnd();
 					}
 					else {
-						GameLogic.getInstance().getControlPane().getGamePane().getSnake().move();
-						System.out.println(GameLogic.getInstance().getControlPane().getGamePane().getSnake().getXLocation());
-						System.out.println(GameLogic.getInstance().getControlPane().getGamePane().getSnake().getYLocation());
+						temp.getSnake().move();;
 					}
 					Platform.runLater(new Runnable() {
 						@Override
@@ -27,16 +27,20 @@ public class MovingThread extends Thread {
 							// TODO Auto-generated method stub
 							GameLogic.getInstance().getControlPane().getGamePane().requestFocus();
 						}
-					});				
+					});
 				}
-				System.out.println("Current Thread ID: " + Thread.currentThread().getId());
+//				System.out.println("Current Thread ID: " + Thread.currentThread().getId());
 				try {
-					MovingThread.sleep(GameLogic.getInstance().getFramerate());
-				} catch (Exception ex) {
+					MovingThread.sleep(GameLogic.getInstance().getSleepTime());
+//					Thread.sleep(1000);
+//					MovingThread.sleep(200);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+
 			}
 			try {
-				this.sleep(200);
+				MovingThread.sleep(200);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

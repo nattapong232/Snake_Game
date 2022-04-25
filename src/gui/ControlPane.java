@@ -1,8 +1,13 @@
 package gui;
 
+import java.util.ArrayList;
+import java.util.Set;
+
+import item.Mushroom;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import logic.GameLogic;
+import logic.MovingThread;
 
 public class ControlPane extends VBox {
 	Button bgm;
@@ -90,7 +96,7 @@ public class ControlPane extends VBox {
 	}
 	
 	private void initializeLevelText() {
-		levelText = new Text("Level : " + GameLogic.getInstance().getLevel());
+		levelText = new Text("Level : " + 1);
 		levelText.setFont(Font.font(30));
 	}
 
@@ -99,7 +105,7 @@ public class ControlPane extends VBox {
 	}
 
 	private void initializeScoreText() {
-		scoreText = new Text("Score : " + GameLogic.getInstance().getScore());
+		scoreText = new Text("Score : " + 0);
 		scoreText.setFont(Font.font(30));
 	}
 
@@ -126,9 +132,7 @@ public class ControlPane extends VBox {
 				pauseText.setText("Pause mode : OFF");
 				levelText.setText("Level : "+GameLogic.getInstance().getLevel());
 				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
-				gamePane.getSnake().initializeSnake();
-				gamePane.getApple().initialize();
-				System.out.println(GameLogic.getInstance().isGameEnd());
+//				System.out.println(GameLogic.getInstance().isGameEnd());
 			}
 		});
 	}
@@ -157,6 +161,23 @@ public class ControlPane extends VBox {
 						pauseText.setText("Pause mode : OFF");
 					}
 				}
+//				Set<Thread> threads = Thread.getAllStackTraces().keySet();
+//				System.out.printf("%-15s \t %-15s \t %-15s \t %s\n", "Name", "State", "Priority", "isDaemon");
+//				for (Thread t : threads) {
+//				    System.out.printf("%-15s \t %-15s \t %-15d \t %s\n", t.getName(), t.getState(), t.getPriority(), t.isDaemon());
+//				}
+//				System.out.println(GameLogic.getInstance().isGameEnd());
+//				System.out.println(GameLogic.getInstance().isPause());
+//				System.out.println(GameLogic.getInstance().getGamePane().getSnake().isCrash());
+				for (int i = 0; i < 20; i++) {
+					for (int j = 0; j < 20; j++) {
+						for (Node n : GameLogic.getInstance().getGamePane().getLocationTable()[i][j])
+						{
+							System.out.println("i = " + i + " j = "+ j + "  "+ n.getClass());
+						}
+					}
+				}
+				System.out.println(Mushroom.allMushroom.get(0).getXLocation());
 			}
 		});
 	}

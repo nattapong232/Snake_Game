@@ -5,7 +5,7 @@ import java.util.Random;
 
 import base.Body;
 import base.Coordinate;
-import interfaces.Moveable;
+import base.Moveable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import logic.GameLogic;
@@ -111,6 +111,9 @@ public class Snake extends Pane implements Moveable {
 	}
 
 	public void initializeSnake() { // initialize visibility, location, direction
+		for (int i = 0; i < 2; i++) {
+			snake.get(i).setVisible(true);
+		}
 		for (int i = 2; i < 30; i++) {
 			snake.get(i).setVisible(false);
 		}

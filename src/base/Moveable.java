@@ -1,6 +1,4 @@
-package interfaces;
-
-import base.Coordinate;
+package base;
 
 public interface Moveable {
 	public void move();

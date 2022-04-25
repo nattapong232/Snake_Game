@@ -1,10 +1,13 @@
 package logic;
 
 import gui.ControlPane;
-
+import gui.GamePane;
 import item.Apple;
 import item.Mushroom;
+import item.Poison;
 import javafx.application.Platform;
+import monster.Monster;
+import monster.Wall;
 import snake.Head;
 import snake.Snake;
 
@@ -14,40 +17,12 @@ public class GameLogic {
 	private boolean isGameEnd;
 	private boolean isGameWin;
 	private boolean isPause;
-	public int framerate;
+	public int sleepTime;
 	private int score;
 	private int level;
-	private Snake snake;
-	private Apple apple;
-	private Mushroom mushroom1;
-	private Mushroom mushroom2;
-	private Mushroom mushroom3;
+	private GamePane gamePane;
 	private ControlPane controlPane;
 
-//	private MainMenuPane mainMenuPane;
-	// ----------------------------------------------------------
-//	private Thread moving = new Thread(() -> {
-//			while ((!isGameEnd())) {
-//				if (!isPause()) {
-//					Platform.runLater(new Runnable() {
-//						@Override
-//						public void run() {
-//							// TODO Auto-generated method stub
-//							controlPane.getGamePane().getSnake().requestFocus();
-//						}
-//					});
-//					controlPane.getGamePane().getSnake().move();
-//					controlPane.getGamePane().checkEat();
-//					if (controlPane.getGamePane().getSnake().isCrash()) {
-//						GameLogic.getInstance().setGameEnd(true);
-//					}
-//				}
-//				try {
-//					Thread.sleep(framerate);
-//				} catch (Exception ex) {
-//				}
-//		}
-//	});
 	public int getLevel() {
 		return level;
 	}
@@ -56,51 +31,128 @@ public class GameLogic {
 		this.level = level;
 	}
 
-	public int getFramerate() {
-		return framerate;
+	public int getSleepTime() {
+		return sleepTime;
 	}
 
-	public void setFramerate(int framerate) {
-		this.framerate = framerate;
+	public void setSleepTime(int sleepTime) {
+		this.sleepTime = sleepTime;
 	}
 
 	private GameLogic() {
-		this.newGame(1);
+		this.newGame();
+	}
+
+	public void newGame() {
+		//run only once (run when using gameLogic.getInstance() for the first time)
+		this.setGameEnd(false);
+		this.setGameWin(false);
+		this.setPause(false);
+		this.setSleepTime(250);
+		this.setScore(0);
+		this.setLevel(level);
+		this.gamePane = new GamePane();
+		this.controlPane = new ControlPane(gamePane);
+		this.gamePane.getSnake().initializeSnake();
+		this.gamePane.getApple().initialize();
+		this.gamePane.moveToRandomLocation(gamePane.getApple());
 	}
 
 	public void newGame(int level) {
+		//run when press start or newGameButton
 		this.setGameEnd(false);
 		this.setGameWin(false);
+		this.setPause(false);
+		this.setSleepTime(250);
 		this.setScore(0);
 		this.setLevel(level);
-		this.setFramerate(300);
-		this.setPause(false);
-		switch(level) {
-		case 2 :
-			this.setFramerate(100);
-			this.getInstance().getControlPane().getGamePane().getMushroom1().initialize();
+		this.gamePane.getSnake().initializeSnake();
+		this.gamePane.getApple().initialize();
+		this.gamePane.moveToRandomLocation(gamePane.getApple());
+		this.controlPane.getNextLevelButton().setVisible(false);
+		for (Mushroom m : Mushroom.allMushroom) {
+			m.setVisible(false);
+		}
+		Mushroom.amount = 0;
+		for (Monster mo : Monster.allMonster) {
+			mo.setVisible(false);
+			Monster.amount -= 1;
+		}
+		Monster.amount = 0;
+		for (Poison p : Poison.allPoison) {
+			p.setVisible(false);
+			Poison.amount -= 1;
+		}
+		Poison.amount = 0;
+		for (Wall w : Wall.allWall) {
+			w.setVisible(false);
+			Wall.amount -= 1;
+		}
+		Wall.amount = 0;
+		
+		switch (level) {
+		case 2:
+			this.setSleepTime(100);
+			for (int i = 0 ; i < 1 ; i++) {
+				Mushroom m = Mushroom.allMushroom.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
 			break;
-		case 3 :
-			this.setFramerate(100);
-			this.getInstance().getControlPane().getGamePane().getMushroom1().initialize();
-			this.getInstance().getControlPane().getGamePane().getMushroom2().initialize();
-			this.getInstance().getControlPane().getGamePane().getMushroom3().initialize();
+		case 3:
+			this.setSleepTime(100);
+			for (int i = 0 ; i < 1 ; i++) {
+				Mushroom m = Mushroom.allMushroom.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
+			for (int i = 0 ; i < 2 ; i++) {
+				Monster m = Monster.allMonster.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
 			break;
-		case 4 :
-			this.setFramerate(100);
-			this.getInstance().getControlPane().getGamePane().getMushroom1().initialize();
-			this.getInstance().getControlPane().getGamePane().getMushroom2().initialize();
-			this.getInstance().getControlPane().getGamePane().getMushroom3().initialize();
+		case 4:
+			this.setSleepTime(100);
+			for (Wall w : Wall.allWall) {
+				w.initialize();
+			}
+			this.getGamePane().updateLocation();
+			for (int i = 0 ; i < 1 ; i++) {
+				Mushroom m = Mushroom.allMushroom.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
+			for (int i = 0 ; i < 4 ; i++) {
+				Monster m = Monster.allMonster.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
+			for (int i = 0 ; i < 4 ; i++) {
+				Poison p = Poison.allPoison.get(i);
+				p.initialize();
+				this.gamePane.moveToRandomLocation(p);
+			}
 			break;
-		case 5 :
-			this.setFramerate(100);
-			this.getInstance().getControlPane().getGamePane().getMushroom1().initialize();
-			this.getInstance().getControlPane().getGamePane().getMushroom2().initialize();
-			this.getInstance().getControlPane().getGamePane().getMushroom3().initialize();
+		case 5:
+			this.setSleepTime(100);
+			for (Wall w : Wall.allWall) {
+				w.initialize();
+			}
+			this.getGamePane().updateLocation();
+			for (int i = 0 ; i < 4 ; i++) {
+				Monster m = Monster.allMonster.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
+			for (int i = 0 ; i < 4 ; i++) {
+				Poison p = Poison.allPoison.get(i);
+				p.initialize();
+				this.gamePane.moveToRandomLocation(p);
+			}
 			break;
 		}
-		
-		
+		this.gamePane.updateLocation();
 	}
 
 	public static GameLogic getInstance() {
@@ -126,22 +178,6 @@ public class GameLogic {
 		this.score = score;
 	}
 
-	public Snake getSnake() {
-		return snake;
-	}
-
-	public void setSnake(Snake snake) {
-		this.snake = snake;
-	}
-
-	public Apple getFood() {
-		return apple;
-	}
-
-	public void setFood(Apple apple) {
-		this.apple = apple;
-	}
-
 	public void updateScore(int score) {
 		this.setScore(score);
 		controlPane.updateScoreText("Score :" + this.score);
@@ -151,10 +187,6 @@ public class GameLogic {
 			this.setGameWin(true);
 			GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
 		}
-	}
-
-	public ControlPane getControlPane() {
-		return controlPane;
 	}
 
 	public void checkGameEnd() {
@@ -193,4 +225,15 @@ public class GameLogic {
 		this.controlPane = controlPane;
 	}
 
+	public ControlPane getControlPane() {
+		return controlPane;
+	}
+
+	public void setGamePane(GamePane gamePane) {
+		this.gamePane = gamePane;
+	}
+
+	public GamePane getGamePane() {
+		return gamePane;
+	}
 }

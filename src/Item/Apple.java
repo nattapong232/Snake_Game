@@ -2,9 +2,10 @@ package item;
 import java.util.Random;
 
 import base.Coordinate;
+import base.Eatable;
+import base.Food;
+import base.Moveable;
 import gui.GamePane;
-import interfaces.Eatable;
-import interfaces.Moveable;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,6 +57,24 @@ public class Apple extends Food{
 		}
 	}
 	
+	public void setLocation(Coordinate c) {
+		int x = c.getX();
+		int y = c.getY();
+		if (x >= 600) {
+			this.location.setX(0);
+		} else if (x < 0) {
+			this.location.setX(570);
+		} else {
+			this.location.setX(x);
+		}
+		if (y >= 600) {
+			this.location.setY(0);
+		} else if (y < 0) {
+			this.location.setY(570);
+		} else {
+			this.location.setY(y);
+		}
+	}
 	public Image getPicture() {
 		return picture;
 	}
@@ -69,9 +88,8 @@ public class Apple extends Food{
 	}
 
 	public void initialize() {
-		randomLocation();
-		move();
-		this.setVisible(true);
+//		randomLocation();
+//		move();
 		this.setVisible(true);
 	}
 

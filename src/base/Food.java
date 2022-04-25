@@ -1,9 +1,6 @@
-package item;
+package base;
 import java.util.Random;
 
-import base.Coordinate;
-import interfaces.Eatable;
-import interfaces.Moveable;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

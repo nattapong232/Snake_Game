@@ -11,22 +11,22 @@ import gui.GamePane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Mushroom extends Food {
-	public static int amount = 0;  // represent amount of mushroom that visible = true
-	public static ArrayList<Mushroom> allMushroom = new ArrayList<Mushroom>();
+public class Poison extends Food {
+	public static int amount = 0;  // represent amount of poison that visible = true
+	public static ArrayList<Poison> allPoison = new ArrayList<Poison>();
 	Coordinate location;
 	Image picture;
 
-	public Mushroom() {
+	public Poison() {
 		this.location = new Coordinate(0, 0);
-		this.setPicture(new Image("mushroom.png"));
+		this.setPicture(new Image("poison mushroom.png"));
 		this.setImage(this.picture);
-		this.setFitWidth(60);
-		this.setFitHeight(60);
+		this.setFitWidth(90);
+		this.setFitHeight(90);
 		this.setTranslateX(this.getXLocation());
 		this.setTranslateY(this.getYLocation());
 		this.setVisible(false);
-		Mushroom.allMushroom.add(this);
+		Poison.allPoison.add(this);
 	}
 
 	public int getXLocation() {
@@ -39,7 +39,7 @@ public class Mushroom extends Food {
 	
 	public void initialize() {
 		this.setVisible(true);
-		Mushroom.amount += 1;
+		Poison.amount += 1;
 	}
 
 	public Coordinate getLocation() {

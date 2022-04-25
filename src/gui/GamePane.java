@@ -5,11 +5,12 @@ import java.util.Random;
 
 import base.Body;
 import base.Coordinate;
-import interfaces.Eatable;
-import interfaces.Moveable;
+import base.Eatable;
+import base.Food;
+import base.Moveable;
 import item.Apple;
-import item.Food;
 import item.Mushroom;
+import item.Poison;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -18,6 +19,8 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import logic.GameLogic;
+import monster.Monster;
+import monster.Wall;
 import snake.Head;
 import snake.Snake;
 import javafx.scene.input.KeyEvent;
@@ -25,32 +28,42 @@ import javafx.scene.input.KeyEvent;
 public class GamePane extends Pane {
 	private Snake snake;
 	private Apple apple;
-	private Mushroom mushroom1;
-	private Mushroom mushroom2;
-	private Mushroom mushroom3;
 	private ArrayList<Node>[][] locationTable;
 
-	public GamePane(int x, int y) {
-		snake = new Snake(x, y);
+	public GamePane() {
+		snake = new Snake(60, 60);
 		apple = new Apple();
-		mushroom1 = new Mushroom();
-		mushroom2 = new Mushroom();
-		mushroom3 = new Mushroom();
+		for (int i = 0; i < 1; i++) {
+			Mushroom m = new Mushroom();
+			this.getChildren().add(m);
+		}
+		for (int i = 0; i < 5; i++) {
+			Monster mo = new Monster();
+			this.getChildren().add(mo);
+		}
+		for (int i = 0; i < 5; i++) {
+			Poison p = new Poison();
+			this.getChildren().add(p);
+		}
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 20; j++) {
+				if ((i == 0) || (i == 18) || (j == 0) || (j == 18)) {
+					Wall w = new Wall();
+					w.setLocation(i * 30, j * 30);
+					w.move();
+					this.getChildren().add(w);
+				}
+			}
+		}
+
 		locationTable = (ArrayList<Node>[][]) new ArrayList[20][20];
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
-				locationTable[i][j] = new ArrayList<Node>() ;
+				locationTable[i][j] = new ArrayList<Node>();
 			}
 		}
-		moveToRandomLocation(apple);
-		moveToRandomLocation(mushroom1);
-		moveToRandomLocation(mushroom2);
-		moveToRandomLocation(mushroom3);
 		this.getChildren().add(snake);
 		this.getChildren().add(apple);
-		this.getChildren().add(mushroom1);
-		this.getChildren().add(mushroom2);
-		this.getChildren().add(mushroom3);
 		this.setMinHeight(600);
 		this.setMinWidth(600);
 		Image image = new Image("background1.jpg", 600, 600, false, false);
@@ -112,6 +125,13 @@ public class GamePane extends Pane {
 		});
 	}
 
+	public ArrayList<Node>[][] getLocationTable() {
+		return locationTable;
+	}
+
+	public void setLocationTable(ArrayList<Node>[][] locationTable) {
+		this.locationTable = locationTable;
+	}
 
 	public Snake getSnake() {
 		return snake;
@@ -129,30 +149,6 @@ public class GamePane extends Pane {
 		this.apple = apple;
 	}
 
-	public Mushroom getMushroom1() {
-		return mushroom1;
-	}
-
-	public void setMushroom1(Mushroom mushroom1) {
-		this.mushroom1 = mushroom1;
-	}
-
-	public Mushroom getMushroom2() {
-		return mushroom2;
-	}
-
-	public void setMushroom2(Mushroom mushroom2) {
-		this.mushroom2 = mushroom2;
-	}
-
-	public Mushroom getMushroom3() {
-		return mushroom3;
-	}
-
-	public void setMushroom3(Mushroom mushroom3) {
-		this.mushroom3 = mushroom3;
-	}
-
 	public void updateLocation() {
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
@@ -161,41 +157,65 @@ public class GamePane extends Pane {
 		}
 		for (int i = 0; i < snake.getLength(); i++) {
 			Body tempBody = snake.getSnake().get(i);
-			locationTable[tempBody.getXLocation()/30][tempBody.getYLocation()/30].add(tempBody);
+			locationTable[tempBody.getXLocation() / 30][tempBody.getYLocation() / 30].add(tempBody);
 		}
-		locationTable[apple.getXLocation()/30][apple.getYLocation()/30].add(apple);
+		locationTable[apple.getXLocation() / 30][apple.getYLocation() / 30].add(apple);
 		for (int i = 0; i < Mushroom.amount; i++) {
 			Mushroom tempMushroom = Mushroom.allMushroom.get(i);
-			locationTable[tempMushroom.getXLocation()/30][tempMushroom.getYLocation()/30].add(tempMushroom);
-			locationTable[tempMushroom.getXLocation()/30+1][tempMushroom.getYLocation()/30].add(tempMushroom);
-			locationTable[tempMushroom.getXLocation()/30][tempMushroom.getYLocation()/30+1].add(tempMushroom);
-			locationTable[tempMushroom.getXLocation()/30+1][tempMushroom.getYLocation()/30+1].add(tempMushroom);
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 3; k++) {
+					locationTable[tempMushroom.getXLocation() / 30 + j][tempMushroom.getYLocation() / 30 + k]
+							.add(tempMushroom);
+				}
+			}
+		}
+		for (int i = 0; i < Monster.amount; i++) {
+			Monster tempMonster = Monster.allMonster.get(i);
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 3; k++) {
+					locationTable[tempMonster.getXLocation() / 30 + j][tempMonster.getYLocation() / 30 + k]
+							.add(tempMonster);
+				}
+			}
+		}
+		for (int i = 0; i < Poison.amount; i++) {
+			Poison tempPoison = Poison.allPoison.get(i);
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 3; k++) {
+					locationTable[tempPoison.getXLocation() / 30 + j][tempPoison.getYLocation() / 30 + k]
+							.add(tempPoison);
+				}
+			}
+		}
+		for (int i = 0; i < Wall.amount; i++) {
+			Wall tempWall = Wall.allWall.get(i);
+			for (int j = 0; j < 2; j++) {
+				for (int k = 0; k < 2; k++) {
+					locationTable[tempWall.getXLocation() / 30 + j][tempWall.getYLocation() / 30 + k].add(tempWall);
+				}
+			}
 		}
 
 	}
 
-	public void checkInteract() {
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 20; j++) {
-				if (locationTable[i][j] != null) {
-					ArrayList<Node> temp = locationTable[i][j];
-					if ((temp.size() > 1) && (temp.contains(snake.getHead()))) {
-						if ((temp.get(1) instanceof Eatable)) {
-							if((temp.get(1).isVisible()))
-							{
-								checkEat(i,j);
-							}
-						} else {
-							snake.setCrash(true);
-						}
-					}
+	public void checkInteract(int x, int y) {
+		// check if snake's head interact with something
+		ArrayList<Node> temp = locationTable[x / 30][y / 30];
+		if ((temp.size() > 1)) {
+			if ((temp.get(1).isVisible())) {
+				if ((temp.get(1) instanceof Eatable)) {
+					System.out.println("Eat!");
+					checkEat(x / 30, y / 30);
+
+				} else {
+					snake.setCrash(true);
 				}
 			}
 		}
 	}
 
 	// check what is eaten
-	public void checkEat(int x,int y) {
+	public void checkEat(int x, int y) {
 		Node n = locationTable[x][y].get(1);
 		if (n instanceof Apple) {
 			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() + 1);
@@ -203,39 +223,52 @@ public class GamePane extends Pane {
 			snake.updateLength();
 			snake.setLength(snake.getLength());
 			moveToRandomLocation((Moveable) n);
-		}
-		else if (n instanceof Mushroom)
-		{		
+		} else if (n instanceof Mushroom) {
 //			Slow down
-			GameLogic.getInstance().setFramerate(200);
+			GameLogic.getInstance().setSleepTime(200);
 			n.setVisible(false);
-//			Deduct point, increase snake length
-//			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 2);
-//			for (int i = 0; i < 3; i++) {
-//				snake.getSnake().get((snake.getLength())).setVisible(true);
-//				snake.updateLength();
-//			}
-//			moveToRandomLocation((Moveable) n);
+		} else if (n instanceof Poison) {
+//			Deduct point, increase snake length, increase speed
+			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 2);
+			for (int i = 0; i < 3; i++) {
+				snake.getSnake().get((snake.getLength())).setVisible(true);
+				snake.updateLength();
+			}
+			GameLogic.getInstance().setSleepTime(50);
+			n.setVisible(false);
 		}
 		updateLocation();
 	}
 
-
-
 	public void moveToRandomLocation(Moveable m) {
-		boolean isChanged = false;
+		boolean canChange = false;
 		int currentX = m.getXLocation();
 		int currentY = m.getYLocation();
-		while (!isChanged) {
+
+		while (!canChange) {
+			canChange = true;
 			m.randomLocation();
 			int newX = m.getXLocation();
 			int newY = m.getYLocation();
-			if(locationTable[newX/30][newY/30].isEmpty()) {
-				isChanged = true;
+			for (int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					try {
+						System.out.println(locationTable[(newX / 30) + i][(newY / 30) + j].size());
+						if (locationTable[(newX / 30) + i][(newY / 30) + j].size() == 0 & newX > 60 && newY > 60) {
+							;
+						}
+						else {
+							canChange = false;
+						}
+					}
+					catch (ArrayIndexOutOfBoundsException e ){
+						;
+					}
+				}
 			}
+			System.out.println("canChange = " + canChange);
 		}
 		updateLocation();
-//		m.randomLocation();
 		m.move();
 	}
 }

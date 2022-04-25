@@ -52,23 +52,27 @@ public class Main extends Application {
 //		root2.setPadding(new Insets(10));
 		root2.setPrefHeight(600);
 
-		GamePane gamePane = new GamePane(60, 60);
+		GamePane gamePane = new GamePane();
 		ControlPane controlPane = new ControlPane(gamePane);
 		Button back = new Button("Back to main menu");
 
 		controlPane.getChildren().add(back);
 		root2.getChildren().add(gamePane);
 		root2.getChildren().add(controlPane);
-
+		
+		GameLogic.getInstance().setGamePane(gamePane);
 		GameLogic.getInstance().setControlPane(controlPane);
 		Scene scene2 = new Scene(root2, 920, 600);
 
+		MovingThread movingThread = new MovingThread();
+		movingThread.start();
+		
 		start.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				GameLogic.getInstance().getControlPane().getNewGameButton().fire();
 				GameLogic.getInstance().setPause(false);
-				MovingThread movingThread = new MovingThread();
-				movingThread.start();
+//				MovingThread movingThread = new MovingThread();
+//				movingThread.start();
 				primaryStage.setScene(scene2);
 			}
 		});
@@ -110,7 +114,6 @@ public class Main extends Application {
 			}
 		});
 		primaryStage.show();
-//		gamePane.getSnake().requestFocus();
 	}
 
 	public static void main(String[] args) {
