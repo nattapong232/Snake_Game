@@ -48,7 +48,7 @@ public class GameLogic {
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(false);
-		this.setSleepTime(150);
+		this.setSleepTime(300);
 		this.setScore(0);
 		this.setLevel(level);
 		this.gamePane = new GamePane();
@@ -63,7 +63,7 @@ public class GameLogic {
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(false);
-		this.setSleepTime(150);
+		this.setSleepTime(300);
 		this.setScore(0);
 		this.setLevel(level);
 		this.gamePane.getSnake().initializeSnake();

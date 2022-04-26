@@ -19,7 +19,7 @@ public class MovingThread extends Thread {
 						GameLogic.getInstance().checkGameEnd();
 					}
 					else {
-						temp.getSnake().move();;
+						temp.getSnake().move();
 					}
 					Platform.runLater(new Runnable() {
 						@Override
