@@ -33,15 +33,15 @@ public class GamePane extends Pane {
 	public GamePane() {
 		snake = new Snake(60, 60);
 		apple = new Apple();
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 5; i++) {
 			Mushroom m = new Mushroom();
 			this.getChildren().add(m);
 		}
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 20; i++) {
 			Monster mo = new Monster();
 			this.getChildren().add(mo);
 		}
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 10; i++) {
 			Poison p = new Poison();
 			this.getChildren().add(p);
 		}
@@ -225,7 +225,7 @@ public class GamePane extends Pane {
 			moveToRandomLocation((Moveable) n);
 		} else if (n instanceof Mushroom) {
 //			Slow down
-			GameLogic.getInstance().setSleepTime(200);
+			GameLogic.getInstance().setSleepTime(120);
 			n.setVisible(false);
 		} else if (n instanceof Poison) {
 //			Deduct point, increase snake length, increase speed
@@ -250,15 +250,18 @@ public class GamePane extends Pane {
 			m.randomLocation();
 			int newX = m.getXLocation();
 			int newY = m.getYLocation();
+			updateLocation();
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
 					try {
-						System.out.println(locationTable[(newX / 30) + i][(newY / 30) + j].size());
-						if (locationTable[(newX / 30) + i][(newY / 30) + j].size() == 0 & newX > 60 && newY > 60) {
-							;
+//						System.out.println(locationTable[(newX / 30) + i][(newY / 30) + j].size());
+						if (locationTable[(newX / 30) + i][(newY / 30) + j].size() > 1 || newX <= 60 || newY <= 60) {
+							canChange = false;
 						}
 						else {
-							canChange = false;
+//							System.out.println("canChange = " + canChange);
+//							System.out.println("newX = " + newX);
+//							System.out.println("newY = " + newY);
 						}
 					}
 					catch (ArrayIndexOutOfBoundsException e ){
@@ -266,9 +269,15 @@ public class GamePane extends Pane {
 					}
 				}
 			}
-			System.out.println("canChange = " + canChange);
+//			System.out.println(m.getClass()+ " canChange = " + canChange);
+//			System.out.println("newX = " + newX);
+//			System.out.println("newY = " + newY);
 		}
+//		System.out.println("canChange = " + canChange);
+//		System.out.println("newX = " + newX);
+//		System.out.println("newY = " + newY);
 		updateLocation();
 		m.move();
 	}
+	
 }

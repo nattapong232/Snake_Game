@@ -169,15 +169,15 @@ public class ControlPane extends VBox {
 //				System.out.println(GameLogic.getInstance().isGameEnd());
 //				System.out.println(GameLogic.getInstance().isPause());
 //				System.out.println(GameLogic.getInstance().getGamePane().getSnake().isCrash());
-				for (int i = 0; i < 20; i++) {
-					for (int j = 0; j < 20; j++) {
-						for (Node n : GameLogic.getInstance().getGamePane().getLocationTable()[i][j])
-						{
-							System.out.println("i = " + i + " j = "+ j + "  "+ n.getClass());
-						}
-					}
-				}
-				System.out.println(Mushroom.allMushroom.get(0).getXLocation());
+//				for (int i = 0; i < 20; i++) {
+//					for (int j = 0; j < 20; j++) {
+//						for (Node n : GameLogic.getInstance().getGamePane().getLocationTable()[i][j])
+//						{
+//							System.out.println("i = " + i + " j = "+ j + "  "+ n.getClass());
+//						}
+//					}
+//				}
+//				System.out.println(Mushroom.allMushroom.get(0).getXLocation());
 			}
 		});
 	}

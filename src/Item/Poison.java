@@ -46,6 +46,25 @@ public class Poison extends Food {
 		return location;
 	}
 
+	public void setLocation(Coordinate c) {
+		int x = c.getX();
+		int y = c.getY();
+		if (x >= 570) {
+			this.location.setX(0);
+		} else if (x < 0) {
+			this.location.setX(540);
+		} else {
+			this.location.setX(x);
+		}
+		if (y >= 570) {
+			this.location.setY(0);
+		} else if (y < 0) {
+			this.location.setY(540);
+		} else {
+			this.location.setY(y);
+		}
+	}
+	
 	public void setLocation(int x, int y) {
 		if (x >= 570) {
 			this.location.setX(0);

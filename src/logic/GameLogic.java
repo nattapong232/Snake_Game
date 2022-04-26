@@ -48,7 +48,7 @@ public class GameLogic {
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(false);
-		this.setSleepTime(250);
+		this.setSleepTime(150);
 		this.setScore(0);
 		this.setLevel(level);
 		this.gamePane = new GamePane();
@@ -63,12 +63,12 @@ public class GameLogic {
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(false);
-		this.setSleepTime(250);
+		this.setSleepTime(150);
 		this.setScore(0);
 		this.setLevel(level);
 		this.gamePane.getSnake().initializeSnake();
-		this.gamePane.getApple().initialize();
-		this.gamePane.moveToRandomLocation(gamePane.getApple());
+//		this.gamePane.getApple().initialize();
+//		this.gamePane.moveToRandomLocation(gamePane.getApple());
 		this.controlPane.getNextLevelButton().setVisible(false);
 		for (Mushroom m : Mushroom.allMushroom) {
 			m.setVisible(false);
@@ -92,28 +92,33 @@ public class GameLogic {
 		
 		switch (level) {
 		case 2:
-			this.setSleepTime(100);
+			this.setSleepTime(80);
 			for (int i = 0 ; i < 1 ; i++) {
 				Mushroom m = Mushroom.allMushroom.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
+			for (int i = 0 ; i < 3 ; i++) {
+				Monster m = Monster.allMonster.get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
 			break;
 		case 3:
-			this.setSleepTime(100);
+			this.setSleepTime(80);
 			for (int i = 0 ; i < 1 ; i++) {
 				Mushroom m = Mushroom.allMushroom.get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
-			for (int i = 0 ; i < 2 ; i++) {
+			for (int i = 0 ; i < 5 ; i++) {
 				Monster m = Monster.allMonster.get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
 			break;
 		case 4:
-			this.setSleepTime(100);
+			this.setSleepTime(80);
 			for (Wall w : Wall.allWall) {
 				w.initialize();
 			}
@@ -135,7 +140,7 @@ public class GameLogic {
 			}
 			break;
 		case 5:
-			this.setSleepTime(100);
+			this.setSleepTime(80);
 			for (Wall w : Wall.allWall) {
 				w.initialize();
 			}
@@ -152,6 +157,8 @@ public class GameLogic {
 			}
 			break;
 		}
+		this.gamePane.getApple().initialize();
+		this.gamePane.moveToRandomLocation(gamePane.getApple());
 		this.gamePane.updateLocation();
 	}
 

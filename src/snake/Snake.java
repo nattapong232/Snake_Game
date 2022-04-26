@@ -12,18 +12,16 @@ import logic.GameLogic;
 
 public class Snake extends Pane implements Moveable {
 	private ArrayList<Body> snake;
-	private Head head;
 	private int length;
 	private boolean isCrash;
 
 	public Snake(int x, int y) {
 		snake = new ArrayList<Body>();
-		head = new Head(x, y);
-		snake.add(head);
-		this.getChildren().add(head);
+		snake.add(new Head(x, y));
 		snake.add(new Tail(x, y - 30));
+		this.getChildren().add(snake.get(0));
 		this.getChildren().add(snake.get(1));
-		for (int i = 2; i < 30; i++) {
+		for (int i = 2; i < 400; i++) {
 			snake.add(new Tail(x, y - 30 * i));
 			snake.get(i).setVisible(false);
 			this.getChildren().add(snake.get(i));
@@ -44,11 +42,11 @@ public class Snake extends Pane implements Moveable {
 	}
 
 	public Head getHead() {
-		return head;
+		return ((Head) this.snake.get(0));
 	}
 
 	public void setHead(Head head) {
-		this.head = head;
+		this.snake.set(0,head);
 	}
 
 	public void setLength(int length) {
@@ -66,25 +64,25 @@ public class Snake extends Pane implements Moveable {
 	}
 
 	public void changeLocation() {
-		int x = head.getXLocation();
-		int y = head.getYLocation();
-		int headDirection = head.getDirection();
+		int x = getHead().getXLocation();
+		int y = getHead().getYLocation();
+		int headDirection = getHead().getDirection();
 //		System.out.println("Case :" + this.direction);
 		switch (headDirection) {
 		case (0):
-			head.setLocation(x - 30, y);
+			getHead().setLocation(x - 30, y);
 			break;
 		case (1):
-			head.setLocation(x, y - 30);
+			getHead().setLocation(x, y - 30);
 			break;
 		case (2):
-			head.setLocation(x + 30, y);
+			getHead().setLocation(x + 30, y);
 			break;
 		case (3):
-			head.setLocation(x, y + 30);
+			getHead().setLocation(x, y + 30);
 			break;
 		}
-		for (int i = 1; i < 30; i++) {
+		for (int i = 1; i < 400; i++) {
 			Tail tail = (Tail) snake.get(i);
 			int tempX = tail.getLocation().getX();
 			int tempY = tail.getLocation().getY();
@@ -95,7 +93,7 @@ public class Snake extends Pane implements Moveable {
 	}
 
 	public void move() {
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 400; i++) {
 			snake.get(i).setTranslateX(snake.get(i).getXLocation());
 			snake.get(i).setTranslateY(snake.get(i).getYLocation());
 		}
@@ -114,11 +112,11 @@ public class Snake extends Pane implements Moveable {
 		for (int i = 0; i < 2; i++) {
 			snake.get(i).setVisible(true);
 		}
-		for (int i = 2; i < 30; i++) {
+		for (int i = 2; i < 400; i++) {
 			snake.get(i).setVisible(false);
 		}
 		((Head) snake.get(0)).initializeHead();
-		for (int i = 1; i < 30; i++) {
+		for (int i = 1; i < 400; i++) {
 			int x = snake.get(i - 1).getXLocation();
 			int y = snake.get(i - 1).getYLocation();
 			int dir = snake.get(i - 1).getDirection();
@@ -134,32 +132,32 @@ public class Snake extends Pane implements Moveable {
 	@Override
 	public int getXLocation() {
 		// TODO Auto-generated method stub
-		return head.getXLocation();
+		return getHead().getXLocation();
 	}
 
 	@Override
 	public int getYLocation() {
 		// TODO Auto-generated method stub
-		return head.getYLocation();
+		return getHead().getYLocation();
 	}
 
 	@Override
 	public Coordinate getLocation() {
 		// TODO Auto-generated method stub
-		return head.getLocation();
+		return getHead().getLocation();
 	}
 
 	@Override
 	public void setLocation(int x, int y) {
 		// TODO Auto-generated method stub
-		head.setLocation(x, y);
+		getHead().setLocation(x, y);
 	}
 
 	@Override
 	public void randomLocation() {
 		// TODO Auto-generated method stub
 		Random rand = new Random();
-		head.setLocation(rand.nextInt(19)*30, rand.nextInt(19)*30);
+		getHead().setLocation(rand.nextInt(19)*30, rand.nextInt(19)*30);
 	}
 
 }
