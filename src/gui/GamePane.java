@@ -22,7 +22,6 @@ import logic.GameLogic;
 import monster.Monster;
 import monster.Wall;
 import snake.Head;
-import snake.Snake;
 import javafx.scene.input.KeyEvent;
 
 public class GamePane extends Pane {
@@ -81,7 +80,7 @@ public class GamePane extends Pane {
 			switch (k) {
 			case A:
 				if ((currentDirection == 1 || currentDirection == 3) && (!GameLogic.getInstance().isPause())
-						&& (!GameLogic.getInstance().isGameEnd()) && (snake.getHeadLocation().get(1) != snake.getHead().getYLocation())) {
+						&& (!GameLogic.getInstance().isGameEnd()) && (snake.isCanChangeDirection())) {
 					snake.getSnake().get(0).setRotate(90);
 					snake.getSnake().get(0).setDirection(0);
 					currentDirection = 0;
@@ -89,7 +88,7 @@ public class GamePane extends Pane {
 				break;
 			case W:
 				if ((currentDirection == 0 || currentDirection == 2) && (!GameLogic.getInstance().isPause())
-						&& (!GameLogic.getInstance().isGameEnd()) && (snake.getHeadLocation().get(0) != snake.getHead().getXLocation())) {
+						&& (!GameLogic.getInstance().isGameEnd()) && (snake.isCanChangeDirection())) {
 					snake.getSnake().get(0).setRotate(180);
 					snake.getSnake().get(0).setDirection(1);
 					currentDirection = 1;
@@ -97,7 +96,7 @@ public class GamePane extends Pane {
 				break;
 			case D:
 				if ((currentDirection == 1 || currentDirection == 3) && (!GameLogic.getInstance().isPause())
-						&& (!GameLogic.getInstance().isGameEnd()) && (snake.getHeadLocation().get(1) != snake.getHead().getYLocation())) {
+						&& (!GameLogic.getInstance().isGameEnd()) && (snake.isCanChangeDirection())) {
 					snake.getSnake().get(0).setRotate(270);
 					snake.getSnake().get(0).setDirection(2);
 					currentDirection = 2;
@@ -105,15 +104,14 @@ public class GamePane extends Pane {
 				break;
 			case S:
 				if ((currentDirection == 0 || currentDirection == 2) && (!GameLogic.getInstance().isPause())
-						&& (!GameLogic.getInstance().isGameEnd()) && (snake.getHeadLocation().get(0) != snake.getHead().getXLocation())) {
+						&& (!GameLogic.getInstance().isGameEnd()) && (snake.isCanChangeDirection())) {
 					snake.getSnake().get(0).setRotate(0);
 					snake.getSnake().get(0).setDirection(3);
 					currentDirection = 3;
 				}
 				break;
 			}
-			snake.getHeadLocation().set(0,snake.getHead().getXLocation());
-			snake.getHeadLocation().set(1,snake.getHead().getYLocation());
+			snake.setCanChangeDirection(false);
 			//to prevent bug when press two key direction and snake go back to hit itself
 		});
 	}

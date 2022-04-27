@@ -1,4 +1,4 @@
-package snake;
+package gui;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,18 +9,18 @@ import base.Moveable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import logic.GameLogic;
+import snake.Head;
+import snake.Tail;
 
 public class Snake extends Pane implements Moveable {
 	private ArrayList<Body> snake;
 	private int length;
 	private boolean isCrash;
-	private ArrayList<Integer> headLocation;//mainly purpose is for prevent user from press many direction key in a short time
+	private boolean canChangeDirection;//mainly purpose is for prevent user from press many direction key in a short time
 
 	public Snake(int x, int y) {
 		snake = new ArrayList<Body>();
-		headLocation = new ArrayList<Integer>(2);
-		headLocation.add(60);
-		headLocation.add(60);
+		canChangeDirection = true;
 		snake.add(new Head(x, y));
 		snake.add(new Tail(x, y - 30));
 		this.getChildren().add(snake.get(0));
@@ -111,13 +111,13 @@ public class Snake extends Pane implements Moveable {
 	public void setCrash(boolean isCrash) {
 		this.isCrash = isCrash;
 	}
-
-	public ArrayList<Integer> getHeadLocation() {
-		return headLocation;
+	
+	public boolean isCanChangeDirection() {
+		return canChangeDirection;
 	}
 
-	public void setHeadLocation(ArrayList<Integer> headLocation) {
-		this.headLocation = headLocation;
+	public void setCanChangeDirection(boolean canChangeDirection) {
+		this.canChangeDirection = canChangeDirection;
 	}
 
 	public void initializeSnake() { // initialize visibility, location, direction

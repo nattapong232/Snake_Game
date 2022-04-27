@@ -2,6 +2,7 @@ package logic;
 
 import gui.ControlPane;
 import gui.GamePane;
+import gui.Snake;
 import item.Apple;
 import item.Mushroom;
 import item.Poison;
@@ -9,7 +10,6 @@ import javafx.application.Platform;
 import monster.Monster;
 import monster.Wall;
 import snake.Head;
-import snake.Snake;
 
 public class GameLogic {
 
@@ -187,9 +187,9 @@ public class GameLogic {
 
 	public void updateScore(int score) {
 		this.setScore(score);
-		controlPane.updateScoreText("Score :" + this.score);
+		controlPane.setScoreText("Score : " + this.score);
 		checkGameEnd();
-		if (score == 3) {
+		if (score == 10) {
 			this.setGameEnd(true);
 			this.setGameWin(true);
 			GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
@@ -199,9 +199,9 @@ public class GameLogic {
 	public void checkGameEnd() {
 		if (isGameEnd) {
 			if (isGameWin) {
-				controlPane.updateScoreText("You win!");
+				controlPane.setScoreText("You win!");
 			} else {
-				controlPane.updateScoreText("You lose!");
+				controlPane.setScoreText("You lose!");
 				GameLogic.getInstance().setLevel(1);
 				GameLogic.getInstance().setScore(0);
 			}

@@ -20,6 +20,7 @@ public class MovingThread extends Thread {
 					}
 					else {
 						temp.getSnake().move();
+						temp.getSnake().setCanChangeDirection(true);
 					}
 					Platform.runLater(new Runnable() {
 						@Override
