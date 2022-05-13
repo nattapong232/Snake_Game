@@ -189,7 +189,7 @@ public class GameLogic {
 		this.setScore(score);
 		controlPane.setScoreText("Score : " + this.score);
 		checkGameEnd();
-		if (score == 10) {
+		if (score == 5) {
 			this.setGameEnd(true);
 			this.setGameWin(true);
 			GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);

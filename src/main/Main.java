@@ -77,6 +77,8 @@ public class Main extends Application {
 			}
 		});
 
+		primaryStage.setResizable(false);
+		
 		howToPlay.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				htp.setVisible(true);
