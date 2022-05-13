@@ -34,9 +34,9 @@ public class ControlPane extends VBox {
 		HBox hBox = new HBox();
 		this.gamePane = gamePane;
 		this.setAlignment(Pos.CENTER);
+
 		this.setPrefWidth(300);
-		this.setMinWidth(300);
-		this.setMaxWidth(300);
+		this.setPrefHeight(600);
 		this.setSpacing(20);
 //		this.setPadding(new Insets(8));
 //		this.setPrefWidth(500);

@@ -63,8 +63,8 @@ public class GamePane extends Pane {
 		}
 		this.getChildren().add(snake);
 		this.getChildren().add(apple);
-		this.setMinHeight(600);
-		this.setMinWidth(600);
+		this.setPrefHeight(600);
+		this.setPrefWidth(600);
 		Image image = new Image("background1.jpg", 600, 600, false, false);
 		BackgroundSize bgSize = new BackgroundSize(600, 600, false, false, false, false);
 		BackgroundImage bgImg = new BackgroundImage(image, null, null, null, bgSize);

@@ -42,13 +42,15 @@ public class Main extends Application {
 		root1.add(howToPlay, 10, 20);
 		root1.add(htp, 7, 7, 10, 20);
 		root1.add(close, 17, 20);
-
-		Scene scene1 = new Scene(root1, 920, 600);
+		root1.setPrefWidth(900);
+		root1.setPrefHeight(600);
+		
+		Scene scene1 = new Scene(root1, 900, 600);
 
 		// Scene 2
 		HBox root2 = new HBox();
-		root2.setMinWidth(1200);
-		root2.setSpacing(10);
+		root2.setPrefWidth(900);
+//		root2.setSpacing(10);
 //		root2.setPadding(new Insets(10));
 		root2.setPrefHeight(600);
 
@@ -62,7 +64,7 @@ public class Main extends Application {
 		
 		GameLogic.getInstance().setGamePane(gamePane);
 		GameLogic.getInstance().setControlPane(controlPane);
-		Scene scene2 = new Scene(root2, 920, 600);
+		Scene scene2 = new Scene(root2, 900, 600);
 
 		MovingThread movingThread = new MovingThread();
 		movingThread.start();
@@ -103,9 +105,9 @@ public class Main extends Application {
 		primaryStage.setTitle("Snake Game");
 		primaryStage.setScene(scene1);
 		primaryStage.setMinHeight(600);
-		primaryStage.setMinWidth(600);
-		primaryStage.setMaxHeight(600);
-		primaryStage.setMaxWidth(600);
+		primaryStage.setMinWidth(900);
+//		primaryStage.setMaxHeight(600);
+//		primaryStage.setMaxWidth(900);
 
 
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
