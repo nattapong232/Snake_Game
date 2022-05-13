@@ -222,7 +222,7 @@ public class GameLogic {
 //------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------
 	public static void start() {
-		GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
+//		GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
 		Thread moving = new Thread() {
 			public void run() {
 				while (true) {
@@ -242,7 +242,7 @@ public class GameLogic {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					// check every 0.1 second if gameEnd is still true
+					// check every 0.1 second if gameEnd still true
 				}
 			}
 		};

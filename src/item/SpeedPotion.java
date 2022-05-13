@@ -13,8 +13,8 @@ import javafx.scene.image.ImageView;
 public class SpeedPotion extends Food {
 	public static int amount = 0;  // represent amount of poison that visible = true
 	public static ArrayList<SpeedPotion> allPoison = new ArrayList<SpeedPotion>();
-	Coordinate location;
-	Image picture;
+//	Coordinate location;
+//	Image picture;
 
 	public SpeedPotion() {
 		this.location = new Coordinate(0, 0);

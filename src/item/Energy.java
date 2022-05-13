@@ -13,8 +13,8 @@ import javafx.scene.image.ImageView;
 public class Energy extends Food {
 	public static int amount = 0;  // represent amount of mushroom that visible = true
 	public static ArrayList<Energy> allEnergyPotion = new ArrayList<Energy>();
-	Coordinate location;
-	Image picture;
+//	Coordinate location;
+//	Image picture;
 
 	public Energy() {
 		this.location = new Coordinate(0, 0);
@@ -32,22 +32,22 @@ public class Energy extends Food {
 		Energy.amount += 1;
 	}
 	
-//	public void setLocation(int x, int y) {
-//		if (x >= 570) {
-//			this.location.setX(0);
-//		} else if (x < 0) {
-//			this.location.setX(540);
-//		} else {
-//			this.location.setX(x);
-//		}
-//		if (y >= 570) {
-//			this.location.setY(0);
-//		} else if (y < 0) {
-//			this.location.setY(540);
-//		} else {
-//			this.location.setY(y);
-//		}
-//	}
+	public void setLocation(int x, int y) {
+		if (x >= 570) {
+			this.location.setX(0);
+		} else if (x < 0) {
+			this.location.setX(540);
+		} else {
+			this.location.setX(x);
+		}
+		if (y >= 570) {
+			this.location.setY(0);
+		} else if (y < 0) {
+			this.location.setY(540);
+		} else {
+			this.location.setY(y);
+		}
+	}
 //
 //	@Override
 //	public void randomLocation() {

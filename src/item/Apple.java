@@ -14,8 +14,8 @@ import javafx.scene.input.MouseEvent;
 import snake.Head;
 
 public class Apple extends Food{
-	Coordinate location;
-	Image picture;
+//	Coordinate location;
+//	Image picture;
 	public Apple() {
 		this.location = new Coordinate(330,450);
 		this.setPicture(new Image("apple.png"));

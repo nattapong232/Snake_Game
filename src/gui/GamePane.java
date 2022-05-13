@@ -72,7 +72,7 @@ public class GamePane extends Pane {
 		this.getChildren().add(apple);
 		this.setPrefHeight(600);
 		this.setPrefWidth(600);
-		Image image = new Image("background.jpg", 600, 600, false, false);
+		Image image = new Image("background.jpeg", 600, 600, false, false);
 		BackgroundSize bgSize = new BackgroundSize(600, 600, false, false, false, false);
 		BackgroundImage bgImg = new BackgroundImage(image, null, null, null, bgSize);
 		this.setBackground(new Background(bgImg));
@@ -160,11 +160,11 @@ public class GamePane extends Pane {
 		}
 		locationTable[apple.getXLocation() / 30][apple.getYLocation() / 30].add(apple);
 		for (int i = 0; i < SlowPotion.amount; i++) {
-			SlowPotion tempMushroom = SlowPotion.allMushroom.get(i);
+			SlowPotion tempSlowPotion = SlowPotion.allMushroom.get(i);
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 3; k++) {
-					locationTable[tempMushroom.getXLocation() / 30 + j][tempMushroom.getYLocation() / 30 + k]
-							.add(tempMushroom);
+					locationTable[tempSlowPotion.getXLocation() / 30 + j][tempSlowPotion.getYLocation() / 30 + k]
+							.add(tempSlowPotion);
 				}
 			}
 		}
