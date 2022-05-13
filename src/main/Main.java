@@ -20,7 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import logic.GameLogic;
-import logic.MovingThread;
+//import logic.MovingThread;
 import snake.Head;
 
 public class Main extends Application {
@@ -66,8 +66,8 @@ public class Main extends Application {
 		GameLogic.getInstance().setControlPane(controlPane);
 		Scene scene2 = new Scene(root2, 900, 600);
 
-		MovingThread movingThread = new MovingThread();
-		movingThread.start();
+//		MovingThread movingThread = new MovingThread();
+//		movingThread.start();
 		
 		start.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {

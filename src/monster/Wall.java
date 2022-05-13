@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import base.Coordinate;
-import base.Eatable;
-import base.Food;
-import base.Moveable;
+import base.MoveableObject;
 import gui.GamePane;
-import item.Mushroom;
+import interfaces.Eatable;
+import interfaces.Moveable;
+import item.Food;
+import item.SlowPotion;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Wall extends ImageView{
+public class Wall extends MoveableObject{
 	public static int amount = 0;  // represent amount of wall that visible = true
 	public static ArrayList<Wall> allWall = new ArrayList<Wall>();
-	Coordinate location;
-	Image picture;
+//	Coordinate location;
+//	Image picture;
 
 	public Wall() {
 		this.location = new Coordinate(0,0);
@@ -30,21 +31,9 @@ public class Wall extends ImageView{
 		allWall.add(this);
 	}
 
-	public int getXLocation() {
-		return location.getX();
-	}
-
-	public int getYLocation() {
-		return location.getY();
-	}
-	
 	public void initialize() {
 		this.setVisible(true);
 		Wall.amount += 1;
-	}
-
-	public Coordinate getLocation() {
-		return location;
 	}
 
 	public void setLocation(int x, int y) {
@@ -64,37 +53,49 @@ public class Wall extends ImageView{
 		}
 	}
 	
-	public void setLocation(Coordinate c) {
-		int x = c.getX();
-		int y = c.getY();
-		if (x >= 540) {
-			this.location.setX(0);
-		} else if (x < 0) {
-			this.location.setX(510);
-		} else {
-			this.location.setX(x);
-		}
-		if (y >= 540) {
-			this.location.setY(0);
-		} else if (y < 0) {
-			this.location.setY(510);
-		} else {
-			this.location.setY(y);
-		}
-	}
-
-	public Image getPicture() {
-		return picture;
-	}
-
-	public void setPicture(Image picture) {
-		this.picture = picture;
-	}
-
-	public void move() {
-		this.setTranslateX(this.getXLocation());
-		this.setTranslateY(this.getYLocation());
-	}
-
+//	public int getXLocation() {
+//		return location.getX();
+//	}
+//
+//	public int getYLocation() {
+//		return location.getY();
+//	}
+//
+//	public Coordinate getLocation() {
+//		return location;
+//	}
+//	public void setLocation(Coordinate c) {
+//		int x = c.getX();
+//		int y = c.getY();
+//		if (x >= 540) {
+//			this.location.setX(0);
+//		} else if (x < 0) {
+//			this.location.setX(510);
+//		} else {
+//			this.location.setX(x);
+//		}
+//		if (y >= 540) {
+//			this.location.setY(0);
+//		} else if (y < 0) {
+//			this.location.setY(510);
+//		} else {
+//			this.location.setY(y);
+//		}
+//	}
+//
+//	public Image getPicture() {
+//		return picture;
+//	}
+//
+//	public void setPicture(Image picture) {
+//		this.picture = picture;
+//	}
+//
+//	public void move() {
+//		this.setTranslateX(this.getXLocation());
+//		this.setTranslateY(this.getYLocation());
+//	}
+//
+//	
 }
 

@@ -12,11 +12,14 @@ public class Head extends Body{
 		this.setFitWidth(30);
 		this.setFitHeight(30);
 	}
-	public void initializeHead() {
+	
+	@Override
+	public void initialize() {
 		this.setRotate(this.getRotate()*0);
 		this.setLocation(60, 60);
 		this.setDirection(3);
 		this.setTranslateX(this.getXLocation());
 		this.setTranslateY(this.getYLocation());
 	}
+	
 }

@@ -3,7 +3,7 @@ package gui;
 import java.util.ArrayList;
 import java.util.Set;
 
-import item.Mushroom;
+import item.SlowPotion;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import logic.GameLogic;
-import logic.MovingThread;
+//import logic.MovingThread;
 
 public class ControlPane extends VBox {
 	Button bgmButton;
@@ -28,6 +28,7 @@ public class ControlPane extends VBox {
 	Text pauseText;
 	Text scoreText;
 	Text scoreToNextLevelText;
+	Text staminaText;
 	GamePane gamePane;
 
 	public ControlPane(GamePane gamePane) {
@@ -49,9 +50,10 @@ public class ControlPane extends VBox {
 		initializePauseModeText();
 		initializeScoreText();
 		initializeScoreToNextLevelText();
+		initializeStaminaText();
 		
 		hBox.getChildren().addAll(sfxButton,bgmButton);
-		this.getChildren().addAll(nextLevelButton,levelText, scoreText, scoreToNextLevelText, pauseText, hBox, pauseButton, newGameButton);
+		this.getChildren().addAll(nextLevelButton,staminaText,levelText, scoreText, scoreToNextLevelText, pauseText, hBox, pauseButton, newGameButton);
 	}
 	
 	private void initializeBgm() {
@@ -171,6 +173,11 @@ public class ControlPane extends VBox {
 		scoreToNextLevelText.setFont(Font.font(30));
 	}
 	
+	private void initializeStaminaText() {
+		staminaText = new Text("Stamina : " + 100);
+		staminaText.setFont(Font.font(30));
+	}
+	
 	public Button getBgmButton() {
 		return bgmButton;
 	}
@@ -259,6 +266,14 @@ public class ControlPane extends VBox {
 
 	public void setLevelText(Text levelText) {
 		this.levelText = levelText;
+	}
+
+	public Text getStaminaText() {
+		return staminaText;
+	}
+
+	public void setStaminaText(Text staminaText) {
+		this.staminaText = staminaText;
 	}
 
 	public GamePane getGamePane() {

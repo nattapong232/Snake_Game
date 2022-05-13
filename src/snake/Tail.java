@@ -12,4 +12,10 @@ public class Tail extends Body {
 		this.setFitWidth(30);
 		this.setFitHeight(30);
 	}
+
+	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		this.setVisible(true);
+	}
 }
