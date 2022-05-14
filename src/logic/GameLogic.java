@@ -26,6 +26,7 @@ public class GameLogic {
 	private boolean isPause;
 	private boolean isBgmOn;
 	private boolean isSfxOn;
+	private boolean moveFinished; // to prevent gameEnd before snake increase length
 	private int sleepTime;
 	private int score;
 	private int level;
@@ -280,16 +281,31 @@ public class GameLogic {
 	public void updateScore(int score) {
 		this.setScore(score);
 		controlPane.setScoreText("Score : " + this.score);
-//		checkGameEnd();
-		if (score == 1) {
-			this.setGameEnd(true);
-			this.setGameWin(true);
-			GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
-		}
 		checkGameEnd();
+//		if(GameLogic.getInstance().isMoveFinished()) {
+//			if (score == 1) {
+//				this.setGameEnd(true);
+//				this.setGameWin(true);
+//				GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
+//			}
+//			checkGameEnd();
+//		}
+//		if (score == 1) {
+//			this.setGameEnd(true);
+//			this.setGameWin(true);
+//			GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
+//		}
+//		checkGameEnd();
 	}
 
 	public void checkGameEnd() {
+		if(GameLogic.getInstance().isMoveFinished()) {
+			if (score == 1) {//GameLogic.getInstance().getLevel() * 5
+				this.setGameEnd(true);
+				this.setGameWin(true);
+				GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
+			}
+		}
 		if (isGameEnd) {
 			try {
 				GameLogic.getInstance().getControlPane().getBgmPlayer().stop();
@@ -352,6 +368,7 @@ public class GameLogic {
 	}
 
 	public static void moveSnake() throws InterruptedException {
+		GameLogic.getInstance().setMoveFinished(false);
 		GamePane temp = GameLogic.getInstance().getControlPane().getGamePane();
 		temp.getSnake().changeLocation();
 		temp.updateLocation();
@@ -363,6 +380,8 @@ public class GameLogic {
 			GameLogic.getInstance().checkGameEnd();
 		} else {
 			temp.getSnake().move();
+			GameLogic.getInstance().setMoveFinished(true);
+			GameLogic.getInstance().checkGameEnd();
 			temp.getSnake().setCanChangeDirection(true);
 		}
 		Platform.runLater(new Runnable() {
@@ -479,6 +498,31 @@ public class GameLogic {
 		this.scoreToNextLevel = scoreToNextLevel;
 	}
 
+	public boolean isMoveFinished() {
+		return moveFinished;
+	}
+
+	public void setMoveFinished(boolean moveFinished) {
+		this.moveFinished = moveFinished;
+	}
+
+	public MediaPlayer getGameWinSound() {
+		return gameWinSound;
+	}
+
+	public void setGameWinSound(MediaPlayer gameWinSound) {
+		this.gameWinSound = gameWinSound;
+	}
+
+	public MediaPlayer getGameOverSound() {
+		return gameOverSound;
+	}
+
+	public void setGameOverSound(MediaPlayer gameOverSound) {
+		this.gameOverSound = gameOverSound;
+	}
+
+	
 	
 
 }
