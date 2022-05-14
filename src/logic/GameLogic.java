@@ -20,12 +20,19 @@ public class GameLogic {
 	private boolean isGameEnd;
 	private boolean isGameWin;
 	private boolean isPause;
-	public int sleepTime;
+	private boolean isBgmOn;
+	private boolean isSfxOn;
+	private int sleepTime;
 	private int score;
 	private int level;
-	private int numberOfMovingThread;
+//	private int numberOfMovingThread;
+	private int scoreToNextLevel;
 	private GamePane gamePane;
 	private ControlPane controlPane;
+
+//	Media sound = new Media(new File(musicFile).toURI().toString());
+//	MediaPlayer mediaPlayer = new MediaPlayer(sound);
+//	mediaPlayer.play();
 
 	public int getLevel() {
 		return level;
@@ -52,10 +59,12 @@ public class GameLogic {
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(true);// -----
+		this.setBgmOn(true);
+		this.setSfxOn(true);
 		this.setSleepTime(150);
 		this.setScore(0);
+		this.setScoreToNextLevel(5);
 		this.setLevel(level);
-		this.setNumberOfMovingThread(0);
 		this.gamePane = new GamePane();
 		this.controlPane = new ControlPane(gamePane);
 		this.gamePane.getSnake().initializeSnake();
@@ -73,6 +82,7 @@ public class GameLogic {
 		this.setPause(false);
 		this.setSleepTime(150);
 		this.setScore(0);
+		this.setScoreToNextLevel(5*level);
 		this.setLevel(level);
 		this.gamePane.getSnake().initializeSnake();
 //		this.gamePane.getApple().initialize();
@@ -81,7 +91,6 @@ public class GameLogic {
 		
 		for (BadApple b : BadApple.allBadApple) {
 			b.setVisible(false);
-			BadApple.amount -= 1;
 		}
 		BadApple.amount = 0;
 		
@@ -89,19 +98,19 @@ public class GameLogic {
 			m.setVisible(false);
 		}
 		SlowPotion.amount = 0;
+		
 		for (Monster1 mo : Monster1.allMonster) {
 			mo.setVisible(false);
-			Monster1.amount -= 1;
 		}
 		Monster1.amount = 0;
+		
 		for (SpeedPotion p : SpeedPotion.allSpeedPotion) {
 			p.setVisible(false);
-			SpeedPotion.amount -= 1;
 		}
 		SpeedPotion.amount = 0;
+		
 		for (Wall w : Wall.allWall) {
 			w.setVisible(false);
-			Wall.amount -= 1;
 		}
 		Wall.amount = 0;
 
@@ -112,82 +121,94 @@ public class GameLogic {
 
 		switch (level) {
 		case 1:
+			this.setSleepTime(100);
 			for (int i = 0; i < 1; i++) {
 				BadApple b = BadApple.allBadApple.get(i);
 				b.initialize();
 				this.gamePane.moveToRandomLocation(b);
 			}
+			break;
 		case 2:
-			this.setSleepTime(80);
+			this.setSleepTime(100);
 			for (int i = 0; i < 1; i++) {
 				BadApple b = BadApple.allBadApple.get(i);
 				b.initialize();
 				this.gamePane.moveToRandomLocation(b);
 			}
-//			for (int i = 0; i < 1; i++) {
-//				SlowPotion m = SlowPotion.allSlowPotion.get(i);
-//				m.initialize();
-//				this.gamePane.moveToRandomLocation(m);
-//			}
 			for (int i = 0; i < 3; i++) {
 				Energy e = Energy.allEnergyPotion.get(i);
 				e.initialize();
 				this.gamePane.moveToRandomLocation(e);
 			}
 			break;
-//		case 3:
-//			this.setSleepTime(80);
-//			for (int i = 0; i < 1; i++) {
-//				SlowPotion m = SlowPotion.allSlowPotion.get(i);
-//				m.initialize();
-//				this.gamePane.moveToRandomLocation(m);
-//			}
-//			for (int i = 0; i < 5; i++) {
-//				Monster1 m = Monster1.allMonster.get(i);
-//				m.initialize();
-//				this.gamePane.moveToRandomLocation(m);
-//			}
-//			break;
-//		case 4:
-//			this.setSleepTime(80);
-//			for (Wall w : Wall.allWall) {
-//				w.initialize();
-//			}
-//			this.getGamePane().updateLocation();
-//			for (int i = 0; i < 1; i++) {
-//				SlowPotion m = SlowPotion.allSlowPotion.get(i);
-//				m.initialize();
-//				this.gamePane.moveToRandomLocation(m);
-//			}
-//			for (int i = 0; i < 4; i++) {
-//				Monster1 m = Monster1.allMonster.get(i);
-//				m.initialize();
-//				this.gamePane.moveToRandomLocation(m);
-//			}
-//			for (int i = 0; i < 4; i++) {
-//				SpeedPotion p = SpeedPotion.allSpeedPotion.get(i);
-//				p.initialize();
-//				this.gamePane.moveToRandomLocation(p);
-//			}
-//			break;
-//		case 5:
-//			this.setSleepTime(80);
-//			for (Wall w : Wall.allWall) {
-//				w.initialize();
-//			}
-//			this.getGamePane().updateLocation();
-//			for (int i = 0; i < 4; i++) {
-//				Monster1 m = Monster1.allMonster.get(i);
-//				m.initialize();
-//				this.gamePane.moveToRandomLocation(m);
-//			}
-//			for (int i = 0; i < 4; i++) {
-//				SpeedPotion p = SpeedPotion.allSpeedPotion.get(i);
-//				p.initialize();
-//				this.gamePane.moveToRandomLocation(p);
-//			}
-//			break;
+		case 3:
+			this.setSleepTime(100);
+			for (int i = 0; i < 1; i++) {
+				BadApple b = BadApple.allBadApple.get(i);
+				b.initialize();
+				this.gamePane.moveToRandomLocation(b);
+			}
+			for (int i = 0; i < 1; i++) {
+				SlowPotion m = SlowPotion.allSlowPotion.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
+			for (int i = 0; i < 3; i++) {
+				Energy e = Energy.allEnergyPotion.get(i);
+				e.initialize();
+				this.gamePane.moveToRandomLocation(e);
+			}
+			break;
+		case 4:
+			this.setSleepTime(80);
+			for (Wall w : Wall.allWall) {
+				w.initialize();
+			}
+			this.getGamePane().updateLocation();
+			for (int i = 0; i < 1; i++) {
+				BadApple b = BadApple.allBadApple.get(i);
+				b.initialize();
+				this.gamePane.moveToRandomLocation(b);
+			}
+			for (int i = 0; i < 1; i++) {
+				SlowPotion m = SlowPotion.allSlowPotion.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
+			for (int i = 0; i < 2; i++) {
+				Monster1 m = Monster1.allMonster.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
+			for (int i = 0; i < 1; i++) {
+				SpeedPotion p = SpeedPotion.allSpeedPotion.get(i);
+				p.initialize();
+				this.gamePane.moveToRandomLocation(p);
+			}
+			break;
+		case 5:
+			this.setSleepTime(80);
+			for (Wall w : Wall.allWall) {
+				w.initialize();
+			}
+			this.getGamePane().updateLocation();
+			for (int i = 0; i < 4; i++) {
+				Monster1 m = Monster1.allMonster.get(i);
+				m.initialize();
+				this.gamePane.moveToRandomLocation(m);
+			}
+			for (int i = 0; i < 4; i++) {
+				SpeedPotion p = SpeedPotion.allSpeedPotion.get(i);
+				p.initialize();
+				this.gamePane.moveToRandomLocation(p);
+			}
+			break;
+		case 6:
+			this.setGameEnd(true);
+			this.setGameWin(true);
+			this.checkGameEnd();
 		}
+			
 		this.gamePane.getApple().initialize();
 		this.gamePane.moveToRandomLocation(gamePane.getApple());
 		this.gamePane.updateLocation();
@@ -208,6 +229,22 @@ public class GameLogic {
 	public void setPause(boolean pauseMode) {
 		this.isPause = pauseMode;
 	}
+	
+	public boolean isBgmOn() {
+		return isBgmOn;
+	}
+
+	public void setBgmOn(boolean isBgmOn) {
+		this.isBgmOn = isBgmOn;
+	}
+
+	public boolean isSfxOn() {
+		return isSfxOn;
+	}
+
+	public void setSfxOn(boolean isSfxOn) {
+		this.isSfxOn = isSfxOn;
+	}
 
 	public int getScore() {
 		return score;
@@ -220,12 +257,13 @@ public class GameLogic {
 	public void updateScore(int score) {
 		this.setScore(score);
 		controlPane.setScoreText("Score : " + this.score);
-		checkGameEnd();
+//		checkGameEnd();
 		if (score == 1) {
 			this.setGameEnd(true);
 			this.setGameWin(true);
 			GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
 		}
+		checkGameEnd();
 	}
 
 	public void checkGameEnd() {
@@ -275,38 +313,6 @@ public class GameLogic {
 			}
 		};
 		moving.start();
-//		Thread staminaUsing = new Thread() {
-//			public void run() {
-//				while (true) {
-//					System.out.println(!GameLogic.getInstance().isGameEnd());
-//					System.out.println(!GameLogic.getInstance().isPause());
-//					//without this part ^ the program will error 
-//					while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()) {
-////						System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
-////						System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
-//						try {
-////							moveSnake();
-////							System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
-////							System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
-//							runStamina();
-//							
-////							System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
-////							System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
-//						} catch (InterruptedException e1) {
-//							e1.printStackTrace();
-//						}
-//
-//					}
-////					try {
-////						Thread.sleep(100);
-////					} catch (InterruptedException e) {
-////						e.printStackTrace();
-////					}
-////					// check every 0.1 second if gameEnd still true
-//				}
-//			}
-//		};
-//		staminaUsing.start();
 	}
 
 	public static void moveSnake() throws InterruptedException {
@@ -341,37 +347,6 @@ public class GameLogic {
 		}
 
 	}
-//	}
-//			Thread.sleep(20);
-//
-//			Platform.runLater(new Runnable() {
-//				@Override
-//				public void run() {
-//					timerPane[pl].setTimer(plTimer);
-//
-//					plTimer.decrementTimer(2);
-//				}
-//			});
-////			timerPane[pl].setTimer(plTimer);			
-////			
-////			plTimer.decrementTimer(2);
-//
-//		plTimer.setStop(true);
-//
-//		if (plTimer.isTimerEmpty()) {
-//
-//			GameLogic.getInstance().setGameEnd(true);
-//			GameLogic.getInstance().checkGameEnd();
-////			Platform.runLater(new Runnable() {
-////				@Override
-////				public void run() {
-////					GameLogic.getInstance().setGameEnd(true);
-////					GameLogic.getInstance().checkGameEnd();
-////				}
-////			});
-////			endGame();
-//		}
-//	}
 
 	public static void runStamina() throws InterruptedException {
 		Stamina snakeStamina = GameLogic.getInstance().getGamePane().getSnake().getStamina();
@@ -380,8 +355,8 @@ public class GameLogic {
 //			@Override
 //			public void run() {
 				GameLogic.getInstance().getControlPane().setStaminaText(new Text("Stamina = " + snakeStamina.getSp()));
-				System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
-				System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
+//				System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
+//				System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
 				snakeStamina.decrementStamina(2);
 //				try {
 //					Thread.sleep(500);
@@ -419,6 +394,14 @@ public class GameLogic {
 	public void togglePauseMode() {
 		this.isPause = !this.isPause;
 	}
+	
+	public void toggleBgm() {
+		this.isBgmOn = !this.isBgmOn;
+	}
+	
+	public void toggleSfx() {
+		this.isSfxOn = !this.isSfxOn;
+	}
 
 	public boolean isGameEnd() {
 		return isGameEnd;
@@ -452,12 +435,14 @@ public class GameLogic {
 		return gamePane;
 	}
 
-	public int getNumberOfMovingThread() {
-		return numberOfMovingThread;
+	public int getScoreToNextLevel() {
+		return scoreToNextLevel;
 	}
 
-	public void setNumberOfMovingThread(int numberOfMovingThread) {
-		this.numberOfMovingThread = numberOfMovingThread;
+	public void setScoreToNextLevel(int scoreToNextLevel) {
+		this.scoreToNextLevel = scoreToNextLevel;
 	}
+
+	
 
 }

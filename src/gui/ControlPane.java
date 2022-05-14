@@ -17,7 +17,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import logic.GameLogic;
+import javafx.scene.media.AudioClip;
 //import logic.MovingThread;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 
 public class ControlPane extends VBox {
 	Button bgmButton;
@@ -31,6 +35,11 @@ public class ControlPane extends VBox {
 	Text scoreToNextLevelText;
 	Text staminaText;
 	GamePane gamePane;
+	MediaPlayer bgmPlayer;
+	MediaPlayer sfxPlayer;
+//	Media sound = new Media(new File(musicFile).toURI().toString());
+//	MediaPlayer mediaPlayer = new MediaPlayer(sound);
+//	mediaPlayer.play();
 
 	public ControlPane(GamePane gamePane) {
 		HBox hBox = new HBox();
@@ -61,24 +70,37 @@ public class ControlPane extends VBox {
 		bgmButton = new Button();
 		bgmButton.setGraphic(new ImageView(new Image("bgm.png", 30, 30, false, false)));
 		bgmButton.setPrefWidth(150);
-//		bgm.setOnAction(new EventHandler<ActionEvent>() {
-//			public void handle(ActionEvent event) {
-//				GameLogic.getInstance().toggleBgm();
-//				//turn on sound,turn off sound
-//			}
-//		});
+		String bgmFile = "bgm.mp3";     // For example
+		Media bgm = new Media(new File(bgmFile).toURI().toString());
+		MediaPlayer bgmPlayer = new MediaPlayer(bgm);
+		bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
+		bgmPlayer.play();
+		bgmButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				GameLogic.getInstance().toggleBgm();
+				//turn on sound,turn off sound
+				if (GameLogic.getInstance().isBgmOn()) {
+					bgmPlayer.play();
+				} else {
+					bgmPlayer.pause();
+				}
+			}
+		});
 	}
 
 	private void initializeSfx() {
 		sfxButton = new Button();
 		sfxButton.setGraphic(new ImageView(new Image("sfx.png", 30, 30, false, false)));
 		sfxButton.setPrefWidth(150);
-//	sfx.setOnAction(new EventHandler<ActionEvent>() {
-//		public void handle(ActionEvent event) {
-//			GameLogic.getInstance().toggleSfx();
-//			//turn on sound,turn off sound
-//		}
-//	});
+		String eatingSoundFile = "eating-sound.wav";     // For example
+		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
+		MediaPlayer sfxPlayer = new MediaPlayer(eatingSfx);
+//		sfxPlayer.play();
+		sfxButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				GameLogic.getInstance().toggleSfx();
+			}
+		});
 	}
 
 	private void initializeNewGameButton() {
@@ -112,6 +134,7 @@ public class ControlPane extends VBox {
 						pauseText.setText("Pause mode : OFF");
 					}
 				}
+				System.out.println(GameLogic.getInstance().getLevel());
 //				for (int i = 0; i < 40; i++) {
 //					for (Body b : GameLogic.getInstance().getGamePane().getSnake().getSnake())
 //					{

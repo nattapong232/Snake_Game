@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,6 +21,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import logic.GameLogic;
 import monster.Monster1;
 import monster.Wall;
@@ -31,8 +35,17 @@ public class GamePane extends Pane {
 	private Snake snake;
 	private Apple apple;
 	private ArrayList<Node>[][] locationTable;
-
+	private MediaPlayer eatingSound;
+	private MediaPlayer collectItemSound;
+	
 	public GamePane() {
+		String eatingSoundFile = "eating-sound.wav";     
+		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
+		eatingSound = new MediaPlayer(eatingSfx);
+		String collectItemSoundFile = "collect-item-sound.wav";
+		Media collectItemSfx = new Media(new File(collectItemSoundFile).toURI().toString());
+		collectItemSound = new MediaPlayer(collectItemSfx);
+		
 		snake = new Snake(60, 60);
 		apple = new Apple();
 		for (int i = 0; i < 3; i++) {
@@ -46,6 +59,10 @@ public class GamePane extends Pane {
 		for (int i = 0; i < 5; i++) {
 			SpeedPotion p = new SpeedPotion();
 			this.getChildren().add(p);
+		}
+		for (int i = 0; i < 5; i++) {
+			SlowPotion s = new SlowPotion();
+			this.getChildren().add(s);
 		}
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
@@ -231,18 +248,38 @@ public class GamePane extends Pane {
 	// check what is eaten
 	public void checkEat(int x, int y) {
 		Node n = locationTable[x][y].get(1);
+		
 		if (n instanceof Apple) {
+			
+			if(GameLogic.getInstance().isSfxOn()) {
+				eatingSound.seek(eatingSound.getStartTime());
+				eatingSound.play();
+			}
+
 			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() + 1);
+			GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
 			snake.getSnake().get((snake.getLength())).initialize();
 			snake.updateLength();
 			snake.setLength(snake.getLength());
 			moveToRandomLocation((Moveable) n);
 		} else if (n instanceof SlowPotion) {
 //			Slow down
+			
+			if(GameLogic.getInstance().isSfxOn()) {
+				collectItemSound.seek(collectItemSound.getStartTime());
+				collectItemSound.play();
+			}
+			
 			GameLogic.getInstance().setSleepTime(120);
 			n.setVisible(false);
 		} else if (n instanceof SpeedPotion) {
 //			Deduct point, increase snake length, increase speed
+			
+			if(GameLogic.getInstance().isSfxOn()) {
+				collectItemSound.seek(collectItemSound.getStartTime());
+				collectItemSound.play();
+			}
+			
 			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 2);
 			for (int i = 0; i < 3; i++) {
 				snake.getSnake().get((snake.getLength())).setVisible(true);
@@ -251,11 +288,27 @@ public class GamePane extends Pane {
 			GameLogic.getInstance().setSleepTime(50);
 			n.setVisible(false);
 		} else if (n instanceof Energy) {
+			
+			if(GameLogic.getInstance().isSfxOn()) {
+				collectItemSound.seek(collectItemSound.getStartTime());
+				collectItemSound.play();
+			}
+			
 			int currentSp = GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp();
-			GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(currentSp+10);
+			GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(currentSp+20);
 			n.setVisible(false);
 		} else if (n instanceof BadApple) {
-//			Deduct point, increase snake length, increase speed
+//			Deduct point
+			
+			if(GameLogic.getInstance().isSfxOn()) {
+				eatingSound.seek(eatingSound.getStartTime());
+				eatingSound.play();
+			}
+			
+			if(GameLogic.getInstance().isSfxOn()) {
+				eatingSound.play();
+			}
+			
 			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 1);
 			n.setVisible(false);
 		}
