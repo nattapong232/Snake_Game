@@ -3,6 +3,7 @@ package gui;
 import java.util.ArrayList;
 import java.util.Set;
 
+import base.Body;
 import item.SlowPotion;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -86,7 +87,7 @@ public class ControlPane extends VBox {
 		newGameButton.setMinWidth(100);
 		newGameButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				GameLogic.getInstance().newGame(2);
+				GameLogic.getInstance().newGame(1);
 				pauseText.setText("Pause mode : OFF");
 				levelText.setText("Level : "+GameLogic.getInstance().getLevel());
 				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
@@ -111,6 +112,12 @@ public class ControlPane extends VBox {
 						pauseText.setText("Pause mode : OFF");
 					}
 				}
+				for (int i = 0; i < 40; i++) {
+					for (Body b : GameLogic.getInstance().getGamePane().getSnake().getSnake())
+					{
+						b.setVisible(true);
+					}
+			}
 //				Set<Thread> threads = Thread.getAllStackTraces().keySet();
 //				System.out.printf("%-15s \t %-15s \t %-15s \t %s\n", "Name", "State", "Priority", "isDaemon");
 //				for (Thread t : threads) {

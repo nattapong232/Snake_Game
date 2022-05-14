@@ -8,6 +8,7 @@ import base.Coordinate;
 import interfaces.Eatable;
 import interfaces.Moveable;
 import item.Apple;
+import item.BadApple;
 import item.Energy;
 import item.Food;
 import item.SlowPotion;
@@ -34,15 +35,15 @@ public class GamePane extends Pane {
 	public GamePane() {
 		snake = new Snake(60, 60);
 		apple = new Apple();
-		for (int i = 0; i < 5; i++) {
-			SlowPotion m = new SlowPotion();
-			this.getChildren().add(m);
+		for (int i = 0; i < 3; i++) {
+			BadApple b = new BadApple();
+			this.getChildren().add(b);
 		}
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 10; i++) {
 			Monster1 mo = new Monster1();
 			this.getChildren().add(mo);
 		}
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			SpeedPotion p = new SpeedPotion();
 			this.getChildren().add(p);
 		}
@@ -57,7 +58,7 @@ public class GamePane extends Pane {
 			}
 		}
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			Energy e = new Energy();
 			this.getChildren().add(e);
 		}
@@ -160,7 +161,7 @@ public class GamePane extends Pane {
 		}
 		locationTable[apple.getXLocation() / 30][apple.getYLocation() / 30].add(apple);
 		for (int i = 0; i < SlowPotion.amount; i++) {
-			SlowPotion tempSlowPotion = SlowPotion.allMushroom.get(i);
+			SlowPotion tempSlowPotion = SlowPotion.allSlowPotion.get(i);
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 3; k++) {
 					locationTable[tempSlowPotion.getXLocation() / 30 + j][tempSlowPotion.getYLocation() / 30 + k]
@@ -178,7 +179,7 @@ public class GamePane extends Pane {
 			}
 		}
 		for (int i = 0; i < SpeedPotion.amount; i++) {
-			SpeedPotion tempPoison = SpeedPotion.allPoison.get(i);
+			SpeedPotion tempPoison = SpeedPotion.allSpeedPotion.get(i);
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 3; k++) {
 					locationTable[tempPoison.getXLocation() / 30 + j][tempPoison.getYLocation() / 30 + k]
@@ -204,6 +205,11 @@ public class GamePane extends Pane {
 			}
 		}
 
+		for (int i = 0; i < BadApple.amount; i++) {
+			BadApple tempBadApple = BadApple.allBadApple.get(i);
+			locationTable[tempBadApple.getXLocation() / 30][tempBadApple.getYLocation() / 30].add(tempBadApple);
+		}
+		
 	}
 
 	public void checkInteract(int x, int y) {
@@ -245,9 +251,12 @@ public class GamePane extends Pane {
 			GameLogic.getInstance().setSleepTime(50);
 			n.setVisible(false);
 		} else if (n instanceof Energy) {
-//			Deduct point, increase snake length, increase speed
 			int currentSp = GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp();
 			GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(currentSp+10);
+			n.setVisible(false);
+		} else if (n instanceof BadApple) {
+//			Deduct point, increase snake length, increase speed
+			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 1);
 			n.setVisible(false);
 		}
 		

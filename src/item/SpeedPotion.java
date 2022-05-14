@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 
 public class SpeedPotion extends Food {
 	public static int amount = 0;  // represent amount of poison that visible = true
-	public static ArrayList<SpeedPotion> allPoison = new ArrayList<SpeedPotion>();
+	public static ArrayList<SpeedPotion> allSpeedPotion = new ArrayList<SpeedPotion>();
 //	Coordinate location;
 //	Image picture;
 
@@ -25,7 +25,7 @@ public class SpeedPotion extends Food {
 		this.setTranslateX(this.getXLocation());
 		this.setTranslateY(this.getYLocation());
 		this.setVisible(false);
-		SpeedPotion.allPoison.add(this);
+		SpeedPotion.allSpeedPotion.add(this);
 	}
 
 	public void initialize() {
@@ -34,17 +34,17 @@ public class SpeedPotion extends Food {
 	}
 
 	public void setLocation(int x, int y) {
-		if (x >= 570) {
+		if (x >= 540) {
 			this.location.setX(0);
 		} else if (x < 0) {
-			this.location.setX(540);
+			this.location.setX(510);
 		} else {
 			this.location.setX(x);
 		}
-		if (y >= 570) {
+		if (y >= 540) {
 			this.location.setY(0);
 		} else if (y < 0) {
-			this.location.setY(540);
+			this.location.setY(510);
 		} else {
 			this.location.setY(y);
 		}
@@ -54,7 +54,7 @@ public class SpeedPotion extends Food {
 	public void randomLocation() {
 		// TODO Auto-generated method stub
 		Random rand = new Random();
-		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
+		this.setLocation(rand.nextInt(17) * 30, rand.nextInt(17) * 30);
 	}
 	
 	

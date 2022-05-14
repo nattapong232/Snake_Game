@@ -56,7 +56,7 @@ public class Monster1 extends Monster {
 	public void randomLocation() {
 		// TODO Auto-generated method stub
 		Random rand = new Random();
-		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
+		this.setLocation(rand.nextInt(17) * 30, rand.nextInt(17) * 30);
 	}
 	
 //	public void setLocation(Coordinate c) {

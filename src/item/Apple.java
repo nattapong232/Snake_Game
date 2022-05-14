@@ -17,7 +17,7 @@ public class Apple extends Food{
 //	Coordinate location;
 //	Image picture;
 	public Apple() {
-		this.location = new Coordinate(330,450);
+		this.location = new Coordinate(0,0);
 		this.setPicture(new Image("apple.png"));
 		this.setImage(this.picture);
 		this.setFitWidth(30);
@@ -33,29 +33,29 @@ public class Apple extends Food{
 		this.setVisible(true);
 	}
 	
-	public void setLocation(int x, int y) {
-		if (x >= 600) {
-			this.location.setX(0);
-		} else if (x < 0) {
-			this.location.setX(570);
-		} else {
-			this.location.setX(x);
-		}
-		if (y >= 600) {
-			this.location.setY(0);
-		} else if (y < 0) {
-			this.location.setY(570);
-		} else {
-			this.location.setY(y);
-		}
-	}
-
-	@Override
-	public void randomLocation() {
-		// TODO Auto-generated method stub
-		Random rand = new Random();
-		this.setLocation(rand.nextInt(19)*30, rand.nextInt(19)*30);
-	}
+//	public void setLocation(int x, int y) {
+//		if (x >= 600) {
+//			this.location.setX(0);
+//		} else if (x < 0) {
+//			this.location.setX(570);
+//		} else {
+//			this.location.setX(x);
+//		}
+//		if (y >= 600) {
+//			this.location.setY(0);
+//		} else if (y < 0) {
+//			this.location.setY(570);
+//		} else {
+//			this.location.setY(y);
+//		}
+//	}
+//
+//	@Override
+//	public void randomLocation() {
+//		// TODO Auto-generated method stub
+//		Random rand = new Random();
+//		this.setLocation(rand.nextInt(19)*30, rand.nextInt(19)*30);
+//	}
 
 //	public void setLocation(Coordinate c) {
 //		int x = c.getX();

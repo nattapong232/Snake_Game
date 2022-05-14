@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 
 public class SlowPotion extends Food {
 	public static int amount = 0;  // represent amount of mushroom that visible = true
-	public static ArrayList<SlowPotion> allMushroom = new ArrayList<SlowPotion>();
+	public static ArrayList<SlowPotion> allSlowPotion = new ArrayList<SlowPotion>();
 //	Coordinate location;
 //	Image picture;
 
@@ -25,7 +25,7 @@ public class SlowPotion extends Food {
 		this.setTranslateX(this.getXLocation());
 		this.setTranslateY(this.getYLocation());
 		this.setVisible(false);
-		SlowPotion.allMushroom.add(this);
+		SlowPotion.allSlowPotion.add(this);
 	}
 
 	public void initialize() {
@@ -34,28 +34,28 @@ public class SlowPotion extends Food {
 	}
 	
 	public void setLocation(int x, int y) {
-	if (x >= 540) {
+	if (x >= 570) {
 		this.location.setX(0);
 	} else if (x < 0) {
-		this.location.setX(510);
+		this.location.setX(540);
 	} else {
 		this.location.setX(x);
 	}
-	if (y >= 540) {
+	if (y >= 570) {
 		this.location.setY(0);
 	} else if (y < 0) {
-		this.location.setY(510);
+		this.location.setY(540);
 	} else {
 		this.location.setY(y);
 	}
 }
 	
-//	@Override
-//	public void randomLocation() {
-//		// TODO Auto-generated method stub
-//		Random rand = new Random();
-//		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
-//	}
+	@Override
+	public void randomLocation() {
+		// TODO Auto-generated method stub
+		Random rand = new Random();
+		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
+	}
 //	
 //	public void setLocation(int x, int y) {
 //		if (x >= 570) {

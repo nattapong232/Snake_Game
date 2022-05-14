@@ -48,13 +48,12 @@ public class Energy extends Food {
 			this.location.setY(y);
 		}
 	}
-//
-//	@Override
-//	public void randomLocation() {
-//		// TODO Auto-generated method stub
-//		Random rand = new Random();
-//		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
-//	}
+	@Override
+	public void randomLocation() {
+		// TODO Auto-generated method stub
+		Random rand = new Random();
+		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
+	}
 	
 //	public Image getPicture() {
 //		return picture;
