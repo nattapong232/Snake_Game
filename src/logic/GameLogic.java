@@ -1,5 +1,7 @@
 package logic;
 
+import java.io.File;
+
 import gui.ControlPane;
 import gui.GamePane;
 import item.Apple;
@@ -8,6 +10,8 @@ import item.Energy;
 import item.SlowPotion;
 import item.SpeedPotion;
 import javafx.application.Platform;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import monster.Monster1;
 import monster.Wall;
@@ -29,7 +33,8 @@ public class GameLogic {
 	private int scoreToNextLevel;
 	private GamePane gamePane;
 	private ControlPane controlPane;
-
+	private MediaPlayer gameWinSound;
+	private MediaPlayer gameOverSound;
 //	Media sound = new Media(new File(musicFile).toURI().toString());
 //	MediaPlayer mediaPlayer = new MediaPlayer(sound);
 //	mediaPlayer.play();
@@ -56,6 +61,14 @@ public class GameLogic {
 
 	public void newGame() {
 		// run only once (run when using gameLogic.getInstance() for the first time)
+		String gameWinSoundFile = "gamewin-sound.wav";     
+		Media gameWinSfx = new Media(new File(gameWinSoundFile).toURI().toString());
+		gameWinSound = new MediaPlayer(gameWinSfx);
+		String gameOverSoundFile = "gameover-sound.wav";
+		Media gameOverSFx = new Media(new File(gameOverSoundFile).toURI().toString());
+		gameOverSound = new MediaPlayer(gameOverSFx);
+		
+		
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(true);// -----
@@ -77,6 +90,16 @@ public class GameLogic {
 
 	public void newGame(int level) {
 		// run when press start or newGameButton
+		try {
+			GameLogic.getInstance().getControlPane().getBgmPlayer().play();
+			GameLogic.getInstance().toggleBgm();
+		}
+		catch (Exception e){
+			;
+		}
+//		GameLogic.getInstance().getControlPane().getBgmPlayer().play();
+//		GameLogic.getInstance().toggleBgm();
+		
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(false);
@@ -268,9 +291,22 @@ public class GameLogic {
 
 	public void checkGameEnd() {
 		if (isGameEnd) {
+			try {
+				GameLogic.getInstance().getControlPane().getBgmPlayer().stop();
+				GameLogic.getInstance().toggleBgm();
+			}
+			catch (NullPointerException e){
+				;
+			}
+//			GameLogic.getInstance().getControlPane().getBgmPlayer().stop();
+//			GameLogic.getInstance().toggleBgm();
 			if (isGameWin) {
+				gameWinSound.seek(gameWinSound.getStartTime());
+				gameWinSound.play();
 				controlPane.setScoreText("You win!");
 			} else {
+				gameOverSound.seek(gameOverSound.getStartTime());
+				gameOverSound.play();
 				controlPane.setScoreText("You lose!");
 				GameLogic.getInstance().setLevel(1);
 				GameLogic.getInstance().setScore(0);

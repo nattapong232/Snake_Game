@@ -72,7 +72,7 @@ public class ControlPane extends VBox {
 		bgmButton.setPrefWidth(150);
 		String bgmFile = "bgm.mp3";     // For example
 		Media bgm = new Media(new File(bgmFile).toURI().toString());
-		MediaPlayer bgmPlayer = new MediaPlayer(bgm);
+		bgmPlayer = new MediaPlayer(bgm);
 		bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
 		bgmPlayer.play();
 		bgmButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -94,7 +94,7 @@ public class ControlPane extends VBox {
 		sfxButton.setPrefWidth(150);
 		String eatingSoundFile = "eating-sound.wav";     // For example
 		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
-		MediaPlayer sfxPlayer = new MediaPlayer(eatingSfx);
+		sfxPlayer = new MediaPlayer(eatingSfx);
 //		sfxPlayer.play();
 		sfxButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
@@ -313,6 +313,24 @@ public class ControlPane extends VBox {
 	public void setGamePane(GamePane gamePane) {
 		this.gamePane = gamePane;
 	}
+
+	public MediaPlayer getBgmPlayer() {
+		return bgmPlayer;
+	}
+
+	public void setBgmPlayer(MediaPlayer bgmPlayer) {
+		this.bgmPlayer = bgmPlayer;
+	}
+
+	public MediaPlayer getSfxPlayer() {
+		return sfxPlayer;
+	}
+
+	public void setSfxPlayer(MediaPlayer sfxPlayer) {
+		this.sfxPlayer = sfxPlayer;
+	}
+	
+	
 
 	
 	
