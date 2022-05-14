@@ -112,12 +112,12 @@ public class ControlPane extends VBox {
 						pauseText.setText("Pause mode : OFF");
 					}
 				}
-				for (int i = 0; i < 40; i++) {
-					for (Body b : GameLogic.getInstance().getGamePane().getSnake().getSnake())
-					{
-						b.setVisible(true);
-					}
-			}
+//				for (int i = 0; i < 40; i++) {
+//					for (Body b : GameLogic.getInstance().getGamePane().getSnake().getSnake())
+//					{
+//						b.setVisible(true);
+//					}
+//			}
 //				Set<Thread> threads = Thread.getAllStackTraces().keySet();
 //				System.out.printf("%-15s \t %-15s \t %-15s \t %s\n", "Name", "State", "Priority", "isDaemon");
 //				for (Thread t : threads) {
