@@ -47,6 +47,8 @@ public class Main extends Application {
 		root1.setPrefHeight(600);
 		
 		Scene scene1 = new Scene(root1, 900, 600);
+		scene1.getRoot().setStyle("-fx-font-family: 'serif'");
+		
 
 		// Scene 2
 		HBox root2 = new HBox();
@@ -66,6 +68,7 @@ public class Main extends Application {
 		GameLogic.getInstance().setGamePane(gamePane);
 		GameLogic.getInstance().setControlPane(controlPane);
 		Scene scene2 = new Scene(root2, 900, 600);
+		scene2.getRoot().setStyle("-fx-font-family: 'serif'");
 
 //		MovingThread movingThread = new MovingThread();
 //		movingThread.start();
