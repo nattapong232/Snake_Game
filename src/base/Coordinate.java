@@ -1,8 +1,8 @@
 package base;
 
 public class Coordinate {
-	int x;
-	int y;
+	private int x;
+	private int y;
 	public Coordinate (int x ,int y) {
 		setX(x);
 		setY(y);

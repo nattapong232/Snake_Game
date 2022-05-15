@@ -1,7 +1,6 @@
 package snake;
 import javafx.scene.image.Image;
 import base.Coordinate;
-import base.Body;
 public class Head extends Body{
 	public static int speed = 00;
 	public Head(int x,int y) {

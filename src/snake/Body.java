@@ -1,6 +1,6 @@
-package base;
+package snake;
 import base.Coordinate;
-
+import base.MoveableObject;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;

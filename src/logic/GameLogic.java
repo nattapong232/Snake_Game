@@ -2,6 +2,7 @@ package logic;
 
 import java.io.File;
 
+import base.Stamina;
 import gui.ControlPane;
 import gui.GamePane;
 import item.Apple;

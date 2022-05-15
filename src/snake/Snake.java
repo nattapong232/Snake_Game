@@ -3,13 +3,12 @@ package snake;
 import java.util.ArrayList;
 import java.util.Random;
 
-import base.Body;
 import base.Coordinate;
+import base.Stamina;
 import interfaces.Moveable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import logic.GameLogic;
-import logic.Stamina;
 
 public class Snake extends Pane implements Moveable {
 	private ArrayList<Body> snake;

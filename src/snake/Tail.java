@@ -1,7 +1,6 @@
 package snake;
 import javafx.scene.image.Image;
 import base.Coordinate;
-import base.Body;
 public class Tail extends Body {
 	
 	public Tail(int x,int y) {

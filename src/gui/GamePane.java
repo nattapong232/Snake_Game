@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
-import base.Body;
 import base.Coordinate;
+import base.MoveableObject;
 import interfaces.Eatable;
 import interfaces.Moveable;
 import item.Apple;
@@ -27,6 +27,7 @@ import javafx.scene.media.MediaPlayer;
 import logic.GameLogic;
 import monster.Monster1;
 import monster.Wall;
+import snake.Body;
 import snake.Head;
 import snake.Snake;
 import javafx.scene.input.KeyEvent;
@@ -34,7 +35,7 @@ import javafx.scene.input.KeyEvent;
 public class GamePane extends Pane {
 	private Snake snake;
 	private Apple apple;
-	private ArrayList<Node>[][] locationTable;
+	private ArrayList<MoveableObject>[][] locationTable;
 	private MediaPlayer eatingSound;
 	private MediaPlayer collectItemSound;
 	
@@ -80,10 +81,10 @@ public class GamePane extends Pane {
 			this.getChildren().add(e);
 		}
 		
-		locationTable = (ArrayList<Node>[][]) new ArrayList[20][20];
+		locationTable = (ArrayList<MoveableObject>[][]) new ArrayList[20][20];
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
-				locationTable[i][j] = new ArrayList<Node>();
+				locationTable[i][j] = new ArrayList<MoveableObject>();
 			}
 		}
 		this.getChildren().add(snake);
@@ -142,11 +143,11 @@ public class GamePane extends Pane {
 		});
 	}
 
-	public ArrayList<Node>[][] getLocationTable() {
+	public ArrayList<MoveableObject>[][] getLocationTable() {
 		return locationTable;
 	}
 
-	public void setLocationTable(ArrayList<Node>[][] locationTable) {
+	public void setLocationTable(ArrayList<MoveableObject>[][] locationTable) {
 		this.locationTable = locationTable;
 	}
 
@@ -231,7 +232,7 @@ public class GamePane extends Pane {
 
 	public void checkInteract(int x, int y) {
 		// check if snake's head interact with something
-		ArrayList<Node> temp = locationTable[x / 30][y / 30];
+		ArrayList<MoveableObject> temp = locationTable[x / 30][y / 30];
 		if ((temp.size() > 1)) {
 			if ((temp.get(1).isVisible())) {
 				if ((temp.get(1) instanceof Eatable)) {
@@ -247,7 +248,7 @@ public class GamePane extends Pane {
 
 	// check what is eaten
 	public void checkEat(int x, int y) {
-		Node n = locationTable[x][y].get(1);
+		MoveableObject n = locationTable[x][y].get(1);
 		
 		if (n instanceof Apple) {
 			
