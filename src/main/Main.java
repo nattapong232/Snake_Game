@@ -74,8 +74,6 @@ public class Main extends Application {
 			public void handle(ActionEvent event) {
 				GameLogic.getInstance().getControlPane().getNewGameButton().fire();
 				GameLogic.getInstance().setPause(false);
-//				MovingThread movingThread = new MovingThread();
-//				movingThread.start();
 				primaryStage.setScene(scene2);
 			}
 		});

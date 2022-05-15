@@ -36,8 +36,8 @@ public class ControlPane extends VBox {
 	private Text scoreToNextLevelText;
 	private Text staminaText;
 	private GamePane gamePane;
-	private MediaPlayer bgmPlayer;
-	private MediaPlayer sfxPlayer;
+//	private MediaPlayer bgmPlayer;
+//	private MediaPlayer sfxPlayer;
 //	Media sound = new Media(new File(musicFile).toURI().toString());
 //	MediaPlayer mediaPlayer = new MediaPlayer(sound);
 //	mediaPlayer.play();
@@ -74,11 +74,11 @@ public class ControlPane extends VBox {
 		ImageView bgmOff = new ImageView(new Image("bgmOff.png", 30, 30, false, false));
 		bgmButton.setGraphic(bgmOn);
 		bgmButton.setPrefWidth(150);
-		String bgmFile = "bgm.mp3"; // For example
-		Media bgm = new Media(new File(bgmFile).toURI().toString());
-		bgmPlayer = new MediaPlayer(bgm);
-		bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
-		bgmPlayer.play();
+//		String bgmFile = "bgm.mp3"; // For example
+//		Media bgm = new Media(new File(bgmFile).toURI().toString());
+//		bgmPlayer = new MediaPlayer(bgm);
+//		bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
+//		bgmPlayer.play();
 		bgmButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				if (!GameLogic.getInstance().isGameEnd()) {
@@ -86,10 +86,10 @@ public class ControlPane extends VBox {
 					GameLogic.getInstance().toggleBgm();
 					// turn on sound,turn off sound
 					if (GameLogic.getInstance().isBgmOn()) {
-						bgmPlayer.play();
+						GameLogic.getInstance().getBgmSound().play();
 						bgmButton.setGraphic(bgmOn);
 					} else {
-						bgmPlayer.pause();
+						GameLogic.getInstance().getBgmSound().pause();
 						bgmButton.setGraphic(bgmOff);
 					}
 				}
@@ -103,9 +103,9 @@ public class ControlPane extends VBox {
 		ImageView sfxOff = new ImageView(new Image("sfxOff.jpg", 30, 30, false, false));
 		sfxButton.setGraphic(sfxOn);
 		sfxButton.setPrefWidth(150);
-		String eatingSoundFile = "eating-sound.wav"; // For example
-		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
-		sfxPlayer = new MediaPlayer(eatingSfx);
+//		String eatingSoundFile = "eating-sound.wav"; // For example
+//		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
+//		sfxPlayer = new MediaPlayer(eatingSfx);
 //		sfxPlayer.play();
 		sfxButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
@@ -346,22 +346,6 @@ public class ControlPane extends VBox {
 
 	public void setGamePane(GamePane gamePane) {
 		this.gamePane = gamePane;
-	}
-
-	public MediaPlayer getBgmPlayer() {
-		return bgmPlayer;
-	}
-
-	public void setBgmPlayer(MediaPlayer bgmPlayer) {
-		this.bgmPlayer = bgmPlayer;
-	}
-
-	public MediaPlayer getSfxPlayer() {
-		return sfxPlayer;
-	}
-
-	public void setSfxPlayer(MediaPlayer sfxPlayer) {
-		this.sfxPlayer = sfxPlayer;
 	}
 
 }

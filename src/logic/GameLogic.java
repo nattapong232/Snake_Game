@@ -11,6 +11,7 @@ import item.Energy;
 import item.SlowPotion;
 import item.SpeedPotion;
 import javafx.application.Platform;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -36,8 +37,12 @@ public class GameLogic {
 	private int scoreToNextLevel;
 	private GamePane gamePane;
 	private ControlPane controlPane;
-	private MediaPlayer gameWinSound;
-	private MediaPlayer gameOverSound;
+	private static MediaPlayer bgmSound;
+	private static MediaPlayer eatingSound;
+	private static MediaPlayer collectItemSound;
+	
+	private static MediaPlayer gameWinSound;
+	private static MediaPlayer gameOverSound;
 	private static Thread moving;
 	private static Thread usingStamina;
 //	Media sound = new Media(new File(musicFile).toURI().toString());
@@ -72,7 +77,21 @@ public class GameLogic {
 		String gameOverSoundFile = "gameover-sound.wav";
 		Media gameOverSFx = new Media(new File(gameOverSoundFile).toURI().toString());
 		gameOverSound = new MediaPlayer(gameOverSFx);
-
+		
+		String eatingSoundFile = "eating-sound.wav"; // For example
+		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
+		eatingSound = new MediaPlayer(eatingSfx);
+		
+		String collectItemSoundFile = "collect-item-sound.wav";
+		Media collectItemSfx = new Media(new File(collectItemSoundFile).toURI().toString());
+		collectItemSound = new MediaPlayer(collectItemSfx);
+		
+		String bgmFile = "bgm.mp3"; // For example
+		Media bgm = new Media(new File(bgmFile).toURI().toString());
+		bgmSound = new MediaPlayer(bgm);
+		bgmSound.setCycleCount(AudioClip.INDEFINITE);
+		bgmSound.play();
+		
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(true);// -----
@@ -97,15 +116,15 @@ public class GameLogic {
 		// run when press start or newGameButton
 		
 //		initMovingAndUsingStaminaThread();
-		try {
-			if(GameLogic.getInstance().isBgmOn())
-			{
-				GameLogic.getInstance().getControlPane().getBgmPlayer().play();
-			}
-		}
-		catch (Exception e){
-			;
-		}
+//		try {
+//			if(GameLogic.getInstance().isBgmOn())
+//			{
+//				GameLogic.getInstance().getBgmSound().play();
+//			}
+//		}
+//		catch (Exception e){
+//			;
+//		}
 		
 		this.setGameEnd(false);
 		this.setGameWin(false);
@@ -313,12 +332,12 @@ public class GameLogic {
 			}
 		}
 		if (isGameEnd) {
-			try {
-				GameLogic.getInstance().getControlPane().getBgmPlayer().stop();
-//				GameLogic.getInstance().toggleBgm();
-			} catch (NullPointerException e) {
-				;
-			}
+//			try {
+//				GameLogic.getInstance().getBgmSound().stop();
+////				GameLogic.getInstance().toggleBgm();
+//			} catch (NullPointerException e) {
+//				;
+//			}
 //			GameLogic.getInstance().getControlPane().getBgmPlayer().stop();
 //			GameLogic.getInstance().toggleBgm();
 			if (isGameWin) {
@@ -333,6 +352,7 @@ public class GameLogic {
 				if (GameLogic.getInstance().isSfxOn()) {
 					gameOverSound.seek(gameOverSound.getStartTime());
 					gameOverSound.play();
+//					bgmSound.stop();
 				}
 				controlPane.setScoreText("You lose!");
 				GameLogic.getInstance().setLevel(1);
@@ -405,8 +425,8 @@ public class GameLogic {
 			@Override
 			public void run() {
 				GameLogic.getInstance().getControlPane().setStaminaText(snakeStamina.getSp());
-				System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
-				System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
+//				System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
+//				System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
 			}
 		});
 //		snakeStamina.setStop(true);
@@ -582,4 +602,32 @@ public class GameLogic {
 			}
 		};
 	}
+
+	public static MediaPlayer getBgmSound() {
+		return bgmSound;
+	}
+
+	public static void setBgmSound(MediaPlayer bgmSound) {
+		GameLogic.bgmSound = bgmSound;
+	}
+
+	
+
+	public static MediaPlayer getEatingSound() {
+		return eatingSound;
+	}
+
+	public static void setEatingSound(MediaPlayer eatingSound) {
+		GameLogic.eatingSound = eatingSound;
+	}
+
+	public static MediaPlayer getCollectItemSound() {
+		return collectItemSound;
+	}
+
+	public static void setCollectItemSound(MediaPlayer collectItemSound) {
+		GameLogic.collectItemSound = collectItemSound;
+	}
+	
+	
 }

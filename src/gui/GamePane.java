@@ -36,16 +36,16 @@ public class GamePane extends Pane {
 	private Snake snake;
 	private Apple apple;
 	private ArrayList<MoveableObject>[][] locationTable;
-	private MediaPlayer eatingSound;
-	private MediaPlayer collectItemSound;
+//	private MediaPlayer eatingSound;
+//	private MediaPlayer collectItemSound;
 	
 	public GamePane() {
-		String eatingSoundFile = "eating-sound.wav";     
-		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
-		eatingSound = new MediaPlayer(eatingSfx);
-		String collectItemSoundFile = "collect-item-sound.wav";
-		Media collectItemSfx = new Media(new File(collectItemSoundFile).toURI().toString());
-		collectItemSound = new MediaPlayer(collectItemSfx);
+//		String eatingSoundFile = "eating-sound.wav";     
+//		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
+//		eatingSound = new MediaPlayer(eatingSfx);
+//		String collectItemSoundFile = "collect-item-sound.wav";
+//		Media collectItemSfx = new Media(new File(collectItemSoundFile).toURI().toString());
+//		collectItemSound = new MediaPlayer(collectItemSfx);
 		
 		snake = new Snake(60, 60);
 		apple = new Apple();
@@ -249,6 +249,11 @@ public class GamePane extends Pane {
 	// check what is eaten
 	public void checkEat(int x, int y) {
 		MoveableObject n = locationTable[x][y].get(1);
+//		String eatingSoundFile = "eating-sound.wav";     
+//		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
+//		MediaPlayer eatingSound = new MediaPlayer(eatingSfx);
+		MediaPlayer eatingSound = GameLogic.getInstance().getEatingSound();
+		MediaPlayer collectItemSound = GameLogic.getInstance().getCollectItemSound();
 		
 		if (n instanceof Apple) {
 			
@@ -307,11 +312,10 @@ public class GamePane extends Pane {
 				eatingSound.play();
 			}
 			
-			if(GameLogic.getInstance().isSfxOn()) {
-				eatingSound.play();
-			}
-			
 			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 1);
+			snake.getSnake().get((snake.getLength())).initialize();
+			snake.updateLength();
+			snake.setLength(snake.getLength());
 			n.setVisible(false);
 		}
 		
