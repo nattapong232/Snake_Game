@@ -52,7 +52,7 @@ public class GamePane extends Pane {
 			BadApple b = new BadApple();
 			this.getChildren().add(b);
 		}
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			Monster1 mo = new Monster1();
 			this.getChildren().add(mo);
 		}
@@ -255,7 +255,8 @@ public class GamePane extends Pane {
 				eatingSound.seek(eatingSound.getStartTime());
 				eatingSound.play();
 			}
-
+		
+			
 			GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() + 1);
 			GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
 			snake.getSnake().get((snake.getLength())).initialize();

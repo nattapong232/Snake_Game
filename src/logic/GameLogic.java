@@ -31,11 +31,14 @@ public class GameLogic {
 	private int score;
 	private int level;
 	private int numberOfMovingThread;
+	private int numberOfStaminaThread;
 	private int scoreToNextLevel;
 	private GamePane gamePane;
 	private ControlPane controlPane;
 	private MediaPlayer gameWinSound;
 	private MediaPlayer gameOverSound;
+	private static Thread moving;
+	private static Thread usingStamina;
 //	Media sound = new Media(new File(musicFile).toURI().toString());
 //	MediaPlayer mediaPlayer = new MediaPlayer(sound);
 //	mediaPlayer.play();
@@ -62,18 +65,19 @@ public class GameLogic {
 
 	public void newGame() {
 		// run only once (run when using gameLogic.getInstance() for the first time)
-		String gameWinSoundFile = "gamewin-sound.wav";     
+		String gameWinSoundFile = "gamewin-sound.wav";
 		Media gameWinSfx = new Media(new File(gameWinSoundFile).toURI().toString());
 		gameWinSound = new MediaPlayer(gameWinSfx);
 		String gameOverSoundFile = "gameover-sound.wav";
 		Media gameOverSFx = new Media(new File(gameOverSoundFile).toURI().toString());
 		gameOverSound = new MediaPlayer(gameOverSFx);
-		
+
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(true);// -----
 		this.setBgmOn(true);
 		this.setSfxOn(true);
+		this.setNumberOfMovingThread(0);
 		this.setSleepTime(150);
 		this.setScore(0);
 		this.setScoreToNextLevel(5);
@@ -84,54 +88,56 @@ public class GameLogic {
 		this.gamePane.getApple().initialize();
 		this.gamePane.moveToRandomLocation(gamePane.getApple());
 		// -----
-		this.start();
+//		this.start();
 		// -----
 	}
 
 	public void newGame(int level) {
 		// run when press start or newGameButton
-//		try {
-//			GameLogic.getInstance().getControlPane().getBgmPlayer().play();
-//			GameLogic.getInstance().toggleBgm();
-//		}
-//		catch (Exception e){
-//			;
-//		}
-//		GameLogic.getInstance().getControlPane().getBgmPlayer().play();
-//		GameLogic.getInstance().toggleBgm();
+		
+//		initMovingAndUsingStaminaThread();
+		try {
+			if(GameLogic.getInstance().isBgmOn())
+			{
+				GameLogic.getInstance().getControlPane().getBgmPlayer().play();
+			}
+		}
+		catch (Exception e){
+			;
+		}
 		
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(false);
 		this.setSleepTime(150);
 		this.setScore(0);
-		this.setScoreToNextLevel(5*level);
+		this.setScoreToNextLevel(5 * level);
 		this.setLevel(level);
 		this.gamePane.getSnake().initializeSnake();
 //		this.gamePane.getApple().initialize();
 //		this.gamePane.moveToRandomLocation(gamePane.getApple());
 		this.controlPane.getNextLevelButton().setVisible(false);
-		
+
 		for (BadApple b : BadApple.allBadApple) {
 			b.setVisible(false);
 		}
 		BadApple.amount = 0;
-		
+
 		for (SlowPotion m : SlowPotion.allSlowPotion) {
 			m.setVisible(false);
 		}
 		SlowPotion.amount = 0;
-		
+
 		for (Monster1 mo : Monster1.allMonster) {
 			mo.setVisible(false);
 		}
 		Monster1.amount = 0;
-		
+
 		for (SpeedPotion p : SpeedPotion.allSpeedPotion) {
 			p.setVisible(false);
 		}
 		SpeedPotion.amount = 0;
-		
+
 		for (Wall w : Wall.allWall) {
 			w.setVisible(false);
 		}
@@ -231,11 +237,11 @@ public class GameLogic {
 			this.setGameWin(true);
 			this.checkGameEnd();
 		}
-			
+
 		this.gamePane.getApple().initialize();
 		this.gamePane.moveToRandomLocation(gamePane.getApple());
 		this.gamePane.updateLocation();
-//		this.start();// -------------------------------------------------------------------------
+		start();// -------------------------------------------------------------------------
 	}
 
 	public static GameLogic getInstance() {
@@ -252,7 +258,7 @@ public class GameLogic {
 	public void setPause(boolean pauseMode) {
 		this.isPause = pauseMode;
 	}
-	
+
 	public boolean isBgmOn() {
 		return isBgmOn;
 	}
@@ -298,8 +304,8 @@ public class GameLogic {
 	}
 
 	public void checkGameEnd() {
-		if(GameLogic.getInstance().isMoveFinished()) {
-			if (score == 1) {//GameLogic.getInstance().getLevel() * 5
+		if (GameLogic.getInstance().isMoveFinished()) {
+			if (score == 1) {// GameLogic.getInstance().getLevel() * 5
 				this.setGameEnd(true);
 				this.setGameWin(true);
 				GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
@@ -309,14 +315,13 @@ public class GameLogic {
 			try {
 				GameLogic.getInstance().getControlPane().getBgmPlayer().stop();
 //				GameLogic.getInstance().toggleBgm();
-			}
-			catch (NullPointerException e){
+			} catch (NullPointerException e) {
 				;
 			}
 //			GameLogic.getInstance().getControlPane().getBgmPlayer().stop();
 //			GameLogic.getInstance().toggleBgm();
 			if (isGameWin) {
-				if(GameLogic.getInstance().isSfxOn()) {
+				if (GameLogic.getInstance().isSfxOn()) {
 					gameWinSound.seek(gameWinSound.getStartTime());
 					gameWinSound.play();
 				}
@@ -324,7 +329,7 @@ public class GameLogic {
 //				gameWinSound.play();
 				controlPane.setScoreText("You win!");
 			} else {
-				if(GameLogic.getInstance().isSfxOn()) {
+				if (GameLogic.getInstance().isSfxOn()) {
 					gameOverSound.seek(gameOverSound.getStartTime());
 					gameOverSound.play();
 				}
@@ -339,66 +344,20 @@ public class GameLogic {
 //------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------
 	public static void start() {
-//		GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100); cause java.lang.OutOfMemoryError: Java heap space
-//		int currentNumberOfMovingThread = GameLogic.getInstance().getNumberOfMovingThread();// cause of java.lang.OutOfMemoryError: Java heap space
-		Thread moving = new Thread() {
-			public void run() {
-//				GameLogic.getInstance().setNumberOfMovingThread(currentNumberOfMovingThread + 1);
-				
-				while (true) {
-					
-					while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()) {
-//						&& GameLogic.getInstance().getNumberOfMovingThread() <= 1) {
-						try {
-							moveSnake();
-							runStamina();
-//							System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
-//							System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
-
-					}
-//				GameLogic.getInstance().setNumberOfMovingThread(currentNumberOfMovingThread - 1);
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					// check every 0.1 second if gameEnd still true
-				}
-			}
-		};
+		initMovingAndUsingStaminaThread();
 		moving.start();
-		
-//		Thread usingStamina = new Thread() {
-//			public void run() {
-////				GameLogic.getInstance().setNumberOfMovingThread(currentNumberOfMovingThread + 1);
-//					while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()) {
-////						&& GameLogic.getInstance().getNumberOfMovingThread() <= 1) {
-//						try {
-////							moveSnake();
-//							runStamina();
-////							System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
-////							System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
-//						} catch (InterruptedException e1) {
-//							e1.printStackTrace();
-//						}
-//
-//					}
-////				GameLogic.getInstance().setNumberOfMovingThread(currentNumberOfMovingThread - 1);
-//					try {
-//						Thread.sleep(100);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//					// check every 0.1 second if gameEnd still true
-//				}
-//			}
-//		};
-//		moving.start();
+		usingStamina.start();
+//		int currentNumberOfMovingThread = GameLogic.getInstance().getNumberOfMovingThread();// cause of java.lang.OutOfMemoryError: Java heap space
 	}
-
+	
+	public static void stop() {
+		
+//		int currentNumberOfMovingThread = GameLogic.getInstance().getNumberOfMovingThread();// cause of java.lang.OutOfMemoryError: Java heap space
+		
+		moving.interrupt();
+		usingStamina.interrupt();
+	}
+	
 	public static void moveSnake() throws InterruptedException {
 		GameLogic.getInstance().setMoveFinished(false);
 		GamePane temp = GameLogic.getInstance().getControlPane().getGamePane();
@@ -430,30 +389,26 @@ public class GameLogic {
 //					Thread.sleep(1000);
 //					MovingThread.sleep(200);
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 
 	}
 
 	public static void runStamina() throws InterruptedException {
 		Stamina snakeStamina = GameLogic.getInstance().getGamePane().getSnake().getStamina();
-//		Thread.sleep(20);
-//		Platform.runLater(new Runnable() {
-//			@Override
-//			public void run() {
-				GameLogic.getInstance().getControlPane().setStaminaText(new Text("Stamina = " + snakeStamina.getSp()));
-//				System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
-//				System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
-				snakeStamina.decrementStamina(2);
-//				try {
-//					Thread.sleep(500);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-		snakeStamina.setStop(true);
+//		System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
+//		System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
+		snakeStamina.decrementStamina(2);
+//		System.out.println(GameLogic.getInstance().getNumberOfMovingThread());
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				GameLogic.getInstance().getControlPane().setStaminaText(snakeStamina.getSp());
+				System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
+				System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
+			}
+		});
+//		snakeStamina.setStop(true);
 
 		if (snakeStamina.isStaminaDepleted()) {
 
@@ -468,6 +423,12 @@ public class GameLogic {
 //			});
 //			endGame();
 		}
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+		}
 	}
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -477,11 +438,11 @@ public class GameLogic {
 	public void togglePauseMode() {
 		this.isPause = !this.isPause;
 	}
-	
+
 	public void toggleBgm() {
 		this.isBgmOn = !this.isBgmOn;
 	}
-	
+
 	public void toggleSfx() {
 		this.isSfxOn = !this.isSfxOn;
 	}
@@ -558,7 +519,66 @@ public class GameLogic {
 		this.numberOfMovingThread = numberOfMovingThread;
 	}
 
-	
-	
+	public int getNumberOfStaminaThread() {
+		return numberOfStaminaThread;
+	}
 
+	public void setNumberOfStaminaThread(int numberOfStaminaThread) {
+		this.numberOfStaminaThread = numberOfStaminaThread;
+	}
+
+	private static void initMovingAndUsingStaminaThread() {
+		moving = new Thread() {
+			public void run() {
+//				int currentNumberOfMovingThread = GameLogic.getInstance().getNumberOfMovingThread();
+				GameLogic.getInstance().setNumberOfMovingThread(GameLogic.getInstance().getNumberOfMovingThread() + 1);
+
+				while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()
+						&& GameLogic.getInstance().getNumberOfMovingThread() <= 1) {
+					try {
+						moveSnake();
+//						runStamina();
+//							System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
+//							System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
+					} catch (InterruptedException e1) {
+//						e1.printStackTrace();
+					}
+
+				}
+				GameLogic.getInstance().setNumberOfMovingThread(GameLogic.getInstance().getNumberOfMovingThread() - 1);
+//					try {
+//						Thread.sleep(100);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//					// check every 0.1 second if gameEnd still true
+			}
+		};
+		
+		usingStamina = new Thread() {
+			public void run() {
+				GameLogic.getInstance().setNumberOfStaminaThread(GameLogic.getInstance().getNumberOfStaminaThread() + 1);
+
+				while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()
+						&& GameLogic.getInstance().getNumberOfStaminaThread() <= 1) {
+					try {
+//						moveSnake();
+						runStamina();
+//							System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
+//							System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+
+				}
+				GameLogic.getInstance().setNumberOfStaminaThread(GameLogic.getInstance().getNumberOfStaminaThread() - 1);
+//					try {
+//						Thread.sleep(100);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//					// check every 0.1 second if gameEnd still true
+			}
+		};
+	}
 }

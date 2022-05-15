@@ -25,7 +25,7 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 
 public class ControlPane extends VBox {
-	Button bgmButton;
+	private Button bgmButton;
 	Button sfxButton;
 	Button newGameButton;
 	Button pauseButton;
@@ -117,6 +117,7 @@ public class ControlPane extends VBox {
 						sfxButton.setGraphic(sfxOff);
 					}
 				}
+//				System.out.println(GameLogic.getInstance().getNumberOfMovingThread());
 			}
 		});
 	}
@@ -148,11 +149,16 @@ public class ControlPane extends VBox {
 					GameLogic.getInstance().togglePauseMode();
 					if (GameLogic.getInstance().isPause()) {
 						pauseText.setText("Pause mode : ON");
+						GameLogic.stop();
+
 					} else {
 						pauseText.setText("Pause mode : OFF");
+						GameLogic.start();
+//						GameLogic.startMoving();
 					}
 				}
-				System.out.println(GameLogic.getInstance().getLevel());
+				
+//				System.out.println(GameLogic.getInstance().getLevel());
 //				for (int i = 0; i < 40; i++) {
 //					for (Body b : GameLogic.getInstance().getGamePane().getSnake().getSnake())
 //					{
@@ -167,20 +173,21 @@ public class ControlPane extends VBox {
 //				System.out.println(GameLogic.getInstance().isGameEnd());
 //				System.out.println(GameLogic.getInstance().isPause());
 //				System.out.println(GameLogic.getInstance().getGamePane().getSnake().isCrash());
-				for (int i = 0; i < 20; i++) {
-					for (int j = 0; j < 20; j++) {
-						for (Node n : GameLogic.getInstance().getGamePane().getLocationTable()[i][j]) {
-
-							if (n.getClass().equals(Tail.class)) {
-								System.out.println("i = " + i + " j = " + j + "  " + n.getClass() + " " + GameLogic
-										.getInstance().getGamePane().getSnake().getSnake().indexOf((Tail) n));
-//								System.out.println(GameLogic.getInstance().getGamePane().getSnake().getSnake().indexOf((Tail) n));
-							} else {
-								System.out.println("i = " + i + " j = " + j + "  " + n.getClass());
-							}
-						}
-					}
-				}
+//				for (int i = 0; i < 20; i++) {
+//					for (int j = 0; j < 20; j++) {
+//						for (Node n : GameLogic.getInstance().getGamePane().getLocationTable()[i][j]) {
+//
+//							if (n.getClass().equals(Tail.class)) {
+//								System.out.println("i = " + i + " j = " + j + "  " + n.getClass() + " " + GameLogic
+//										.getInstance().getGamePane().getSnake().getSnake().indexOf((Tail) n));
+////								System.out.println(GameLogic.getInstance().getGamePane().getSnake().getSnake().indexOf((Tail) n));
+//							} else {
+//								System.out.println("i = " + i + " j = " + j + "  " + n.getClass());
+//							}
+//						}
+//					}
+//				}
+//				System.out.println(GameLogic.getInstance().getNumberOfMovingThread());
 //				System.out.println(Mushroom.allMushroom.get(0).getXLocation());
 			}
 		});
@@ -324,8 +331,13 @@ public class ControlPane extends VBox {
 		return staminaText;
 	}
 
-	public void setStaminaText(Text staminaText) {
-		this.staminaText = staminaText;
+	public void setStaminaText(int sp) {
+		if(sp < 0) {
+			staminaText.setText("Stamina = " + 0);
+		}
+		else {
+			staminaText.setText("Stamina = " + sp);
+		}
 	}
 
 	public GamePane getGamePane() {

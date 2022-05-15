@@ -25,6 +25,7 @@ import snake.Head;
 
 public class Main extends Application {
 
+	
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		// Scene 1
@@ -78,7 +79,7 @@ public class Main extends Application {
 				primaryStage.setScene(scene2);
 			}
 		});
-
+		
 		primaryStage.setResizable(false);
 		
 		howToPlay.setOnAction(new EventHandler<ActionEvent>() {
