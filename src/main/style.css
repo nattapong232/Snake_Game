@@ -1,3 +1,7 @@
+*{
+	-fx-font-family: 'serif'
+}
+
 .bodybg{
-    -fx-background-image: url("/Users/waranthornchansawang/Desktop/background.jpeg");
+    -fx-background-image: url("https://wallpaperaccess.com/full/490126.jpg");
 }
