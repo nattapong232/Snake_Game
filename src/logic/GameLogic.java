@@ -30,7 +30,7 @@ public class GameLogic {
 	private int sleepTime;
 	private int score;
 	private int level;
-//	private int numberOfMovingThread;
+	private int numberOfMovingThread;
 	private int scoreToNextLevel;
 	private GamePane gamePane;
 	private ControlPane controlPane;
@@ -69,7 +69,6 @@ public class GameLogic {
 		Media gameOverSFx = new Media(new File(gameOverSoundFile).toURI().toString());
 		gameOverSound = new MediaPlayer(gameOverSFx);
 		
-		
 		this.setGameEnd(false);
 		this.setGameWin(false);
 		this.setPause(true);// -----
@@ -91,13 +90,13 @@ public class GameLogic {
 
 	public void newGame(int level) {
 		// run when press start or newGameButton
-		try {
-			GameLogic.getInstance().getControlPane().getBgmPlayer().play();
-			GameLogic.getInstance().toggleBgm();
-		}
-		catch (Exception e){
-			;
-		}
+//		try {
+//			GameLogic.getInstance().getControlPane().getBgmPlayer().play();
+//			GameLogic.getInstance().toggleBgm();
+//		}
+//		catch (Exception e){
+//			;
+//		}
 //		GameLogic.getInstance().getControlPane().getBgmPlayer().play();
 //		GameLogic.getInstance().toggleBgm();
 		
@@ -309,7 +308,7 @@ public class GameLogic {
 		if (isGameEnd) {
 			try {
 				GameLogic.getInstance().getControlPane().getBgmPlayer().stop();
-				GameLogic.getInstance().toggleBgm();
+//				GameLogic.getInstance().toggleBgm();
 			}
 			catch (NullPointerException e){
 				;
@@ -317,12 +316,18 @@ public class GameLogic {
 //			GameLogic.getInstance().getControlPane().getBgmPlayer().stop();
 //			GameLogic.getInstance().toggleBgm();
 			if (isGameWin) {
-				gameWinSound.seek(gameWinSound.getStartTime());
-				gameWinSound.play();
+				if(GameLogic.getInstance().isSfxOn()) {
+					gameWinSound.seek(gameWinSound.getStartTime());
+					gameWinSound.play();
+				}
+//				gameWinSound.seek(gameWinSound.getStartTime());
+//				gameWinSound.play();
 				controlPane.setScoreText("You win!");
 			} else {
-				gameOverSound.seek(gameOverSound.getStartTime());
-				gameOverSound.play();
+				if(GameLogic.getInstance().isSfxOn()) {
+					gameOverSound.seek(gameOverSound.getStartTime());
+					gameOverSound.play();
+				}
 				controlPane.setScoreText("You lose!");
 				GameLogic.getInstance().setLevel(1);
 				GameLogic.getInstance().setScore(0);
@@ -335,7 +340,7 @@ public class GameLogic {
 //------------------------------------------------------------------------------------------------------------------------------
 	public static void start() {
 //		GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100); cause java.lang.OutOfMemoryError: Java heap space
-//		int currentNumberOfMovingThread = GameLogic.getInstance().getNumberOfMovingThread(); cause of java.lang.OutOfMemoryError: Java heap space
+//		int currentNumberOfMovingThread = GameLogic.getInstance().getNumberOfMovingThread();// cause of java.lang.OutOfMemoryError: Java heap space
 		Thread moving = new Thread() {
 			public void run() {
 //				GameLogic.getInstance().setNumberOfMovingThread(currentNumberOfMovingThread + 1);
@@ -365,6 +370,33 @@ public class GameLogic {
 			}
 		};
 		moving.start();
+		
+//		Thread usingStamina = new Thread() {
+//			public void run() {
+////				GameLogic.getInstance().setNumberOfMovingThread(currentNumberOfMovingThread + 1);
+//					while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()) {
+////						&& GameLogic.getInstance().getNumberOfMovingThread() <= 1) {
+//						try {
+////							moveSnake();
+//							runStamina();
+////							System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
+////							System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
+//						} catch (InterruptedException e1) {
+//							e1.printStackTrace();
+//						}
+//
+//					}
+////				GameLogic.getInstance().setNumberOfMovingThread(currentNumberOfMovingThread - 1);
+//					try {
+//						Thread.sleep(100);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//					// check every 0.1 second if gameEnd still true
+//				}
+//			}
+//		};
+//		moving.start();
 	}
 
 	public static void moveSnake() throws InterruptedException {
@@ -421,10 +453,6 @@ public class GameLogic {
 //				}
 //			}
 //		});
-//			timerPane[pl].setTimer(plTimer);			
-//			
-//			plTimer.decrementTimer(2);
-
 		snakeStamina.setStop(true);
 
 		if (snakeStamina.isStaminaDepleted()) {
@@ -520,6 +548,14 @@ public class GameLogic {
 
 	public void setGameOverSound(MediaPlayer gameOverSound) {
 		this.gameOverSound = gameOverSound;
+	}
+
+	public int getNumberOfMovingThread() {
+		return numberOfMovingThread;
+	}
+
+	public void setNumberOfMovingThread(int numberOfMovingThread) {
+		this.numberOfMovingThread = numberOfMovingThread;
 	}
 
 	

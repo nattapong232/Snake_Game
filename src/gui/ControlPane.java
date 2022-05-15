@@ -70,7 +70,9 @@ public class ControlPane extends VBox {
 
 	private void initializeBgm() {
 		bgmButton = new Button();
-		bgmButton.setGraphic(new ImageView(new Image("bgm.png", 30, 30, false, false)));
+		ImageView bgmOn = new ImageView(new Image("bgm.png", 30, 30, false, false));
+		ImageView bgmOff = new ImageView(new Image("bgmOff.png", 30, 30, false, false));
+		bgmButton.setGraphic(bgmOn);
 		bgmButton.setPrefWidth(150);
 		String bgmFile = "bgm.mp3"; // For example
 		Media bgm = new Media(new File(bgmFile).toURI().toString());
@@ -79,12 +81,17 @@ public class ControlPane extends VBox {
 		bgmPlayer.play();
 		bgmButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				GameLogic.getInstance().toggleBgm();
-				// turn on sound,turn off sound
-				if (GameLogic.getInstance().isBgmOn()) {
-					bgmPlayer.play();
-				} else {
-					bgmPlayer.pause();
+				if (!GameLogic.getInstance().isGameEnd()) {
+					System.out.println(GameLogic.getInstance().isBgmOn());
+					GameLogic.getInstance().toggleBgm();
+					// turn on sound,turn off sound
+					if (GameLogic.getInstance().isBgmOn()) {
+						bgmPlayer.play();
+						bgmButton.setGraphic(bgmOn);
+					} else {
+						bgmPlayer.pause();
+						bgmButton.setGraphic(bgmOff);
+					}
 				}
 			}
 		});
@@ -92,7 +99,9 @@ public class ControlPane extends VBox {
 
 	private void initializeSfx() {
 		sfxButton = new Button();
-		sfxButton.setGraphic(new ImageView(new Image("sfx.png", 30, 30, false, false)));
+		ImageView sfxOn = new ImageView(new Image("sfx.png", 30, 30, false, false));
+		ImageView sfxOff = new ImageView(new Image("sfxOff.jpg", 30, 30, false, false));
+		sfxButton.setGraphic(sfxOn);
 		sfxButton.setPrefWidth(150);
 		String eatingSoundFile = "eating-sound.wav"; // For example
 		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
@@ -100,7 +109,14 @@ public class ControlPane extends VBox {
 //		sfxPlayer.play();
 		sfxButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				GameLogic.getInstance().toggleSfx();
+				if (!GameLogic.getInstance().isGameEnd()) {
+					GameLogic.getInstance().toggleSfx();
+					if (GameLogic.getInstance().isSfxOn()) {
+						sfxButton.setGraphic(sfxOn);
+					} else {
+						sfxButton.setGraphic(sfxOff);
+					}
+				}
 			}
 		});
 	}
