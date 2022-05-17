@@ -5,20 +5,20 @@ import java.util.Random;
 
 import base.Coordinate;
 import base.MoveableObject;
+import food.Food;
 import gui.GamePane;
 import interfaces.Eatable;
 import interfaces.Moveable;
-import item.Food;
 import item.SlowPotion;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Monster2 extends Monster {
-	public static int amount = 0; // represent amount of monster that visible = true
-	public static ArrayList<Monster2> allMonster2 = new ArrayList<Monster2>();
+	private static int amount = 0; // represent amount of monster that visible = true
+	private static ArrayList<Monster2> allMonster2 = new ArrayList<Monster2>();
 //	Coordinate location;
 //	Image picture;
-	MoveableObject bullet;
+	private MoveableObject bullet;
 
 	public Monster2() {
 		this.location = new Coordinate(0,0);
@@ -34,13 +34,38 @@ public class Monster2 extends Monster {
 	
 	public void initialize() {
 		this.setVisible(true);
-		Monster1.amount += 1;
+		Monster2.amount += 1;
 	}
 	
 	public void fire() {
 		;
 	}
 
+	public static int getAmount() {
+		return amount;
+	}
+
+	public static void setAmount(int amount) {
+		Monster2.amount = amount;
+	}
+
+	public static ArrayList<Monster2> getAllMonster2() {
+		return allMonster2;
+	}
+
+	public static void setAllMonster2(ArrayList<Monster2> allMonster2) {
+		Monster2.allMonster2 = allMonster2;
+	}
+
+	public MoveableObject getBullet() {
+		return bullet;
+	}
+
+	public void setBullet(MoveableObject bullet) {
+		this.bullet = bullet;
+	}
+
+	
 //	public void setLocation(int x, int y) {
 //		if (x >= 600) {
 //			this.location.setX(0);

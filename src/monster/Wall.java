@@ -5,17 +5,17 @@ import java.util.Random;
 
 import base.Coordinate;
 import base.MoveableObject;
+import food.Food;
 import gui.GamePane;
 import interfaces.Eatable;
 import interfaces.Moveable;
-import item.Food;
 import item.SlowPotion;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Wall extends MoveableObject{
-	public static int amount = 0;  // represent amount of wall that visible = true
-	public static ArrayList<Wall> allWall = new ArrayList<Wall>();
+	private static int amount = 0;  // represent amount of wall that visible = true
+	private static ArrayList<Wall> allWall = new ArrayList<Wall>();
 //	Coordinate location;
 //	Image picture;
 
@@ -54,6 +54,23 @@ public class Wall extends MoveableObject{
 			this.location.setY(y);
 		}
 	}
+
+	public static int getAmount() {
+		return amount;
+	}
+
+	public static void setAmount(int amount) {
+		Wall.amount = amount;
+	}
+
+	public static ArrayList<Wall> getAllWall() {
+		return allWall;
+	}
+
+	public static void setAllWall(ArrayList<Wall> allWall) {
+		Wall.allWall = allWall;
+	}
+	
 	
 //	public int getXLocation() {
 //		return location.getX();

@@ -3,10 +3,10 @@ package logic;
 import java.io.File;
 
 import base.Stamina;
+import food.Apple;
+import food.BadApple;
 import gui.ControlPane;
 import gui.GamePane;
-import item.Apple;
-import item.BadApple;
 import item.Energy;
 import item.SlowPotion;
 import item.SpeedPotion;
@@ -166,41 +166,41 @@ public class GameLogic {
 //		this.gamePane.moveToRandomLocation(gamePane.getApple());
 		this.controlPane.getNextLevelButton().setVisible(false);
 
-		for (BadApple b : BadApple.allBadApple) {
+		for (BadApple b : BadApple.getAllBadApple()) {
 			b.setVisible(false);
 		}
-		BadApple.amount = 0;
+		BadApple.setAmount(0);
 
-		for (SlowPotion m : SlowPotion.allSlowPotion) {
+		for (SlowPotion m : SlowPotion.getAllSlowPotion()) {
 			m.setVisible(false);
 		}
-		SlowPotion.amount = 0;
+		SlowPotion.setAmount(0);
 
-		for (Monster1 mo : Monster1.allMonster) {
+		for (Monster1 mo : Monster1.getAllMonster()) {
 			mo.setVisible(false);
 		}
-		Monster1.amount = 0;
+		Monster1.setAmount(0);
 
-		for (SpeedPotion p : SpeedPotion.allSpeedPotion) {
+		for (SpeedPotion p : SpeedPotion.getAllSpeedPotion()) {
 			p.setVisible(false);
 		}
-		SpeedPotion.amount = 0;
+		SpeedPotion.setAmount(0);
 
-		for (Wall w : Wall.allWall) {
+		for (Wall w : Wall.getAllWall()) {
 			w.setVisible(false);
 		}
-		Wall.amount = 0;
+		Wall.setAmount(0);
 
-		for (Energy e : Energy.allEnergyPotion) {
+		for (Energy e : Energy.getAllEnergyPotion()) {
 			e.setVisible(false);
 		}
-		Energy.amount = 0;
+		Energy.setAmount(0);
 
 		switch (level) {
 		case 1:
 			this.setSleepTime(100);
 			for (int i = 0; i < 1; i++) {
-				BadApple b = BadApple.allBadApple.get(i);
+				BadApple b = BadApple.getAllBadApple().get(i);
 				b.initialize();
 				this.gamePane.moveToRandomLocation(b);
 			}
@@ -208,12 +208,12 @@ public class GameLogic {
 		case 2:
 			this.setSleepTime(100);
 			for (int i = 0; i < 1; i++) {
-				BadApple b = BadApple.allBadApple.get(i);
+				BadApple b = BadApple.getAllBadApple().get(i);
 				b.initialize();
 				this.gamePane.moveToRandomLocation(b);
 			}
 			for (int i = 0; i < 3; i++) {
-				Energy e = Energy.allEnergyPotion.get(i);
+				Energy e = Energy.getAllEnergyPotion().get(i);
 				e.initialize();
 				this.gamePane.moveToRandomLocation(e);
 			}
@@ -221,61 +221,61 @@ public class GameLogic {
 		case 3:
 			this.setSleepTime(100);
 			for (int i = 0; i < 1; i++) {
-				BadApple b = BadApple.allBadApple.get(i);
+				BadApple b = BadApple.getAllBadApple().get(i);
 				b.initialize();
 				this.gamePane.moveToRandomLocation(b);
 			}
 			for (int i = 0; i < 1; i++) {
-				SlowPotion m = SlowPotion.allSlowPotion.get(i);
+				SlowPotion m = SlowPotion.getAllSlowPotion().get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
 			for (int i = 0; i < 3; i++) {
-				Energy e = Energy.allEnergyPotion.get(i);
+				Energy e = Energy.getAllEnergyPotion().get(i);
 				e.initialize();
 				this.gamePane.moveToRandomLocation(e);
 			}
 			break;
 		case 4:
 			this.setSleepTime(80);
-			for (Wall w : Wall.allWall) {
+			for (Wall w : Wall.getAllWall()) {
 				w.initialize();
 			}
 			this.getGamePane().updateLocation();
 			for (int i = 0; i < 1; i++) {
-				BadApple b = BadApple.allBadApple.get(i);
+				BadApple b = BadApple.getAllBadApple().get(i);
 				b.initialize();
 				this.gamePane.moveToRandomLocation(b);
 			}
 			for (int i = 0; i < 1; i++) {
-				SlowPotion m = SlowPotion.allSlowPotion.get(i);
+				SlowPotion m = SlowPotion.getAllSlowPotion().get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
 			for (int i = 0; i < 1; i++) {
-				Monster1 m = Monster1.allMonster.get(i);
+				Monster1 m = Monster1.getAllMonster().get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
 			for (int i = 0; i < 1; i++) {
-				SpeedPotion p = SpeedPotion.allSpeedPotion.get(i);
+				SpeedPotion p = SpeedPotion.getAllSpeedPotion().get(i);
 				p.initialize();
 				this.gamePane.moveToRandomLocation(p);
 			}
 			break;
 		case 5:
 			this.setSleepTime(80);
-			for (Wall w : Wall.allWall) {
+			for (Wall w : Wall.getAllWall()) {
 				w.initialize();
 			}
 			this.getGamePane().updateLocation();
 			for (int i = 0; i < 1; i++) {
-				Monster1 m = Monster1.allMonster.get(i);
+				Monster1 m = Monster1.getAllMonster().get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
 			for (int i = 0; i < 4; i++) {
-				SpeedPotion p = SpeedPotion.allSpeedPotion.get(i);
+				SpeedPotion p = SpeedPotion.getAllSpeedPotion().get(i);
 				p.initialize();
 				this.gamePane.moveToRandomLocation(p);
 			}
@@ -367,7 +367,7 @@ public class GameLogic {
 
 	public void checkGameEnd() {
 		if (GameLogic.getInstance().isMoveFinished()) {
-			if (score == 1) {// GameLogic.getInstance().getLevel() * 5
+			if (score == scoreToNextLevel) {// GameLogic.getInstance().getLevel() * 5
 				this.setGameEnd(true);
 				this.setGameWin(true);
 				GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
@@ -494,6 +494,10 @@ public class GameLogic {
 		}
 	}
 
+	
+	public static void fire() {
+		
+	}
 //------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------	

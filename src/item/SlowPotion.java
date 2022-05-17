@@ -10,9 +10,9 @@ import interfaces.Moveable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class SlowPotion extends Food {
-	public static int amount = 0;  // represent amount of mushroom that visible = true
-	public static ArrayList<SlowPotion> allSlowPotion = new ArrayList<SlowPotion>();
+public class SlowPotion extends Item {
+	private static int amount = 0;  // represent amount of mushroom that visible = true
+	private static ArrayList<SlowPotion> allSlowPotion = new ArrayList<SlowPotion>();
 //	Coordinate location;
 //	Image picture;
 
@@ -58,6 +58,24 @@ public class SlowPotion extends Food {
 		Random rand = new Random();
 		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
 	}
+
+	public static int getAmount() {
+		return amount;
+	}
+
+	public static void setAmount(int amount) {
+		SlowPotion.amount = amount;
+	}
+
+	public static ArrayList<SlowPotion> getAllSlowPotion() {
+		return allSlowPotion;
+	}
+
+	public static void setAllSlowPotion(ArrayList<SlowPotion> allSlowPotion) {
+		SlowPotion.allSlowPotion = allSlowPotion;
+	}
+	
+	
 //	
 //	public void setLocation(int x, int y) {
 //		if (x >= 570) {

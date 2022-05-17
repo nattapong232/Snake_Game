@@ -1,4 +1,4 @@
-package item;
+package food;
 import java.util.Random;
 
 import base.MoveableObject;

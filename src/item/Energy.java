@@ -10,9 +10,9 @@ import interfaces.Moveable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Energy extends Food {
-	public static int amount = 0;  // represent amount of mushroom that visible = true
-	public static ArrayList<Energy> allEnergyPotion = new ArrayList<Energy>();
+public class Energy extends Item {
+	private static int amount = 0;  // represent amount of mushroom that visible = true
+	private static ArrayList<Energy> allEnergyPotion = new ArrayList<Energy>();
 //	Coordinate location;
 //	Image picture;
 
@@ -56,6 +56,20 @@ public class Energy extends Food {
 		Random rand = new Random();
 		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
 	}
+	public static int getAmount() {
+		return amount;
+	}
+	public static void setAmount(int amount) {
+		Energy.amount = amount;
+	}
+	public static ArrayList<Energy> getAllEnergyPotion() {
+		return allEnergyPotion;
+	}
+	public static void setAllEnergyPotion(ArrayList<Energy> allEnergyPotion) {
+		Energy.allEnergyPotion = allEnergyPotion;
+	}
+	
+	
 	
 //	public Image getPicture() {
 //		return picture;

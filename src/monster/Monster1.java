@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import base.Coordinate;
+import food.Food;
 import gui.GamePane;
 import interfaces.Eatable;
 import interfaces.Moveable;
-import item.Food;
 import item.SlowPotion;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Monster1 extends Monster {
-	public static int amount = 0; // represent amount of monster that visible = true
-	public static ArrayList<Monster1> allMonster = new ArrayList<Monster1>();
+	private static int amount = 0; // represent amount of monster that visible = true
+	private static ArrayList<Monster1> allMonster = new ArrayList<Monster1>();
 //	Coordinate location;
 //	Image picture;
 
@@ -60,6 +60,23 @@ public class Monster1 extends Monster {
 		Random rand = new Random();
 		this.setLocation(rand.nextInt(17) * 30, rand.nextInt(17) * 30);
 	}
+
+	public static int getAmount() {
+		return amount;
+	}
+
+	public static void setAmount(int amount) {
+		Monster1.amount = amount;
+	}
+
+	public static ArrayList<Monster1> getAllMonster() {
+		return allMonster;
+	}
+
+	public static void setAllMonster(ArrayList<Monster1> allMonster) {
+		Monster1.allMonster = allMonster;
+	}
+	
 	
 //	public void setLocation(Coordinate c) {
 //		int x = c.getX();

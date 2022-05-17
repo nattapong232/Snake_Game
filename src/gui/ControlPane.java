@@ -52,8 +52,8 @@ public class ControlPane extends VBox {
 		this.setSpacing(20);
 //		this.setPadding(new Insets(8));
 //		this.setPrefWidth(500);
-		initializeBgm();
-		initializeSfx();
+		initializeBgmButton();
+		initializeSfxButton();
 		initializeNewGameButton();
 		initializePauseModeButton();
 		initializeNextLevelButton();
@@ -68,7 +68,7 @@ public class ControlPane extends VBox {
 				hBox, pauseButton, newGameButton);
 	}
 
-	private void initializeBgm() {
+	private void initializeBgmButton() {
 		bgmButton = new Button();
 		ImageView bgmOn = new ImageView(new Image("bgm.png", 30, 30, false, false));
 		ImageView bgmOff = new ImageView(new Image("bgmOff.png", 30, 30, false, false));
@@ -97,7 +97,7 @@ public class ControlPane extends VBox {
 		});
 	}
 
-	private void initializeSfx() {
+	private void initializeSfxButton() {
 		sfxButton = new Button();
 		ImageView sfxOn = new ImageView(new Image("sfx.png", 30, 30, false, false));
 		ImageView sfxOff = new ImageView(new Image("sfxOff.jpg", 30, 30, false, false));
@@ -132,6 +132,7 @@ public class ControlPane extends VBox {
 				pauseText.setText("Pause mode : OFF");
 				levelText.setText("Level : " + GameLogic.getInstance().getLevel());
 				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
+				scoreToNextLevelText.setText("Score to next Level : "+GameLogic.getInstance().getScoreToNextLevel());
 //				System.out.println(GameLogic.getInstance().isGameEnd());
 			}
 		});
@@ -207,6 +208,7 @@ public class ControlPane extends VBox {
 					pauseText.setText("Pause mode : OFF");
 					levelText.setText("Level : " + GameLogic.getInstance().getLevel());
 					scoreText.setText("Score : " + GameLogic.getInstance().getScore());
+					scoreToNextLevelText.setText("Score to next Level : "+GameLogic.getInstance().getScoreToNextLevel());
 					gamePane.getSnake().initializeSnake();
 					gamePane.getApple().initialize();
 //					System.out.println(GameLogic.getInstance().isGameEnd());
