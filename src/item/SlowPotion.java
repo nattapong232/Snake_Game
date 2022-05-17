@@ -18,7 +18,9 @@ public class SlowPotion extends Food {
 
 	public SlowPotion() {
 		this.location = new Coordinate(0, 0);
-		this.setPicture(new Image("slow-potion.png"));
+//		this.setPicture(new Image("slow-potion.png"));
+		String slowPotionUrl = ClassLoader.getSystemResource("slow-potion.png").toString();
+		this.setPicture(new Image(slowPotionUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(60);
 		this.setFitHeight(60);

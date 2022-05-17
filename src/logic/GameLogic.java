@@ -72,25 +72,49 @@ public class GameLogic {
 	public void newGame() {
 		// run only once (run when using gameLogic.getInstance() for the first time)
 		String gameWinSoundFile = "gamewin-sound.wav";
-		Media gameWinSfx = new Media(new File(gameWinSoundFile).toURI().toString());
+		Media gameWinSfx = new Media(getClass().getClassLoader().getResource(gameWinSoundFile).toString());
 		gameWinSound = new MediaPlayer(gameWinSfx);
+		
 		String gameOverSoundFile = "gameover-sound.wav";
-		Media gameOverSFx = new Media(new File(gameOverSoundFile).toURI().toString());
+		Media gameOverSFx = new Media(getClass().getClassLoader().getResource(gameOverSoundFile).toString());
 		gameOverSound = new MediaPlayer(gameOverSFx);
 		
 		String eatingSoundFile = "eating-sound.wav"; // For example
-		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
+		Media eatingSfx = new Media(getClass().getClassLoader().getResource(eatingSoundFile).toString());
 		eatingSound = new MediaPlayer(eatingSfx);
 		
 		String collectItemSoundFile = "collect-item-sound.wav";
-		Media collectItemSfx = new Media(new File(collectItemSoundFile).toURI().toString());
+		Media collectItemSfx = new Media(getClass().getClassLoader().getResource(collectItemSoundFile).toString());
 		collectItemSound = new MediaPlayer(collectItemSfx);
 		
 		String bgmFile = "bgm.mp3"; // For example
-		Media bgm = new Media(new File(bgmFile).toURI().toString());
+		Media bgm = new Media(getClass().getClassLoader().getResource(bgmFile).toString());
 		bgmSound = new MediaPlayer(bgm);
 		bgmSound.setCycleCount(AudioClip.INDEFINITE);
 		bgmSound.play();
+		
+		
+//		String gameWinSoundFile = "gamewin-sound.wav";
+//		Media gameWinSfx = new Media(new File(gameWinSoundFile).toURI().toString());
+//		gameWinSound = new MediaPlayer(gameWinSfx);
+//		
+//		String gameOverSoundFile = "gameover-sound.wav";
+//		Media gameOverSFx = new Media(new File(gameOverSoundFile).toURI().toString());
+//		gameOverSound = new MediaPlayer(gameOverSFx);
+//		
+//		String eatingSoundFile = "eating-sound.wav"; // For example
+//		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
+//		eatingSound = new MediaPlayer(eatingSfx);
+//		
+//		String collectItemSoundFile = "collect-item-sound.wav";
+//		Media collectItemSfx = new Media(new File(collectItemSoundFile).toURI().toString());
+//		collectItemSound = new MediaPlayer(collectItemSfx);
+//		
+//		String bgmFile = "bgm.mp3"; // For example
+//		Media bgm = new Media(new File(bgmFile).toURI().toString());
+//		bgmSound = new MediaPlayer(bgm);
+//		bgmSound.setCycleCount(AudioClip.INDEFINITE);
+//		bgmSound.play();
 		
 		this.setGameEnd(false);
 		this.setGameWin(false);
@@ -386,7 +410,7 @@ public class GameLogic {
 		temp.updateLocation();
 		temp.checkInteract(temp.getSnake().getHead().getXLocation(), temp.getSnake().getHead().getYLocation());
 		if (GameLogic.getInstance().getControlPane().getGamePane().getSnake().isCrash()) {
-			System.out.println("Crash!");
+//			System.out.println("Crash!");
 			GameLogic.getInstance().setGameEnd(true);
 			GameLogic.getInstance().setGameWin(false);
 			GameLogic.getInstance().checkGameEnd();

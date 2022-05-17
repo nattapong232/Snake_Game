@@ -5,7 +5,9 @@ public class Tail extends Body {
 	
 	public Tail(int x,int y) {
 		this.location = new Coordinate(x,y);
-		setPicture(new Image("body.jpg"));
+//		setPicture(new Image("tail.jpg"));
+		String tailUrl = ClassLoader.getSystemResource("tail.jpg").toString();
+		this.setPicture(new Image(tailUrl));
 		this.setDirection(2);
 		this.setImage(this.picture);
 		this.setFitWidth(30);

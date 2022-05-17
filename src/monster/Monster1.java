@@ -20,7 +20,9 @@ public class Monster1 extends Monster {
 
 	public Monster1() {
 		this.location = new Coordinate(0,0);
-		this.setPicture(new Image("monster.png"));
+//		this.setPicture(new Image("monster.png"));
+		String monsterUrl = ClassLoader.getSystemResource("monster.png").toString();
+		this.setPicture(new Image(monsterUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(90);
 		this.setFitHeight(90);

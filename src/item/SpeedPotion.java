@@ -18,7 +18,9 @@ public class SpeedPotion extends Food {
 
 	public SpeedPotion() {
 		this.location = new Coordinate(0, 0);
-		this.setPicture(new Image("speed-potion.png"));
+//		this.setPicture(new Image("speed-potion.png"));
+		String speedPotionUrl = ClassLoader.getSystemResource("speed-potion.png").toString();
+		this.setPicture(new Image(speedPotionUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(90);
 		this.setFitHeight(90);

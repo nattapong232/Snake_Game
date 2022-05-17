@@ -18,7 +18,9 @@ public class Apple extends Food{
 //	Image picture;
 	public Apple() {
 		this.location = new Coordinate(0,0);
-		this.setPicture(new Image("apple.png"));
+//		this.setPicture(new Image("apple.png"));
+		String appleUrl = ClassLoader.getSystemResource("apple.png").toString();
+		this.setPicture(new Image(appleUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(30);
 		this.setFitHeight(30);

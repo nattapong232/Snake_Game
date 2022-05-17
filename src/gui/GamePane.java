@@ -236,7 +236,7 @@ public class GamePane extends Pane {
 		if ((temp.size() > 1)) {
 			if ((temp.get(1).isVisible())) {
 				if ((temp.get(1) instanceof Eatable)) {
-					System.out.println("Eat!");
+//					System.out.println("Eat!");
 					checkEat(x / 30, y / 30);
 
 				} else {

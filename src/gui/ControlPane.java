@@ -82,7 +82,7 @@ public class ControlPane extends VBox {
 		bgmButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				if (!GameLogic.getInstance().isGameEnd()) {
-					System.out.println(GameLogic.getInstance().isBgmOn());
+//					System.out.println(GameLogic.getInstance().isBgmOn());
 					GameLogic.getInstance().toggleBgm();
 					// turn on sound,turn off sound
 					if (GameLogic.getInstance().isBgmOn()) {
@@ -209,7 +209,7 @@ public class ControlPane extends VBox {
 					scoreText.setText("Score : " + GameLogic.getInstance().getScore());
 					gamePane.getSnake().initializeSnake();
 					gamePane.getApple().initialize();
-					System.out.println(GameLogic.getInstance().isGameEnd());
+//					System.out.println(GameLogic.getInstance().isGameEnd());
 				}
 			}
 		});

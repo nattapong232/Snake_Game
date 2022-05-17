@@ -18,7 +18,9 @@ public class Energy extends Food {
 
 	public Energy() {
 		this.location = new Coordinate(0, 0);
-		this.setPicture(new Image("energy.png"));
+//		this.setPicture(new Image("energy.png"));
+		String energyUrl = ClassLoader.getSystemResource("energy.png").toString();
+		this.setPicture(new Image(energyUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(60);
 		this.setFitHeight(60);

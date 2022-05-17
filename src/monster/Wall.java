@@ -21,7 +21,9 @@ public class Wall extends MoveableObject{
 
 	public Wall() {
 		this.location = new Coordinate(0,0);
-		this.setPicture(new Image("wall.jpg"));
+//		this.setPicture(new Image("wall.jpg"));
+		String wallUrl = ClassLoader.getSystemResource("wall.jpg").toString();
+		this.setPicture(new Image(wallUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(60);
 		this.setFitHeight(60);
