@@ -12,7 +12,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -30,11 +37,16 @@ public class Main extends Application {
 		// TODO Auto-generated method stub
 		// Scene 1
 		GridPane root1 = new GridPane();
-
+	
 		Button start = new Button("Start");
+		start.setMinSize(100, 100);
 		Button howToPlay = new Button("How to play");
+		howToPlay.setMinSize(100, 100);
 		Button close = new Button("X");
+		close.setMinSize(100, 100);
 		Text htp = new Text("How to play");
+		
+
 		close.setVisible(false);
 		htp.setVisible(false);
 
@@ -46,7 +58,11 @@ public class Main extends Application {
 		root1.setPrefWidth(900);
 		root1.setPrefHeight(600);
 		
+		
 		Scene scene1 = new Scene(root1, 900, 600);
+		scene1.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
+		scene1.getRoot().setStyle("-fx-font-family: 'serif'");
+		
 
 		// Scene 2
 		HBox root2 = new HBox();
@@ -66,6 +82,7 @@ public class Main extends Application {
 		GameLogic.getInstance().setGamePane(gamePane);
 		GameLogic.getInstance().setControlPane(controlPane);
 		Scene scene2 = new Scene(root2, 900, 600);
+		scene2.getRoot().setStyle("-fx-font-family: 'serif'");
 
 //		MovingThread movingThread = new MovingThread();
 //		movingThread.start();
@@ -116,6 +133,7 @@ public class Main extends Application {
 				System.exit(0);
 			}
 		});
+	
 		primaryStage.show();
 	}
 
