@@ -38,7 +38,8 @@ public class Monster2 extends Monster {
 	}
 	
 	public void fire() {
-		;
+		this.bullet.setLocation(this.getXLocation(), this.getYLocation());
+		
 	}
 
 	public static int getAmount() {

@@ -10,13 +10,13 @@ import interfaces.Moveable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Energy extends Item {
+public class Battery extends Item {
 	private static int amount = 0;  // represent amount of mushroom that visible = true
-	private static ArrayList<Energy> allEnergyPotion = new ArrayList<Energy>();
+	private static ArrayList<Battery> allEnergyPotion = new ArrayList<Battery>();
 //	Coordinate location;
 //	Image picture;
 
-	public Energy() {
+	public Battery() {
 		this.location = new Coordinate(0, 0);
 //		this.setPicture(new Image("energy.png"));
 		String energyUrl = ClassLoader.getSystemResource("energy.png").toString();
@@ -27,11 +27,11 @@ public class Energy extends Item {
 		this.setTranslateX(this.getXLocation());
 		this.setTranslateY(this.getYLocation());
 		this.setVisible(false);
-		Energy.allEnergyPotion.add(this);
+		Battery.allEnergyPotion.add(this);
 	}
 	public void initialize() {
 		this.setVisible(true);
-		Energy.amount += 1;
+		Battery.amount += 1;
 	}
 	
 	public void setLocation(int x, int y) {
@@ -60,13 +60,13 @@ public class Energy extends Item {
 		return amount;
 	}
 	public static void setAmount(int amount) {
-		Energy.amount = amount;
+		Battery.amount = amount;
 	}
-	public static ArrayList<Energy> getAllEnergyPotion() {
+	public static ArrayList<Battery> getAllEnergyPotion() {
 		return allEnergyPotion;
 	}
-	public static void setAllEnergyPotion(ArrayList<Energy> allEnergyPotion) {
-		Energy.allEnergyPotion = allEnergyPotion;
+	public static void setAllEnergyPotion(ArrayList<Battery> allEnergyPotion) {
+		Battery.allEnergyPotion = allEnergyPotion;
 	}
 	
 	

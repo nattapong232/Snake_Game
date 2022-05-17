@@ -11,7 +11,7 @@ import food.BadApple;
 import food.Food;
 import interfaces.Eatable;
 import interfaces.Moveable;
-import item.Energy;
+import item.Battery;
 import item.Item;
 import item.SlowPotion;
 import item.SpeedPotion;
@@ -26,7 +26,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import logic.GameLogic;
-import monster.Monster1;
+import monster.Demon;
 import monster.Wall;
 import snake.Body;
 import snake.Head;
@@ -55,7 +55,7 @@ public class GamePane extends Pane {
 			this.getChildren().add(b);
 		}
 		for (int i = 0; i < 5; i++) {
-			Monster1 mo = new Monster1();
+			Demon mo = new Demon();
 			this.getChildren().add(mo);
 		}
 		for (int i = 0; i < 5; i++) {
@@ -78,7 +78,7 @@ public class GamePane extends Pane {
 		}
 
 		for (int i = 0; i < 5; i++) {
-			Energy e = new Energy();
+			Battery e = new Battery();
 			this.getChildren().add(e);
 		}
 		
@@ -188,8 +188,8 @@ public class GamePane extends Pane {
 				}
 			}
 		}
-		for (int i = 0; i < Monster1.getAmount(); i++) {
-			Monster1 tempMonster = Monster1.getAllMonster().get(i);
+		for (int i = 0; i < Demon.getAmount(); i++) {
+			Demon tempMonster = Demon.getAllMonster().get(i);
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 3; k++) {
 					locationTable[tempMonster.getXLocation() / 30 + j][tempMonster.getYLocation() / 30 + k]
@@ -215,8 +215,8 @@ public class GamePane extends Pane {
 			}
 		}
 		
-		for (int i = 0; i < Energy.getAmount(); i++) {
-			Energy tempEnergyPotion = Energy.getAllEnergyPotion().get(i);
+		for (int i = 0; i < Battery.getAmount(); i++) {
+			Battery tempEnergyPotion = Battery.getAllEnergyPotion().get(i);
 			for (int j = 0; j < 2; j++) {
 				for (int k = 0; k < 2; k++) {
 					locationTable[tempEnergyPotion.getXLocation() / 30 + j][tempEnergyPotion.getYLocation() / 30 + k].add(tempEnergyPotion);
@@ -296,7 +296,7 @@ public class GamePane extends Pane {
 				}
 				GameLogic.getInstance().setSleepTime(50);
 				n.setVisible(false);
-			} else if (n instanceof Energy) {
+			} else if (n instanceof Battery) {
 				int currentSp = GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp();
 				GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(currentSp+20);
 				n.setVisible(false);

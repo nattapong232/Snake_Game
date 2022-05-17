@@ -12,13 +12,13 @@ import item.SlowPotion;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Monster1 extends Monster {
+public class Demon extends Monster {
 	private static int amount = 0; // represent amount of monster that visible = true
-	private static ArrayList<Monster1> allMonster = new ArrayList<Monster1>();
+	private static ArrayList<Demon> allMonster = new ArrayList<Demon>();
 //	Coordinate location;
 //	Image picture;
 
-	public Monster1() {
+	public Demon() {
 		this.location = new Coordinate(0,0);
 //		this.setPicture(new Image("monster.png"));
 		String monsterUrl = ClassLoader.getSystemResource("monster.png").toString();
@@ -34,7 +34,7 @@ public class Monster1 extends Monster {
 	
 	public void initialize() {
 		this.setVisible(true);
-		Monster1.amount += 1;
+		Demon.amount += 1;
 	}
 
 	public void setLocation(int x, int y) {
@@ -66,15 +66,15 @@ public class Monster1 extends Monster {
 	}
 
 	public static void setAmount(int amount) {
-		Monster1.amount = amount;
+		Demon.amount = amount;
 	}
 
-	public static ArrayList<Monster1> getAllMonster() {
+	public static ArrayList<Demon> getAllMonster() {
 		return allMonster;
 	}
 
-	public static void setAllMonster(ArrayList<Monster1> allMonster) {
-		Monster1.allMonster = allMonster;
+	public static void setAllMonster(ArrayList<Demon> allMonster) {
+		Demon.allMonster = allMonster;
 	}
 	
 	

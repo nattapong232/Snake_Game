@@ -7,7 +7,7 @@ import food.Apple;
 import food.BadApple;
 import gui.ControlPane;
 import gui.GamePane;
-import item.Energy;
+import item.Battery;
 import item.SlowPotion;
 import item.SpeedPotion;
 import javafx.application.Platform;
@@ -19,7 +19,8 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-import monster.Monster1;
+import monster.Demon;
+import monster.Monster2;
 import monster.Wall;
 import snake.Head;
 import snake.Snake;
@@ -49,6 +50,8 @@ public class GameLogic {
 	private static MediaPlayer gameOverSound;
 	private static Thread moving;
 	private static Thread usingStamina;
+	private static Thread firing;
+	
 //	Media sound = new Media(new File(musicFile).toURI().toString());
 //	MediaPlayer mediaPlayer = new MediaPlayer(sound);
 //	mediaPlayer.play();
@@ -176,10 +179,10 @@ public class GameLogic {
 		}
 		SlowPotion.setAmount(0);
 
-		for (Monster1 mo : Monster1.getAllMonster()) {
+		for (Demon mo : Demon.getAllMonster()) {
 			mo.setVisible(false);
 		}
-		Monster1.setAmount(0);
+		Demon.setAmount(0);
 
 		for (SpeedPotion p : SpeedPotion.getAllSpeedPotion()) {
 			p.setVisible(false);
@@ -191,10 +194,10 @@ public class GameLogic {
 		}
 		Wall.setAmount(0);
 
-		for (Energy e : Energy.getAllEnergyPotion()) {
+		for (Battery e : Battery.getAllEnergyPotion()) {
 			e.setVisible(false);
 		}
-		Energy.setAmount(0);
+		Battery.setAmount(0);
 
 		switch (level) {
 		case 1:
@@ -213,7 +216,7 @@ public class GameLogic {
 				this.gamePane.moveToRandomLocation(b);
 			}
 			for (int i = 0; i < 3; i++) {
-				Energy e = Energy.getAllEnergyPotion().get(i);
+				Battery e = Battery.getAllEnergyPotion().get(i);
 				e.initialize();
 				this.gamePane.moveToRandomLocation(e);
 			}
@@ -231,7 +234,7 @@ public class GameLogic {
 				this.gamePane.moveToRandomLocation(m);
 			}
 			for (int i = 0; i < 3; i++) {
-				Energy e = Energy.getAllEnergyPotion().get(i);
+				Battery e = Battery.getAllEnergyPotion().get(i);
 				e.initialize();
 				this.gamePane.moveToRandomLocation(e);
 			}
@@ -253,7 +256,7 @@ public class GameLogic {
 				this.gamePane.moveToRandomLocation(m);
 			}
 			for (int i = 0; i < 1; i++) {
-				Monster1 m = Monster1.getAllMonster().get(i);
+				Demon m = Demon.getAllMonster().get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
@@ -270,7 +273,7 @@ public class GameLogic {
 			}
 			this.getGamePane().updateLocation();
 			for (int i = 0; i < 1; i++) {
-				Monster1 m = Monster1.getAllMonster().get(i);
+				Demon m = Demon.getAllMonster().get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
@@ -410,12 +413,9 @@ public class GameLogic {
 		initMovingAndUsingStaminaThread();
 		moving.start();
 		usingStamina.start();
-//		int currentNumberOfMovingThread = GameLogic.getInstance().getNumberOfMovingThread();// cause of java.lang.OutOfMemoryError: Java heap space
 	}
 	
 	public static void stop() {
-		
-//		int currentNumberOfMovingThread = GameLogic.getInstance().getNumberOfMovingThread();// cause of java.lang.OutOfMemoryError: Java heap space
 		
 		moving.interrupt();
 		usingStamina.interrupt();
@@ -494,10 +494,20 @@ public class GameLogic {
 		}
 	}
 
-	
-	public static void fire() {
+	public static void fire() throws InterruptedException{
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for (Monster2 mo2 : Monster2.getAllMonster2()) {
+					;
+				}
+//				System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
+//				System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
+			}
+		});
 		
 	}
+	
 //------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------	
@@ -649,6 +659,28 @@ public class GameLogic {
 		};
 	}
 
+	private static void initFiring() {
+		firing = new Thread() {
+			public void run() {
+				GameLogic.getInstance().setNumberOfStaminaThread(GameLogic.getInstance().getNumberOfStaminaThread() + 1);
+
+				while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()
+						&& GameLogic.getInstance().getNumberOfStaminaThread() <= 1) {
+					try {
+//						moveSnake();
+						fire();
+//							System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
+//							System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+
+				}
+				GameLogic.getInstance().setNumberOfStaminaThread(GameLogic.getInstance().getNumberOfStaminaThread() - 1);
+			}
+		};
+	}
+	
 	public static MediaPlayer getBgmSound() {
 		return bgmSound;
 	}
