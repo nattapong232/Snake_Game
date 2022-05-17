@@ -11,6 +11,10 @@ import item.Energy;
 import item.SlowPotion;
 import item.SpeedPotion;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -248,7 +252,7 @@ public class GameLogic {
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
 			}
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 1; i++) {
 				Monster1 m = Monster1.allMonster.get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
@@ -265,7 +269,7 @@ public class GameLogic {
 				w.initialize();
 			}
 			this.getGamePane().updateLocation();
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 1; i++) {
 				Monster1 m = Monster1.allMonster.get(i);
 				m.initialize();
 				this.gamePane.moveToRandomLocation(m);
@@ -279,7 +283,21 @@ public class GameLogic {
 		case 6:
 			this.setGameEnd(true);
 			this.setGameWin(true);
-			this.checkGameEnd();
+//			this.checkGameEnd();
+			Alert a = new Alert(AlertType.CONFIRMATION);
+			a.setTitle("Congratualtions");
+			a.setHeaderText(null);
+			a.setContentText("Play again ?");
+			((Button) a.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+			((Button) a.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+			a.showAndWait().ifPresent(response -> {
+			     if (response == ButtonType.OK) {
+			         this.newGame(1);
+			     }
+			     if (response == ButtonType.CANCEL) {
+			    	 Platform.exit();
+			     }
+			 });
 		}
 
 		this.gamePane.getApple().initialize();
