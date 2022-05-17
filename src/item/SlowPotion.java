@@ -19,7 +19,7 @@ public class SlowPotion extends Item {
 	public SlowPotion() {
 		this.location = new Coordinate(0, 0);
 //		this.setPicture(new Image("slow-potion.png"));
-		String slowPotionUrl = ClassLoader.getSystemResource("slow-potion.png").toString();
+		String slowPotionUrl = ClassLoader.getSystemResource("item/SlowPotion.png").toString();
 		this.setPicture(new Image(slowPotionUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(60);

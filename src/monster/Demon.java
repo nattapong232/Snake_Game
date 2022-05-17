@@ -21,7 +21,7 @@ public class Demon extends Monster {
 	public Demon() {
 		this.location = new Coordinate(0,0);
 //		this.setPicture(new Image("monster.png"));
-		String monsterUrl = ClassLoader.getSystemResource("monster.png").toString();
+		String monsterUrl = ClassLoader.getSystemResource("monster/Demon.png").toString();
 		this.setPicture(new Image(monsterUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(90);
