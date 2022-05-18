@@ -18,29 +18,31 @@ public class Monster2 extends Monster {
 	private static ArrayList<Monster2> allMonster2 = new ArrayList<Monster2>();
 //	Coordinate location;
 //	Image picture;
-	private MoveableObject bullet;
+	private Bullet bullet;
 
 	public Monster2() {
+		this.setBullet(new Bullet());
 		this.location = new Coordinate(0,0);
-		this.setPicture(new Image("monster.png"));
+		String monster2Url = ClassLoader.getSystemResource("monster.png").toString();
+		this.setPicture(new Image(monster2Url));
 		this.setImage(this.picture);
-		this.setFitWidth(30);
-		this.setFitHeight(30);
+		this.setFitWidth(60);
+		this.setFitHeight(60);
 		this.setTranslateX(this.getXLocation());
 		this.setTranslateY(this.getYLocation());
 		this.setVisible(false);
+
 		allMonster2.add(this);
 	}
 	
 	public void initialize() {
+		this.bullet.setLocation(this.getXLocation()-30, this.getYLocation());
+		this.bullet.move();
 		this.setVisible(true);
 		Monster2.amount += 1;
+		this.bullet.initialize();
 	}
 	
-	public void fire() {
-		this.bullet.setLocation(this.getXLocation(), this.getYLocation());
-		
-	}
 
 	public static int getAmount() {
 		return amount;
@@ -58,11 +60,11 @@ public class Monster2 extends Monster {
 		Monster2.allMonster2 = allMonster2;
 	}
 
-	public MoveableObject getBullet() {
+	public Bullet getBullet() {
 		return bullet;
 	}
 
-	public void setBullet(MoveableObject bullet) {
+	public void setBullet(Bullet bullet) {
 		this.bullet = bullet;
 	}
 

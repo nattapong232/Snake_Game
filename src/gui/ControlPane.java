@@ -128,7 +128,7 @@ public class ControlPane extends VBox {
 		newGameButton.setMinWidth(100);
 		newGameButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				GameLogic.getInstance().newGame(1);
+				GameLogic.getInstance().newGame(5);
 				pauseText.setText("Pause mode : OFF");
 				levelText.setText("Level : " + GameLogic.getInstance().getLevel());
 				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
@@ -142,8 +142,8 @@ public class ControlPane extends VBox {
 		pauseButton = new Button();
 		pauseButton.setGraphic(new ImageView(new Image("pause.png", 50, 50, false, false)));
 		pauseButton.setPrefWidth(50);
-		newGameButton.setMaxWidth(50);
-		newGameButton.setMaxHeight(50);
+		pauseButton.setMaxWidth(50);
+		pauseButton.setMaxHeight(50);
 		pauseButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				if (!GameLogic.getInstance().isGameEnd()) {
@@ -198,6 +198,7 @@ public class ControlPane extends VBox {
 		nextLevelButton = new Button("Click to go to next level");
 		nextLevelButton.setFont(Font.font(25));
 		nextLevelButton.setStyle("-fx-font-family: 'serif'");
+		nextLevelButton.setPrefWidth(50);
 		nextLevelButton.setVisible(false);
 		nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {

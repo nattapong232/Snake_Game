@@ -39,6 +39,7 @@ public class GameLogic {
 	private int level;
 	private int numberOfMovingThread;
 	private int numberOfStaminaThread;
+	private int numberOfFiringThread;
 	private int scoreToNextLevel;
 	private GamePane gamePane;
 	private ControlPane controlPane;
@@ -267,21 +268,28 @@ public class GameLogic {
 			}
 			break;
 		case 5:
-			this.setSleepTime(80);
-			for (Wall w : Wall.getAllWall()) {
-				w.initialize();
+//			this.setSleepTime(80);
+//			for (Wall w : Wall.getAllWall()) {
+//				w.initialize();
+//			}
+			for (Monster2 mo2 : Monster2.getAllMonster2()) {
+				mo2.initialize();
 			}
+			GameLogic.initFiring();
 			this.getGamePane().updateLocation();
-			for (int i = 0; i < 1; i++) {
-				Demon m = Demon.getAllMonster().get(i);
-				m.initialize();
-				this.gamePane.moveToRandomLocation(m);
-			}
-			for (int i = 0; i < 4; i++) {
-				SpeedPotion p = SpeedPotion.getAllSpeedPotion().get(i);
-				p.initialize();
-				this.gamePane.moveToRandomLocation(p);
-			}
+//			for (int i = 0; i < 1; i++) {
+//				Demon m = Demon.getAllMonster().get(i);
+//				m.initialize();
+//				this.gamePane.moveToRandomLocation(m);
+//			}
+//			for (int i = 0; i < 2; i++) {
+//				SpeedPotion p = SpeedPotion.getAllSpeedPotion().get(i);
+//				p.initialize();
+//				this.gamePane.moveToRandomLocation(p);
+//			}
+			
+			
+			
 			break;
 		case 6:
 			this.setGameEnd(true);
@@ -370,7 +378,7 @@ public class GameLogic {
 
 	public void checkGameEnd() {
 		if (GameLogic.getInstance().isMoveFinished()) {
-			if (score == scoreToNextLevel) {// GameLogic.getInstance().getLevel() * 5
+			if (score == 1) {// GameLogic.getInstance().getLevel() * 5
 				this.setGameEnd(true);
 				this.setGameWin(true);
 				GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
@@ -427,7 +435,7 @@ public class GameLogic {
 		temp.getSnake().changeLocation();
 		temp.updateLocation();
 		temp.checkInteract(temp.getSnake().getHead().getXLocation(), temp.getSnake().getHead().getYLocation());
-		if (GameLogic.getInstance().getControlPane().getGamePane().getSnake().isCrash()) {
+		if (GameLogic.getInstance().getGamePane().getSnake().isCrash()) {
 //			System.out.println("Crash!");
 			GameLogic.getInstance().setGameEnd(true);
 			GameLogic.getInstance().setGameWin(false);
@@ -498,8 +506,20 @@ public class GameLogic {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println("Fire!");
 				for (Monster2 mo2 : Monster2.getAllMonster2()) {
-					;
+					int currentXLocation = mo2.getBullet().getXLocation();
+					int currentYLocation = mo2.getBullet().getYLocation();
+					System.out.println("x = "+currentXLocation+" y = "+currentYLocation);
+					mo2.getBullet().setLocation(currentXLocation-30, currentYLocation);
+					mo2.getBullet().move();
+					GameLogic.getInstance().getGamePane().updateLocation();
+				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+//					e.printStackTrace();
 				}
 //				System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
 //				System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
@@ -659,13 +679,13 @@ public class GameLogic {
 		};
 	}
 
-	private static void initFiring() {
+	public static void initFiring() {
 		firing = new Thread() {
 			public void run() {
-				GameLogic.getInstance().setNumberOfStaminaThread(GameLogic.getInstance().getNumberOfStaminaThread() + 1);
-
+				GameLogic.getInstance().setNumberOfFiringThread(GameLogic.getInstance().getNumberOfFiringThread() + 1);
+				System.out.println("initFiring");
 				while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()
-						&& GameLogic.getInstance().getNumberOfStaminaThread() <= 1) {
+						&& GameLogic.getInstance().getNumberOfFiringThread() <= 1) {
 					try {
 //						moveSnake();
 						fire();
@@ -676,9 +696,10 @@ public class GameLogic {
 					}
 
 				}
-				GameLogic.getInstance().setNumberOfStaminaThread(GameLogic.getInstance().getNumberOfStaminaThread() - 1);
+				GameLogic.getInstance().setNumberOfFiringThread(GameLogic.getInstance().getNumberOfFiringThread() - 1);
 			}
 		};
+		firing.start();
 	}
 	
 	public static MediaPlayer getBgmSound() {
@@ -706,6 +727,16 @@ public class GameLogic {
 	public static void setCollectItemSound(MediaPlayer collectItemSound) {
 		GameLogic.collectItemSound = collectItemSound;
 	}
+
+	public int getNumberOfFiringThread() {
+		return numberOfFiringThread;
+	}
+
+	public void setNumberOfFiringThread(int numberOfFiringThread) {
+		this.numberOfFiringThread = numberOfFiringThread;
+	}
+	
+	
 	
 	
 }
