@@ -23,7 +23,7 @@ public class Monster2 extends Monster {
 	public Monster2() {
 		this.setBullet(new Bullet());
 		this.location = new Coordinate(0,0);
-		String monster2Url = ClassLoader.getSystemResource("monster.png").toString();
+		String monster2Url = ClassLoader.getSystemResource("monster/Demon.png").toString();
 		this.setPicture(new Image(monster2Url));
 		this.setImage(this.picture);
 		this.setFitWidth(60);

@@ -61,7 +61,7 @@ public class Main extends Application {
 		
 		Scene scene1 = new Scene(root1, 900, 600);
 		scene1.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
-		scene1.getRoot().setStyle("-fx-font-family: 'serif'");
+//		scene1.getRoot().setStyle("-fx-font-family: 'Jungle Adventurer'");
 		
 
 		// Scene 2
@@ -82,7 +82,7 @@ public class Main extends Application {
 		GameLogic.getInstance().setGamePane(gamePane);
 		GameLogic.getInstance().setControlPane(controlPane);
 		Scene scene2 = new Scene(root2, 900, 600);
-		scene2.getRoot().setStyle("-fx-font-family: 'serif'");
+		scene2.getRoot().setStyle("-fx-font-family: 'Jungle Adventurer'");
 
 //		MovingThread movingThread = new MovingThread();
 //		movingThread.start();
@@ -100,6 +100,7 @@ public class Main extends Application {
 		howToPlay.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				htp.setVisible(true);
+				
 				close.setVisible(true);
 			}
 		});

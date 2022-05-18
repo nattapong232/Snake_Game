@@ -326,7 +326,7 @@ public class GamePane extends Pane {
 				n.setVisible(false);
 			}
 		}
-		updateLocation(n);
+		updateLocation();
 	}
 
 	public void moveToRandomLocation(Moveable m) {
