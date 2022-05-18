@@ -78,23 +78,23 @@ public class GameLogic {
 
 	public void newGame() {
 		// run only once (run when using gameLogic.getInstance() for the first time)
-		String gameWinSoundFile = "gamewin-sound.wav";
+		String gameWinSoundFile = "sound/GameWin.mp3";
 		Media gameWinSfx = new Media(getClass().getClassLoader().getResource(gameWinSoundFile).toString());
 		gameWinSound = new MediaPlayer(gameWinSfx);
 		
-		String gameOverSoundFile = "gameover-sound.wav";
+		String gameOverSoundFile = "sound/GameOver.mp3";
 		Media gameOverSFx = new Media(getClass().getClassLoader().getResource(gameOverSoundFile).toString());
 		gameOverSound = new MediaPlayer(gameOverSFx);
 		
-		String eatingSoundFile = "eating-sound.wav"; // For example
+		String eatingSoundFile = "sound/Eating.wav"; // For example
 		Media eatingSfx = new Media(getClass().getClassLoader().getResource(eatingSoundFile).toString());
 		eatingSound = new MediaPlayer(eatingSfx);
 		
-		String collectItemSoundFile = "collect-item-sound.wav";
-		Media collectItemSfx = new Media(getClass().getClassLoader().getResource(collectItemSoundFile).toString());
-		collectItemSound = new MediaPlayer(collectItemSfx);
+		String collectingItemSoundFile = "sound/CollectingItem.wav";
+		Media collectingItemSfx = new Media(getClass().getClassLoader().getResource(collectingItemSoundFile).toString());
+		collectItemSound = new MediaPlayer(collectingItemSfx);
 		
-		String bgmFile = "bgm.mp3"; // For example
+		String bgmFile = "sound/BGM.mp3"; // For example
 		Media bgm = new Media(getClass().getClassLoader().getResource(bgmFile).toString());
 		bgmSound = new MediaPlayer(bgm);
 		bgmSound.setCycleCount(AudioClip.INDEFINITE);
@@ -288,7 +288,7 @@ public class GameLogic {
 			this.setGameWin(true);
 //			this.checkGameEnd();
 			Alert a = new Alert(AlertType.CONFIRMATION);
-			a.setTitle("Congratualtions");
+			a.setTitle("Congratulations");
 			a.setHeaderText(null);
 			a.setContentText("Play again ?");
 			((Button) a.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
