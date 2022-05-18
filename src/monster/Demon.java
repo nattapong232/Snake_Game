@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 
 public class Demon extends Monster {
 	private static int amount = 0; // represent amount of monster that visible = true
-	private static ArrayList<Demon> allMonster = new ArrayList<Demon>();
+	private static ArrayList<Demon> allDemon = new ArrayList<Demon>();
 //	Coordinate location;
 //	Image picture;
 
@@ -29,7 +29,7 @@ public class Demon extends Monster {
 		this.setTranslateX(this.getXLocation());
 		this.setTranslateY(this.getYLocation());
 		this.setVisible(false);
-		allMonster.add(this);
+		allDemon.add(this);
 	}
 	
 	public void initialize() {
@@ -69,12 +69,12 @@ public class Demon extends Monster {
 		Demon.amount = amount;
 	}
 
-	public static ArrayList<Demon> getAllMonster() {
-		return allMonster;
+	public static ArrayList<Demon> getAllDemon() {
+		return allDemon;
 	}
 
-	public static void setAllMonster(ArrayList<Demon> allMonster) {
-		Demon.allMonster = allMonster;
+	public static void setAllDemon(ArrayList<Demon> allMonster) {
+		Demon.allDemon = allMonster;
 	}
 	
 	

@@ -24,6 +24,7 @@ public abstract class Body extends MoveableObject{
 			this.direction = direction;
 		}
 	}
+	
 	@Override
 	public abstract void initialize();
 	

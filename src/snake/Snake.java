@@ -31,7 +31,7 @@ public class Snake extends Pane implements Moveable {
 			snake.get(i).setVisible(false);
 			this.getChildren().add(snake.get(i));
 		}
-		initializeSnake();// initialize visibility, location, direction + update length
+		initialize();// initialize visibility, location, direction + update length
 	}
 
 	public ArrayList<Body> getSnake() {
@@ -71,6 +71,7 @@ public class Snake extends Pane implements Moveable {
 	public void changeLocation() {
 		int x = getHead().getXLocation();
 		int y = getHead().getYLocation();
+		int d = getHead().getDirection();
 		int headDirection = getHead().getDirection();
 //		System.out.println("Case :" + this.direction);
 		switch (headDirection) {
@@ -88,12 +89,24 @@ public class Snake extends Pane implements Moveable {
 			break;
 		}
 		for (int i = 1; i < 40; i++) {
+			
+
+			
 			Tail tail = (Tail) snake.get(i);
-			int tempX = tail.getLocation().getX();
-			int tempY = tail.getLocation().getY();
+			int tempX = tail.getXLocation();
+			int tempY = tail.getYLocation();
+			int tempD = tail.getDirection();
+			
+			if(d != tempD) {
+				tail.setRotate(90);
+			}
+			
 			tail.setLocation(x, y);
+			tail.setDirection(d);
+			
 			x = tempX;
 			y = tempY;
+			d = tempD;
 		}
 	}
 
@@ -129,7 +142,7 @@ public class Snake extends Pane implements Moveable {
 		this.stamina = stamina;
 	}
 
-	public void initializeSnake() { // initialize visibility, location, direction
+	public void initialize() { // initialize visibility, location, direction
 		for (int i = 0; i < 2; i++) {
 			snake.get(i).setVisible(true);
 		}

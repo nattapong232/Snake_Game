@@ -35,7 +35,7 @@ public class ControlPane extends VBox {
 	private Text scoreText;
 	private Text scoreToNextLevelText;
 	private Text staminaText;
-	private GamePane gamePane;
+//	private GamePane gamePane;
 //	private MediaPlayer bgmPlayer;
 //	private MediaPlayer sfxPlayer;
 //	Media sound = new Media(new File(musicFile).toURI().toString());
@@ -44,7 +44,7 @@ public class ControlPane extends VBox {
 
 	public ControlPane(GamePane gamePane) {
 		HBox hBox = new HBox();
-		this.gamePane = gamePane;
+//		this.gamePane = gamePane;
 		this.setAlignment(Pos.CENTER);
 		this.setPrefWidth(300);
 		this.setPrefHeight(600);
@@ -127,7 +127,7 @@ public class ControlPane extends VBox {
 		newGameButton.setMinWidth(100);
 		newGameButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				GameLogic.getInstance().newGame(5);
+				GameLogic.getInstance().newGame(1);
 				pauseText.setText("Pause mode : OFF");
 				levelText.setText("Level : " + GameLogic.getInstance().getLevel());
 				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
@@ -178,8 +178,8 @@ public class ControlPane extends VBox {
 					levelText.setText("Level : " + GameLogic.getInstance().getLevel());
 					scoreText.setText("Score : " + GameLogic.getInstance().getScore());
 					scoreToNextLevelText.setText("Score to next Level : "+GameLogic.getInstance().getScoreToNextLevel());
-					gamePane.getSnake().initializeSnake();
-					gamePane.getApple().initialize();
+					GameLogic.getInstance().getGamePane().getSnake().initialize();
+					GameLogic.getInstance().getGamePane().getApple().initialize();
 //					System.out.println(GameLogic.getInstance().isGameEnd());
 				}
 			}
@@ -328,12 +328,12 @@ public class ControlPane extends VBox {
 		}
 	}
 
-	public GamePane getGamePane() {
-		return gamePane;
-	}
-
-	public void setGamePane(GamePane gamePane) {
-		this.gamePane = gamePane;
-	}
+//	public GamePane getGamePane() {
+//		return gamePane;
+//	}
+//
+//	public void setGamePane(GamePane gamePane) {
+//		this.gamePane = gamePane;
+//	}
 
 }

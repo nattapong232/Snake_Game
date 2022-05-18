@@ -118,6 +118,18 @@ public class Main extends Application {
 			}
 		});
 
+//		root1.setOnKeyPressed(event -> {
+//
+//			KeyCode k = event.getCode();
+//			switch (k) {
+//			case ESCAPE:
+//				if (htp.isVisible()) {
+//					htp.setVisible(false);
+//				}
+//				break;
+//			}
+//		});
+		
 		primaryStage.setTitle("Snake Game");
 		primaryStage.setScene(scene1);
 		primaryStage.setMinHeight(600);

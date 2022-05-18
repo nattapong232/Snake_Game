@@ -33,72 +33,84 @@ import monster.Wall;
 import snake.Body;
 import snake.Head;
 import snake.Snake;
+import snake.Tail;
 import javafx.scene.input.KeyEvent;
 
 public class GamePane extends Pane {
 	private Snake snake;
 	private Apple apple;
-	private ArrayList<MoveableObject>[][] locationTable;
-//	private MediaPlayer eatingSound;
-//	private MediaPlayer collectItemSound;
-	
+	private ArrayList<MoveableObject> allMoveableObject;
+
 	public GamePane() {
-//		String eatingSoundFile = "eating-sound.wav";     
-//		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
-//		eatingSound = new MediaPlayer(eatingSfx);
-//		String collectItemSoundFile = "collect-item-sound.wav";
-//		Media collectItemSfx = new Media(new File(collectItemSoundFile).toURI().toString());
-//		collectItemSound = new MediaPlayer(collectItemSfx);
-		
+
 		snake = new Snake(60, 60);
 		apple = new Apple();
+		allMoveableObject = new ArrayList<MoveableObject>();
+
+//		for (Body b : GameLogic.getInstance().getGamePane().getSnake().getSnake()) {
+//			if (!(b instanceof Head)) {
+//				allMoveableObject.add(b);
+//			}
+//		}
+
+		for (int i = 1; i < 40; i++) {
+			Tail t = (Tail) snake.getSnake().get(i);
+			allMoveableObject.add(t);
+		}
+
+		// remain 1.add tail to allMoveableObject (finished) 2. moveToRandomLocation 3.
+		// reduce size
+		// of snake or food
+		allMoveableObject.add(apple);
 		for (int i = 0; i < 3; i++) {
 			BadApple b = new BadApple();
+			allMoveableObject.add(b);
 			this.getChildren().add(b);
 		}
-		for (int i = 0; i < 5; i++) {
-			Demon mo = new Demon();
-			this.getChildren().add(mo);
+		for (int i = 0; i < 3; i++) {
+			Demon d = new Demon();
+			allMoveableObject.add(d);
+			this.getChildren().add(d);
 		}
-		for (int i = 0; i < 5; i++) {
-			SpeedPotion p = new SpeedPotion();
-			this.getChildren().add(p);
-		}
-		for (int i = 0; i < 5; i++) {
-			SlowPotion s = new SlowPotion();
+		for (int i = 0; i < 3; i++) {
+			SpeedPotion s = new SpeedPotion();
+			allMoveableObject.add(s);
 			this.getChildren().add(s);
+		}
+		for (int i = 0; i < 3; i++) {
+			SlowPotion sl = new SlowPotion();
+			allMoveableObject.add(sl);
+			this.getChildren().add(sl);
 		}
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
-				if ((i == 0) || (i == 18) || (j == 0) || (j == 18)) {
+				if ((((i == 0) || (i == 18)) && (j % 2 == 0)) || (((j == 0) || (j == 18)) && (i % 2 == 0))) {
 					Wall w = new Wall();
 					w.setLocation(i * 30, j * 30);
 					w.move();
+					allMoveableObject.add(w);
 					this.getChildren().add(w);
 				}
 			}
 		}
 
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 5; i++) {
 
 			Monster2 m = new Monster2();
-			m.setLocation(480, (i+1)*120-60);
+			m.setLocation(540, (i + 1) * 120 - 90);
 			m.move();
+			allMoveableObject.add(m);
+			allMoveableObject.add(m.getBullet());
 			this.getChildren().add(m);
 			this.getChildren().add(m.getBullet());
 		}
-		
+
 		for (int i = 0; i < 5; i++) {
 			Battery e = new Battery();
+			allMoveableObject.add(e);
 			this.getChildren().add(e);
 		}
-		
-		locationTable = (ArrayList<MoveableObject>[][]) new ArrayList[20][20];
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 20; j++) {
-				locationTable[i][j] = new ArrayList<MoveableObject>();
-			}
-		}
+
 		this.getChildren().add(snake);
 		this.getChildren().add(apple);
 		this.setPrefHeight(600);
@@ -115,7 +127,8 @@ public class GamePane extends Pane {
 			// ------------input sound here------------
 			// -----------------------------------
 			int currentDirection = this.snake.getSnake().get(0).getDirection();
-			if ((!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd()) && (snake.isCanChangeDirection())) {
+			if ((!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())
+					&& (snake.isCanChangeDirection())) {
 				switch (k) {
 				case A:
 					if (currentDirection == 1 || currentDirection == 3) {
@@ -151,16 +164,8 @@ public class GamePane extends Pane {
 				}
 				snake.setCanChangeDirection(false);
 			}
-			//to prevent bug when press two key direction and snake go back to hit itself
+			// to prevent bug when press two key direction and snake go back to hit itself
 		});
-	}
-
-	public ArrayList<MoveableObject>[][] getLocationTable() {
-		return locationTable;
-	}
-
-	public void setLocationTable(ArrayList<MoveableObject>[][] locationTable) {
-		this.locationTable = locationTable;
 	}
 
 	public Snake getSnake() {
@@ -179,197 +184,184 @@ public class GamePane extends Pane {
 		this.apple = apple;
 	}
 
-	public void updateLocation() {
-//		locationTable[x/30][y/30].add(m);
-//		for (int i = 0; i < 20; i++) {
-//			for (int j = 0; j < 20; j++) {
-//				locationTable[i][j].clear();
-//			}
-//		}
-//		for (int i = 0; i < snake.getLength(); i++) {
-//			Body tempBody = snake.getSnake().get(i);
-//			locationTable[tempBody.getXLocation() / 30][tempBody.getYLocation() / 30].add(tempBody);
-//		}
-//		locationTable[apple.getXLocation() / 30][apple.getYLocation() / 30].add(apple);
-//		for (int i = 0; i < SlowPotion.getAmount(); i++) {
-//			SlowPotion tempSlowPotion = SlowPotion.getAllSlowPotion().get(i);
-//			for (int j = 0; j < 3; j++) {
-//				for (int k = 0; k < 3; k++) {
-//					locationTable[tempSlowPotion.getXLocation() / 30 + j][tempSlowPotion.getYLocation() / 30 + k]
-//							.add(tempSlowPotion);
-//				}
-//			}
-//		}
-//		for (int i = 0; i < Demon.getAmount(); i++) {
-//			Demon tempMonster = Demon.getAllMonster().get(i);
-//			for (int j = 0; j < 3; j++) {
-//				for (int k = 0; k < 3; k++) {
-//					locationTable[tempMonster.getXLocation() / 30 + j][tempMonster.getYLocation() / 30 + k]
-//							.add(tempMonster);
-//				}
-//			}
-//		}
-//		for (int i = 0; i < Monster2.getAmount(); i++) {
-//			Monster2 tempMonster2 = Monster2.getAllMonster2().get(i);
-//			Bullet tempBullet = tempMonster2.getBullet();
-//			for (int j = 0; j < 2; j++) {
-//				for (int k = 0; k < 2; k++) {
-//					locationTable[tempMonster2.getXLocation() / 30 + j][tempMonster2.getYLocation() / 30 + k]
-//							.add(tempMonster2);
-//				}
-//			}
-//			locationTable[tempBullet.getXLocation() / 30 ][tempBullet.getYLocation() / 30 ].add(tempBullet);
-//		}
-//		for (int i = 0; i < SpeedPotion.getAmount(); i++) {
-//			SpeedPotion tempPoison = SpeedPotion.getAllSpeedPotion().get(i);
-//			for (int j = 0; j < 3; j++) {
-//				for (int k = 0; k < 3; k++) {
-//					locationTable[tempPoison.getXLocation() / 30 + j][tempPoison.getYLocation() / 30 + k]
-//							.add(tempPoison);
-//				}
-//			}
-//		}
-//		for (int i = 0; i < Wall.getAmount(); i++) {
-//			Wall tempWall = Wall.getAllWall().get(i);
-//			for (int j = 0; j < 2; j++) {
-//				for (int k = 0; k < 2; k++) {
-//					locationTable[tempWall.getXLocation() / 30 + j][tempWall.getYLocation() / 30 + k].add(tempWall);
-//				}
-//			}
-//		}
-//		
-//		for (int i = 0; i < Battery.getAmount(); i++) {
-//			Battery tempEnergyPotion = Battery.getAllEnergyPotion().get(i);
-//			for (int j = 0; j < 2; j++) {
-//				for (int k = 0; k < 2; k++) {
-//					locationTable[tempEnergyPotion.getXLocation() / 30 + j][tempEnergyPotion.getYLocation() / 30 + k].add(tempEnergyPotion);
-//				}
-//			}
-//		}
-//
-//		for (int i = 0; i < BadApple.getAmount(); i++) {
-//			BadApple tempBadApple = BadApple.getAllBadApple().get(i);
-//			locationTable[tempBadApple.getXLocation() / 30][tempBadApple.getYLocation() / 30].add(tempBadApple);
-//		}
-//		
-	}
-
-	public void checkInteract(int x, int y) {
+//	
+	public void checkInteract() {
 		// check if snake's head interact with something
-		ArrayList<MoveableObject> temp = locationTable[x / 30][y / 30];
-		if ((temp.size() > 1)) {
-			if ((temp.get(1).isVisible())) {
-				if ((temp.get(1) instanceof Eatable)) {
-//					System.out.println("Eat!");
-					checkEat(x / 30, y / 30);
-
-				} else {
-					snake.setCrash(true);
-					System.out.println("Crash ! at x = "+snake.getHead().getXLocation() + " y = " + snake.getHead().getYLocation());
+		int x = snake.getHead().getXLocation();
+		int y = snake.getHead().getYLocation();
+//		for (MoveableObject m : allMoveableObject) {
+//			if (m.isVisible()) {
+//				double minX = m.getBoundsInParent().getMinX();
+//				double minY = m.getBoundsInParent().getMinY();
+//				double maxX = m.getBoundsInParent().getMaxX();
+//				double maxY = m.getBoundsInParent().getMaxY();
+//				if ((x >= minX && x <= maxX) && (y >= minY && y <= maxY) && (m.isVisible())) {
+//					if (m instanceof Eatable) {
+//						checkEat(m);
+////						System.out.println(m.getClass());
+////						break;
+//					} else  {
+//						snake.setCrash(true);
+//					}
+//				}
+//			}
+//		}
+		for (MoveableObject m : allMoveableObject) {
+			int width = (int) m.getFitWidth();
+			int height = (int) m.getFitHeight();
+			if (m.isVisible())
+			{
+				if ( ((x >= m.getXLocation() ) &&(x <= m.getXLocation() + width - 30))
+						&& ((y >= m.getYLocation() ) &&(y <= m.getYLocation() + height - 30))) {
+					if (m instanceof Eatable) {
+						checkEat(m);
+//								System.out.println(m.getClass());
+//								break;
+					} else {
+//						System.out.println(m.getClass());
+//						System.out.println(m.isVisible());
+//						System.out.println(snake.getSnake().indexOf(m));
+//						System.out.println(x);
+//						System.out.println(y);
+//						System.out.println(m.getXLocation());
+//						System.out.println(m.getYLocation());
+//						System.out.println(width);
+//						System.out.println(height);
+						snake.setCrash(true);
+					}
 				}
 			}
+
+//			if (x == m.getXLocation() && y == m.getYLocation() && m.isVisible()) {
+//				if (m instanceof Eatable) {
+//					checkEat(m);
+////					System.out.println(m.getClass());
+////					break;
+//				} else {
+//					snake.setCrash(true);
+//				}
+//			}
 		}
 	}
 
 	// check what is eaten
-	public void checkEat(int x, int y) {
-		MoveableObject n = locationTable[x][y].get(1);
-//		String eatingSoundFile = "eating-sound.wav";     
-//		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
-//		MediaPlayer eatingSound = new MediaPlayer(eatingSfx);
+	public void checkEat(MoveableObject m) {
 		MediaPlayer eatingSound = GameLogic.getInstance().getEatingSound();
 		MediaPlayer collectItemSound = GameLogic.getInstance().getCollectItemSound();
-		if (n instanceof Food) {
-			if(GameLogic.getInstance().isSfxOn()) {
+
+//		for (MoveableObject m : allMoveableObject) {
+//			if (snake.getHead().getBoundsInParent().intersects(m.getBoundsInParent()) && m.isVisible()) {
+
+		if (m instanceof Food) {
+			if (GameLogic.getInstance().isSfxOn()) {
 				eatingSound.seek(eatingSound.getStartTime());
 				eatingSound.play();
 			}
-			
-			if (n instanceof Apple) {
+
+			if (m instanceof Apple) {
 				GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() + 1);
 				GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
 				snake.getSnake().get((snake.getLength())).initialize();
 				snake.updateLength();
 				snake.setLength(snake.getLength());
-				moveToRandomLocation(n);
-			} 
-			 else if (n instanceof BadApple) {
-					GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 1);
-					snake.getSnake().get((snake.getLength())).initialize();
-					snake.updateLength();
-					snake.setLength(snake.getLength());
-					n.setVisible(false);
-				}
-			
-		}
-		else if (n instanceof Item) {
-			if(GameLogic.getInstance().isSfxOn()) {
+				moveToRandomLocation(m);
+				System.out.println("Eat Apple");
+			} else if (m instanceof BadApple) {
+				GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 1);
+				snake.getSnake().get((snake.getLength())).initialize();
+				snake.updateLength();
+				snake.setLength(snake.getLength());
+				m.setVisible(false);
+				System.out.println("Eat Bad Apple");
+			}
+
+		} else if (m instanceof Item) {
+			if (GameLogic.getInstance().isSfxOn()) {
 				collectItemSound.seek(collectItemSound.getStartTime());
 				collectItemSound.play();
 			}
-			
-			if (n instanceof SlowPotion) {
+
+			if (m instanceof SlowPotion) {
 				GameLogic.getInstance().setSleepTime(120);
-				n.setVisible(false);
-			} else if (n instanceof SpeedPotion) {
-//				Deduct point, increase snake length, increase speed
+				m.setVisible(false);
+			} else if (m instanceof SpeedPotion) {
+//			Deduct point, increase snake length, increase speed
 				GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 2);
 				for (int i = 0; i < 3; i++) {
 					snake.getSnake().get((snake.getLength())).setVisible(true);
 					snake.updateLength();
 				}
 				GameLogic.getInstance().setSleepTime(50);
-				n.setVisible(false);
-			} else if (n instanceof Battery) {
+				m.setVisible(false);
+			} else if (m instanceof Battery) {
 				int currentSp = GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp();
-				GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(currentSp+20);
-				n.setVisible(false);
+				snake.getStamina().setSp(currentSp + 20);
+				m.setVisible(false);
 			}
 		}
-		updateLocation(n);
+//			}
+//		}
 	}
 
-	public void moveToRandomLocation(Moveable m) {
+	public void checkHit() {
+		for (Monster2 mo2: Monster2.getAllMonster2()) {
+			for (Body b : snake.getSnake()) {
+				if (mo2.getBullet().getBoundsInParent().intersects(b.getBoundsInParent()) && b.isVisible()) {
+					System.out.println("Hit!");
+					GameLogic.getInstance().setGameEnd(true);
+					GameLogic.getInstance().setGameWin(false);
+					GameLogic.getInstance().checkGameEnd();
+				}
+			}
+		}
+	}
+	public void moveToRandomLocation(MoveableObject mo) {
+		MoveableObject tempObject = new MoveableObject() {
+			public void initialize() {
+				this.setVisible(false);
+			}
+		};
+		tempObject.setFitWidth(mo.getFitWidth());
+		tempObject.setFitHeight(mo.getFitHeight());
+		tempObject.setTranslateX(mo.getTranslateX());
+		tempObject.setTranslateX(mo.getTranslateY());
 		boolean canChange = false;
-		int currentX = m.getXLocation();
-		int currentY = m.getYLocation();
+		mo.setVisible(false);
+		mo.randomLocation();
+		mo.move();
 
 		while (!canChange) {
 			canChange = true;
-			m.randomLocation();
-			int newX = m.getXLocation();
-			int newY = m.getYLocation();
-			int headX = snake.getHead().getXLocation();
-			int headY = snake.getHead().getYLocation();
-			updateLocation();
-			for (int i = 0; i < 3; i++) {
-				for (int j = 0; j < 3; j++) {
-					try {
-//						System.out.println(locationTable[(newX / 30) + i][(newY / 30) + j].size());
-						if (locationTable[(newX / 30) + i][(newY / 30) + j].size() > 1 || newX <= 60 || newY <= 60 
-								|| newX == headX || newY == headY ) {
-							canChange = false;
-						}
-						else {
-//							System.out.println("canChange = " + canChange);
-//							System.out.println("newX = " + newX);
-//							System.out.println("newY = " + newY);
-						}
-					}
-					catch (ArrayIndexOutOfBoundsException e ){
-						;
+			for (MoveableObject m : allMoveableObject) {
+				if (!m.equals(mo)) {
+//					System.out.println(m);
+//					System.out.println(mo);
+					if (mo.getBoundsInParent().intersects(m.getBoundsInParent())) {
+						canChange = false;
 					}
 				}
+				if (mo.getBoundsInParent().intersects(tempObject.getBoundsInParent())) {
+					canChange = false;
+				}
+
 			}
-//			System.out.println(m.getClass()+ " canChange = " + canChange);
-//			System.out.println("newX = " + newX);
-//			System.out.println("newY = " + newY);
+			if (!canChange) {
+				tempObject.setTranslateX(mo.getTranslateX());
+				tempObject.setTranslateX(mo.getTranslateY());
+				mo.randomLocation();
+				mo.move();
+			}
 		}
-//		System.out.println("canChange = " + canChange);
-//		System.out.println("newX = " + newX);
-//		System.out.println("newY = " + newY);
-		updateLocation();
-		m.move();
+		mo.setVisible(true);
 	}
+
+	public ArrayList<MoveableObject> getAllMoveableObject() {
+		return allMoveableObject;
+	}
+
+	public void setAllMoveableObject(ArrayList<MoveableObject> allMoveableObject) {
+		this.allMoveableObject = allMoveableObject;
+	}
+	
 	
 }
