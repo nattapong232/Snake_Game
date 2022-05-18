@@ -20,9 +20,11 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -37,14 +39,16 @@ public class Main extends Application {
 		// TODO Auto-generated method stub
 		// Scene 1
 		GridPane root1 = new GridPane();
-	
+//		root1.getColumnConstraints().add(new ColumnConstraints(450));
+//		root1.getRowConstraints().add(new RowConstraints(250));
+		
 		Button start = new Button("Start");
 		start.setMinSize(100, 100);
 		Button howToPlay = new Button("How to play");
 		howToPlay.setMinSize(100, 100);
 		Button close = new Button("X");
 		close.setMinSize(100, 100);
-		Text htp = new Text("How to play");
+		ImageView htp = new ImageView(new Image(ClassLoader.getSystemResource("background/HowToPlay.png").toString()));
 		
 
 		close.setVisible(false);
@@ -52,7 +56,7 @@ public class Main extends Application {
 
 		root1.setAlignment(Pos.CENTER);
 		root1.add(start, 10, 10);
-		root1.add(howToPlay, 10, 20);
+//		root1.add(howToPlay, 10, 20);
 		root1.add(htp, 7, 7, 10, 20);
 		root1.add(close, 17, 20);
 		root1.setPrefWidth(900);
@@ -119,17 +123,20 @@ public class Main extends Application {
 			}
 		});
 
-//		root1.setOnKeyPressed(event -> {
-//
-//			KeyCode k = event.getCode();
-//			switch (k) {
-//			case ESCAPE:
-//				if (htp.isVisible()) {
-//					htp.setVisible(false);
-//				}
-//				break;
-//			}
-//		});
+		root1.setOnKeyPressed(event -> {
+
+			KeyCode k = event.getCode();
+			switch (k) {
+			case H:
+				if (!htp.isVisible()) {
+					htp.setVisible(true);
+				}
+				else {
+					htp.setVisible(false);
+				}
+				break;
+			}
+		});
 		
 		primaryStage.setTitle("Snake Game");
 		primaryStage.setScene(scene1);
