@@ -46,7 +46,6 @@ public class ControlPane extends VBox {
 		HBox hBox = new HBox();
 		this.gamePane = gamePane;
 		this.setAlignment(Pos.CENTER);
-
 		this.setPrefWidth(300);
 		this.setPrefHeight(600);
 		this.setSpacing(20);
@@ -70,8 +69,8 @@ public class ControlPane extends VBox {
 
 	private void initializeBgmButton() {
 		bgmButton = new Button();
-		ImageView bgmOn = new ImageView(new Image("bgm.png", 30, 30, false, false));
-		ImageView bgmOff = new ImageView(new Image("bgmOff.png", 30, 30, false, false));
+		ImageView bgmOn = new ImageView(new Image("control/bgm/BGMOn.png", 30, 30, false, false));
+		ImageView bgmOff = new ImageView(new Image("control/bgm/BGMOff.png", 30, 30, false, false));
 		bgmButton.setGraphic(bgmOn);
 		bgmButton.setPrefWidth(150);
 //		String bgmFile = "bgm.mp3"; // For example
@@ -99,8 +98,8 @@ public class ControlPane extends VBox {
 
 	private void initializeSfxButton() {
 		sfxButton = new Button();
-		ImageView sfxOn = new ImageView(new Image("sfx.png", 30, 30, false, false));
-		ImageView sfxOff = new ImageView(new Image("sfxOff.jpg", 30, 30, false, false));
+		ImageView sfxOn = new ImageView(new Image("control/sfx/SFXOn.png", 30, 30, false, false));
+		ImageView sfxOff = new ImageView(new Image("control/sfx/SFXOff.jpg", 30, 30, false, false));
 		sfxButton.setGraphic(sfxOn);
 		sfxButton.setPrefWidth(150);
 //		String eatingSoundFile = "eating-sound.wav"; // For example
@@ -132,7 +131,7 @@ public class ControlPane extends VBox {
 				pauseText.setText("Pause mode : OFF");
 				levelText.setText("Level : " + GameLogic.getInstance().getLevel());
 				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
-				scoreToNextLevelText.setText("Score to next Level : "+GameLogic.getInstance().getScoreToNextLevel());
+				scoreToNextLevelText.setText("Score to next Level: "+ GameLogic.getInstance().getScoreToNextLevel());
 //				System.out.println(GameLogic.getInstance().isGameEnd());
 			}
 		});
@@ -140,56 +139,25 @@ public class ControlPane extends VBox {
 
 	private void initializePauseModeButton() {
 		pauseButton = new Button();
-		pauseButton.setGraphic(new ImageView(new Image("pause.png", 50, 50, false, false)));
-		pauseButton.setPrefWidth(50);
-		pauseButton.setMaxWidth(50);
-		pauseButton.setMaxHeight(50);
+		ImageView pause = new ImageView(new Image("control/playpause/Pause.png", 50, 50, false, false));
+		ImageView play = new ImageView(new Image("control/playpause/Play.png", 50, 50, false, false));
+		pauseButton.setGraphic(pause);
+		pauseButton.setPrefWidth(150);
+		
 		pauseButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				if (!GameLogic.getInstance().isGameEnd()) {
 					GameLogic.getInstance().togglePauseMode();
 					if (GameLogic.getInstance().isPause()) {
 						pauseText.setText("Pause mode : ON");
+						pauseButton.setGraphic(play);
 						GameLogic.stop();
-
 					} else {
 						pauseText.setText("Pause mode : OFF");
+						pauseButton.setGraphic(pause);
 						GameLogic.start();
-//						GameLogic.startMoving();
 					}
 				}
-				
-//				System.out.println(GameLogic.getInstance().getLevel());
-//				for (int i = 0; i < 40; i++) {
-//					for (Body b : GameLogic.getInstance().getGamePane().getSnake().getSnake())
-//					{
-//						b.setVisible(true);
-//					}
-//			}
-//				Set<Thread> threads = Thread.getAllStackTraces().keySet();
-//				System.out.printf("%-15s \t %-15s \t %-15s \t %s\n", "Name", "State", "Priority", "isDaemon");
-//				for (Thread t : threads) {
-//				    System.out.printf("%-15s \t %-15s \t %-15d \t %s\n", t.getName(), t.getState(), t.getPriority(), t.isDaemon());
-//				}
-//				System.out.println(GameLogic.getInstance().isGameEnd());
-//				System.out.println(GameLogic.getInstance().isPause());
-//				System.out.println(GameLogic.getInstance().getGamePane().getSnake().isCrash());
-//				for (int i = 0; i < 20; i++) {
-//					for (int j = 0; j < 20; j++) {
-//						for (Node n : GameLogic.getInstance().getGamePane().getLocationTable()[i][j]) {
-//
-//							if (n.getClass().equals(Tail.class)) {
-//								System.out.println("i = " + i + " j = " + j + "  " + n.getClass() + " " + GameLogic
-//										.getInstance().getGamePane().getSnake().getSnake().indexOf((Tail) n));
-////								System.out.println(GameLogic.getInstance().getGamePane().getSnake().getSnake().indexOf((Tail) n));
-//							} else {
-//								System.out.println("i = " + i + " j = " + j + "  " + n.getClass());
-//							}
-//						}
-//					}
-//				}
-//				System.out.println(GameLogic.getInstance().getNumberOfMovingThread());
-//				System.out.println(Mushroom.allMushroom.get(0).getXLocation());
 			}
 		});
 	}

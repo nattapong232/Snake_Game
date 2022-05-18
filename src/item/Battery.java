@@ -19,7 +19,7 @@ public class Battery extends Item {
 	public Battery() {
 		this.location = new Coordinate(0, 0);
 //		this.setPicture(new Image("energy.png"));
-		String energyUrl = ClassLoader.getSystemResource("energy.png").toString();
+		String energyUrl = ClassLoader.getSystemResource("item/Battery.png").toString();
 		this.setPicture(new Image(energyUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(60);
