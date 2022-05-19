@@ -10,7 +10,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import logic.GameLogic;
 
-public class Snake extends Pane implements Moveable {
+public class Snake extends Pane  {
 	private ArrayList<Body> snake;
 	private int length;
 	private boolean isCrash;
@@ -164,35 +164,35 @@ public class Snake extends Pane implements Moveable {
 		updateLength();
 	}
 
-	@Override
-	public int getXLocation() {
-		// TODO Auto-generated method stub
-		return getHead().getXLocation();
-	}
-
-	@Override
-	public int getYLocation() {
-		// TODO Auto-generated method stub
-		return getHead().getYLocation();
-	}
-
-	@Override
-	public Coordinate getLocation() {
-		// TODO Auto-generated method stub
-		return getHead().getLocation();
-	}
-
-	@Override
-	public void setLocation(int x, int y) {
-		// TODO Auto-generated method stub
-		getHead().setLocation(x, y);
-	}
-
-	@Override
-	public void randomLocation() {
-		// TODO Auto-generated method stub
-		Random rand = new Random();
-		getHead().setLocation(rand.nextInt(19)*30, rand.nextInt(19)*30);
-	}
+	
+//	public int getXLocation() {
+//		// TODO Auto-generated method stub
+//		return getHead().getXLocation();
+//	}
+//
+//	
+//	public int getYLocation() {
+//		// TODO Auto-generated method stub
+//		return getHead().getYLocation();
+//	}
+//
+//	
+//	public Coordinate getLocation() {
+//		// TODO Auto-generated method stub
+//		return getHead().getLocation();
+//	}
+//
+//	
+//	public void setLocation(int x, int y) {
+//		// TODO Auto-generated method stub
+//		getHead().setLocation(x, y);
+//	}
+//
+//	
+//	public void randomLocation() {
+//		// TODO Auto-generated method stub
+//		Random rand = new Random();
+//		getHead().setLocation(rand.nextInt(19)*30, rand.nextInt(19)*30);
+//	}
 
 }

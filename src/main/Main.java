@@ -43,9 +43,9 @@ public class Main extends Application {
 //		root1.getRowConstraints().add(new RowConstraints(250));
 		
 		Button start = new Button("Start");
-		start.setMinSize(100, 100);
+		start.setMinSize(100, 50);
 		Button howToPlay = new Button("How to play");
-		howToPlay.setMinSize(100, 100);
+		howToPlay.setMinSize(100, 50);
 		Button close = new Button("X");
 		close.setMinSize(100, 100);
 		ImageView htp = new ImageView(new Image(ClassLoader.getSystemResource("background/HowToPlayBG.png").toString()));
@@ -54,9 +54,8 @@ public class Main extends Application {
 		close.setVisible(false);
 		htp.setVisible(false);
 
-		root1.setAlignment(Pos.CENTER);
-		root1.getChildren().add(start);
 
+		root1.getChildren().add(start);
 		root1.getChildren().add(htp);
 		root1.getChildren().add(close);
 		root1.setPrefWidth(900);

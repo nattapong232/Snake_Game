@@ -5,6 +5,7 @@ import java.util.Random;
 
 import base.MoveableObject;
 import base.Stamina;
+import etc.Wall;
 import food.Apple;
 import food.BadApple;
 import gui.ControlPane;
@@ -23,7 +24,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import monster.Demon;
 import monster.Peashooter;
-import monster.Wall;
 import snake.Body;
 import snake.Head;
 import snake.Snake;
@@ -46,12 +46,13 @@ public class GameLogic {
 	private int scoreToNextLevel;
 	private GamePane gamePane;
 	private ControlPane controlPane;
+	
 	private static MediaPlayer bgmSound;
 	private static MediaPlayer eatingSound;
 	private static MediaPlayer collectItemSound;
-
 	private static MediaPlayer gameWinSound;
 	private static MediaPlayer gameOverSound;
+	
 	private static Thread moving;
 	private static Thread usingStamina;
 	private static Thread firing;
@@ -205,7 +206,7 @@ public class GameLogic {
 				this.gamePane.moveToRandomLocation(b);
 			}
 			for (int i = 0; i < 3; i++) {
-				Battery e = Battery.getAllEnergyPotion().get(i);
+				Battery e = Battery.getAllBattery().get(i);
 				e.initialize();
 				this.gamePane.moveToRandomLocation(e);
 			}
@@ -223,7 +224,7 @@ public class GameLogic {
 				this.gamePane.moveToRandomLocation(m);
 			}
 			for (int i = 0; i < 3; i++) {
-				Battery e = Battery.getAllEnergyPotion().get(i);
+				Battery e = Battery.getAllBattery().get(i);
 				e.initialize();
 				this.gamePane.moveToRandomLocation(e);
 			}
@@ -259,7 +260,7 @@ public class GameLogic {
 //			for (Wall w : Wall.getAllWall()) {
 //				w.initialize();
 //			}
-			for (Peashooter mo2 : Peashooter.getAllMonster2()) {
+			for (Peashooter mo2 : Peashooter.getAllPeaShooter()) {
 				mo2.initialize();
 			}
 //			GameLogic.stop();
@@ -375,7 +376,7 @@ public class GameLogic {
 
 	public void checkGameEnd() {
 		if (GameLogic.getInstance().isMoveFinished()) {
-			if (score == 1) {// scoreToNextLevel
+			if (score == 5) {// scoreToNextLevel
 				this.setGameEnd(true);
 				this.setGameWin(true);
 				GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
@@ -502,7 +503,7 @@ public class GameLogic {
 
 	public static void fire() throws InterruptedException {
 //		System.out.println("Fire!");
-		for (Peashooter mo2 : Peashooter.getAllMonster2()) {
+		for (Peashooter mo2 : Peashooter.getAllPeaShooter()) {
 			int currentXLocation = mo2.getBullet().getXLocation();
 			int currentYLocation = mo2.getBullet().getYLocation();
 //			System.out.println("x = " + currentXLocation + " y = " + currentYLocation);
@@ -608,7 +609,7 @@ public class GameLogic {
 	}
 
 	public void setGameWinSound(MediaPlayer gameWinSound) {
-		this.gameWinSound = gameWinSound;
+		GameLogic.gameWinSound = gameWinSound;
 	}
 
 	public MediaPlayer getGameOverSound() {
@@ -616,7 +617,7 @@ public class GameLogic {
 	}
 
 	public void setGameOverSound(MediaPlayer gameOverSound) {
-		this.gameOverSound = gameOverSound;
+		GameLogic.gameOverSound = gameOverSound;
 	}
 
 	public int getNumberOfMovingThread() {

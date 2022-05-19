@@ -12,5 +12,5 @@ import javafx.scene.input.MouseEvent;
 import snake.Head;
 
 public abstract class Item extends MoveableObject implements Eatable{
-	public abstract void initialize();
+//	public abstract void initialize();
 }

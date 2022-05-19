@@ -127,7 +127,7 @@ public class ControlPane extends VBox {
 		newGameButton.setMinWidth(100);
 		newGameButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				GameLogic.getInstance().newGame(1);
+				GameLogic.getInstance().newGame(5);
 				pauseText.setText("Pause mode : OFF");
 				levelText.setText("Level : " + GameLogic.getInstance().getLevel());
 				scoreText.setText("Score : " + GameLogic.getInstance().getScore());

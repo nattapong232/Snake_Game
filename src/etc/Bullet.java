@@ -1,4 +1,4 @@
-package monster;
+package etc;
 
 import java.util.ArrayList;
 
