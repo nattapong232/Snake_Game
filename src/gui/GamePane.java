@@ -266,6 +266,7 @@ public class GamePane extends Pane {
 				if (!m.equals(mo)) {
 					if (mo.getBoundsInParent().intersects(m.getBoundsInParent())) {
 						canChange = false;
+						break;
 					}
 				}
 				if (mo.getBoundsInParent().intersects(tempObject.getBoundsInParent())) {
@@ -273,6 +274,9 @@ public class GamePane extends Pane {
 				}
 				if (mo.getBoundsInParent().intersects(snake.getHead().getBoundsInParent())) {
 					canChange = false;
+				}
+				if (!canChange) {
+					break;
 				}
 			}
 			

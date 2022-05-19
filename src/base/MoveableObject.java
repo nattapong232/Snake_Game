@@ -21,7 +21,7 @@ public abstract class MoveableObject extends ImageView implements Moveable {
 		return location;
 	}
 
-	public void setLocation(int x, int y) { //default : for 1x1 object
+	public void setLocation(int x, int y) {
 		if (x >= 600) {
 			this.location.setX(0);
 		} else if (x < 0) {
@@ -51,7 +51,7 @@ public abstract class MoveableObject extends ImageView implements Moveable {
 		this.setTranslateY(this.getYLocation());
 	}
 
-	public void randomLocation() { //default : for 1x1 object
+	public void randomLocation() {
 		Random rand = new Random();
 		this.setLocation(rand.nextInt(19) * 30, rand.nextInt(19) * 30);
 	}
