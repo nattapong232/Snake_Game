@@ -15,7 +15,7 @@ public class Snake extends Pane  {
 	private int length;
 	private boolean isCrash;
 	private boolean canChangeDirection;//main purpose is for prevent user from press many direction key in a short time
-	private int speed;
+//	private int speed;
 	private Stamina stamina;
 	
 	public Snake(int x, int y) {

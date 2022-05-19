@@ -67,24 +67,24 @@ public class GamePane extends Pane {
 			allMoveableObject.add(b);
 			this.getChildren().add(b);
 		}
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			Demon d = new Demon();
 			allMoveableObject.add(d);
 			this.getChildren().add(d);
 		}
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			SpeedPotion s = new SpeedPotion();
 			allMoveableObject.add(s);
 			this.getChildren().add(s);
 		}
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			SlowPotion sl = new SlowPotion();
 			allMoveableObject.add(sl);
 			this.getChildren().add(sl);
 		}
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 20; j++) {
-				if ((((i == 0) || (i == 18)) && (j % 2 == 0)) || (((j == 0) || (j == 18)) && (i % 2 == 0))) {
+		for (int i = 0; i < 19; i++) {
+			for (int j = 0; j < 19; j++) {
+				if ((((i == 0) || (i == 18)) && (j % 3 == 0)) || (((j == 0) || (j == 18)) && (i % 3== 0))) {
 					Wall w = new Wall();
 					w.setLocation(i * 30, j * 30);
 					w.move();
@@ -115,6 +115,8 @@ public class GamePane extends Pane {
 		this.getChildren().add(apple);
 		this.setPrefHeight(600);
 		this.setPrefWidth(600);
+		this.setMinHeight(600);
+		this.setMinWidth(600);
 		Image image = new Image("background/LevelBG.png", 600, 600, false, false);
 		BackgroundSize bgSize = new BackgroundSize(600, 600, false, false, false, false);
 		BackgroundImage bgImg = new BackgroundImage(image, null, null, null, bgSize);

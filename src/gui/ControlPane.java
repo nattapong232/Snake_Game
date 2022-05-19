@@ -146,12 +146,13 @@ public class ControlPane extends VBox {
 		
 		pauseButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				if (!GameLogic.getInstance().isGameEnd()) {
+				
 					GameLogic.getInstance().togglePauseMode();
 					if (GameLogic.getInstance().isPause()) {
 						pauseText.setText("Pause mode : ON");
 						pauseButton.setGraphic(play);
 						GameLogic.stop();
+						if (GameLogic.getInstance().getLevel() == 5)
 						try {
 							GameLogic.stopFiring();
 						}
@@ -162,9 +163,15 @@ public class ControlPane extends VBox {
 						pauseText.setText("Pause mode : OFF");
 						pauseButton.setGraphic(pause);
 						GameLogic.start();
-						GameLogic.startFiring();
+						if (GameLogic.getInstance().getLevel() == 5)
+							try {
+								GameLogic.startFiring();
+							}
+							catch (Exception e){
+								;
+							}
 					}
-				}
+				
 			}
 		});
 	}

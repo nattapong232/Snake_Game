@@ -140,7 +140,7 @@ public class GameLogic {
 		this.setPause(false);
 		this.setSleepTime(300);
 		this.setScore(0);
-		this.setScoreToNextLevel(4 * level);
+		this.setScoreToNextLevel(3 * level);
 		this.setLevel(level);
 //		this.gamePane.getSnake().initialize();
 //		this.gamePane.getApple().initialize();
@@ -381,7 +381,7 @@ public class GameLogic {
 
 	public void checkGameEnd() {
 		if (GameLogic.getInstance().isMoveFinished()) {
-			if (score == 5) {// scoreToNextLevel
+			if (score == 1) {// scoreToNextLevel
 				this.setGameEnd(true);
 				this.setGameWin(true);
 				GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
