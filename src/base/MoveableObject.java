@@ -1,17 +1,11 @@
 package base;
-import java.util.ArrayList;
-import java.util.Random;
 
+import java.util.Random;
 import interfaces.Moveable;
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import snake.Head;
 
-public abstract class MoveableObject extends ImageView implements Moveable{
+public abstract class MoveableObject extends ImageView implements Moveable {
 	protected Coordinate location;
 	protected Image picture;
 
@@ -57,9 +51,7 @@ public abstract class MoveableObject extends ImageView implements Moveable{
 		this.setTranslateY(this.getYLocation());
 	}
 
-	
 	public void randomLocation() { //default : for 1x1 object
-		// TODO Auto-generated method stub
 		Random rand = new Random();
 		this.setLocation(rand.nextInt(19) * 30, rand.nextInt(19) * 30);
 	}

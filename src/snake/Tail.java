@@ -5,7 +5,6 @@ public class Tail extends Body {
 	
 	public Tail(int x,int y) {
 		this.location = new Coordinate(x,y);
-//		setPicture(new Image("tail.jpg"));
 		String tailUrl = ClassLoader.getSystemResource("tail.jpg").toString();
 		this.setPicture(new Image(tailUrl));
 		this.setDirection(2);
@@ -16,7 +15,6 @@ public class Tail extends Body {
 
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
 		this.setVisible(true);
 	}
 }

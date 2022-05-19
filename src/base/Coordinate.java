@@ -3,6 +3,7 @@ package base;
 public class Coordinate {
 	private int x;
 	private int y;
+	
 	public Coordinate (int x ,int y) {
 		setX(x);
 		setY(y);
@@ -19,5 +20,4 @@ public class Coordinate {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
 }

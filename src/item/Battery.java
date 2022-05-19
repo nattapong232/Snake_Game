@@ -2,24 +2,16 @@ package item;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import base.Coordinate;
-import gui.GamePane;
-import interfaces.Eatable;
-import interfaces.Moveable;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class Battery extends Item {
 	private static int amount = 0;  // represent amount of mushroom that visible = true
 	private static ArrayList<Battery> allBattery = new ArrayList<Battery>();
-//	Coordinate location;
-//	Image picture;
 
 	public Battery() {
 		this.setVisible(false);
 		this.location = new Coordinate(0, 0);
-//		this.setPicture(new Image("energy.png"));
 		String energyUrl = ClassLoader.getSystemResource("item/Battery.png").toString();
 		this.setPicture(new Image(energyUrl));
 		this.setImage(this.picture);
@@ -28,6 +20,7 @@ public class Battery extends Item {
 		this.move();
 		Battery.allBattery.add(this);
 	}
+	
 	public void initialize() {
 		this.setVisible(true);
 		Battery.amount += 1;
@@ -49,52 +42,26 @@ public class Battery extends Item {
 			this.location.setY(y);
 		}
 	}
+	
 	@Override
 	public void randomLocation() {
-		// TODO Auto-generated method stub
 		Random rand = new Random();
 		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
 	}
+	
 	public static int getAmount() {
 		return amount;
 	}
+	
 	public static void setAmount(int amount) {
 		Battery.amount = amount;
 	}
+	
 	public static ArrayList<Battery> getAllBattery() {
 		return allBattery;
 	}
+	
 	public static void setAllBattery(ArrayList<Battery> allBattery) {
 		Battery.allBattery = allBattery;
 	}
-
-	
-	
-	
-//	public Image getPicture() {
-//		return picture;
-//	}
-//
-//	public void setPicture(Image picture) {
-//		this.picture = picture;
-//	}
-//
-//	public void move() {
-//		this.setTranslateX(this.getXLocation());
-//		this.setTranslateY(this.getYLocation());
-//	}
-//
-//	public int getXLocation() {
-//		return location.getX();
-//	}
-//
-//	public int getYLocation() {
-//		return location.getY();
-//	}
-//	
-//
-//	public Coordinate getLocation() {
-//		return location;
-//	}
-
 }

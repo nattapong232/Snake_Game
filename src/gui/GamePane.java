@@ -1,40 +1,29 @@
 package gui;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
-
-import base.Coordinate;
 import base.MoveableObject;
-import etc.Bullet;
 import etc.Wall;
 import food.Apple;
 import food.BadApple;
 import food.Food;
 import interfaces.Eatable;
-import interfaces.Moveable;
 import item.Battery;
 import item.Item;
 import item.SlowPotion;
 import item.SpeedPotion;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import logic.GameLogic;
 import monster.Demon;
 import monster.Peashooter;
 import snake.Body;
-import snake.Head;
 import snake.Snake;
 import snake.Tail;
-import javafx.scene.input.KeyEvent;
 
 public class GamePane extends Pane {
 	private Snake snake;
@@ -47,41 +36,37 @@ public class GamePane extends Pane {
 		apple = new Apple();
 		allMoveableObject = new ArrayList<MoveableObject>();
 
-//		for (Body b : GameLogic.getInstance().getGamePane().getSnake().getSnake()) {
-//			if (!(b instanceof Head)) {
-//				allMoveableObject.add(b);
-//			}
-//		}
-
 		for (int i = 1; i < 15; i++) {
 			Tail t = (Tail) snake.getSnake().get(i);
 			allMoveableObject.add(t);
 		}
 
-		// remain 1.add tail to allMoveableObject (finished) 2. moveToRandomLocation 3.
-		// reduce size
-		// of snake or food
+		// remain 1.add tail to allMoveableObject (finished) 2. moveToRandomLocation 3. reduce size of snake or food
 		allMoveableObject.add(apple);
 		for (int i = 0; i < 3; i++) {
 			BadApple b = new BadApple();
 			allMoveableObject.add(b);
 			this.getChildren().add(b);
 		}
+		
 		for (int i = 0; i < 2; i++) {
 			Demon d = new Demon();
 			allMoveableObject.add(d);
 			this.getChildren().add(d);
 		}
+		
 		for (int i = 0; i < 2; i++) {
 			SpeedPotion s = new SpeedPotion();
 			allMoveableObject.add(s);
 			this.getChildren().add(s);
 		}
+		
 		for (int i = 0; i < 2; i++) {
 			SlowPotion sl = new SlowPotion();
 			allMoveableObject.add(sl);
 			this.getChildren().add(sl);
 		}
+		
 		for (int i = 0; i < 19; i++) {
 			for (int j = 0; j < 19; j++) {
 				if ((((i == 0) || (i == 18)) && (j % 3 == 0)) || (((j == 0) || (j == 18)) && (i % 3== 0))) {
@@ -95,7 +80,6 @@ public class GamePane extends Pane {
 		}
 
 		for (int i = 0; i < 5; i++) {
-
 			Peashooter m = new Peashooter();
 			m.setLocation(540, (i + 1) * 120 - 90);
 			m.move();
@@ -117,17 +101,14 @@ public class GamePane extends Pane {
 		this.setPrefWidth(600);
 		this.setMinHeight(600);
 		this.setMinWidth(600);
+		
 		Image image = new Image("background/LevelBG.png", 600, 600, false, false);
 		BackgroundSize bgSize = new BackgroundSize(600, 600, false, false, false, false);
 		BackgroundImage bgImg = new BackgroundImage(image, null, null, null, bgSize);
 		this.setBackground(new Background(bgImg));
 
 		this.setOnKeyPressed(event -> {
-
 			KeyCode k = event.getCode();
-			// -----------------------------------
-			// ------------input sound here------------
-			// -----------------------------------
 			int currentDirection = this.snake.getSnake().get(0).getDirection();
 			if ((!GameLogic.getInstance().isPause()) && (!GameLogic.getInstance().isGameEnd())
 					&& (snake.isCanChangeDirection())) {
@@ -160,13 +141,9 @@ public class GamePane extends Pane {
 						currentDirection = 3;
 					}
 					break;
-//				case P:
-//					System.out.println("Pause");
-//					GameLogic.getInstance().getControlPane().getPauseButton().fire();
 				}
 				snake.setCanChangeDirection(false);
 			}
-			// to prevent bug when press two key direction and snake go back to hit itself
 		});
 	}
 
@@ -186,63 +163,24 @@ public class GamePane extends Pane {
 		this.apple = apple;
 	}
 
-//	
 	public void checkInteract() {
 		// check if snake's head interact with something
 		int x = snake.getHead().getXLocation();
 		int y = snake.getHead().getYLocation();
-//		for (MoveableObject m : allMoveableObject) {
-//			if (m.isVisible()) {
-//				double minX = m.getBoundsInParent().getMinX();
-//				double minY = m.getBoundsInParent().getMinY();
-//				double maxX = m.getBoundsInParent().getMaxX();
-//				double maxY = m.getBoundsInParent().getMaxY();
-//				if ((x >= minX && x <= maxX) && (y >= minY && y <= maxY) && (m.isVisible())) {
-//					if (m instanceof Eatable) {
-//						checkEat(m);
-////						System.out.println(m.getClass());
-////						break;
-//					} else  {
-//						snake.setCrash(true);
-//					}
-//				}
-//			}
-//		}
+		
 		for (MoveableObject m : allMoveableObject) {
 			int width = (int) m.getFitWidth();
 			int height = (int) m.getFitHeight();
-			if (m.isVisible())
-			{
+			if (m.isVisible()) {
 				if ( ((x >= m.getXLocation() ) &&(x <= m.getXLocation() + width - 30))
 						&& ((y >= m.getYLocation() ) &&(y <= m.getYLocation() + height - 30))) {
 					if (m instanceof Eatable) {
 						checkEat(m);
-//								System.out.println(m.getClass());
-//								break;
 					} else {
-//						System.out.println(m.getClass());
-//						System.out.println(m.isVisible());
-//						System.out.println(snake.getSnake().indexOf(m));
-//						System.out.println(x);
-//						System.out.println(y);
-//						System.out.println(m.getXLocation());
-//						System.out.println(m.getYLocation());
-//						System.out.println(width);
-//						System.out.println(height);
 						snake.setCrash(true);
 					}
 				}
 			}
-
-//			if (x == m.getXLocation() && y == m.getYLocation() && m.isVisible()) {
-//				if (m instanceof Eatable) {
-//					checkEat(m);
-////					System.out.println(m.getClass());
-////					break;
-//				} else {
-//					snake.setCrash(true);
-//				}
-//			}
 		}
 	}
 
@@ -251,21 +189,16 @@ public class GamePane extends Pane {
 		MediaPlayer eatingSound = GameLogic.getInstance().getEatingSound();
 		MediaPlayer collectItemSound = GameLogic.getInstance().getCollectItemSound();
 
-//		for (MoveableObject m : allMoveableObject) {
-//			if (snake.getHead().getBoundsInParent().intersects(m.getBoundsInParent()) && m.isVisible()) {
-
 		if (m instanceof Food) {
 			if (GameLogic.getInstance().isSfxOn()) {
 				eatingSound.seek(eatingSound.getStartTime());
 				eatingSound.play();
 			}
-
 			if (m instanceof Apple) {
 				GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() + 1);
 				if (GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp() < 100) {
 					GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
 				}
-//				GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
 				snake.getSnake().get((snake.getLength())).initialize();
 				snake.updateLength();
 				snake.setLength(snake.getLength());
@@ -285,17 +218,10 @@ public class GamePane extends Pane {
 				collectItemSound.seek(collectItemSound.getStartTime());
 				collectItemSound.play();
 			}
-
 			if (m instanceof SlowPotion) {
 				GameLogic.getInstance().setSleepTime(140);
 				m.setVisible(false);
 			} else if (m instanceof SpeedPotion) {
-//			Deduct point, increase snake length, increase speed
-//				GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 2);
-//				for (int i = 0; i < 3; i++) {
-//					snake.getSnake().get((snake.getLength())).setVisible(true);
-//					snake.updateLength();
-//				}
 				GameLogic.getInstance().setSleepTime(50);
 				m.setVisible(false);
 			} else if (m instanceof Battery) {
@@ -304,8 +230,6 @@ public class GamePane extends Pane {
 				m.setVisible(false);
 			}
 		}
-//			}
-//		}
 	}
 
 	public void checkHit() {
@@ -340,8 +264,6 @@ public class GamePane extends Pane {
 			canChange = true;
 			for (MoveableObject m : allMoveableObject) {
 				if (!m.equals(mo)) {
-//					System.out.println(m);
-//					System.out.println(mo);
 					if (mo.getBoundsInParent().intersects(m.getBoundsInParent())) {
 						canChange = false;
 					}
@@ -352,8 +274,8 @@ public class GamePane extends Pane {
 				if (mo.getBoundsInParent().intersects(snake.getHead().getBoundsInParent())) {
 					canChange = false;
 				}
-
 			}
+			
 			if (!canChange) {
 				tempObject.setTranslateX(mo.getTranslateX());
 				tempObject.setTranslateX(mo.getTranslateY());
@@ -371,6 +293,4 @@ public class GamePane extends Pane {
 	public void setAllMoveableObject(ArrayList<MoveableObject> allMoveableObject) {
 		this.allMoveableObject = allMoveableObject;
 	}
-	
-	
 }

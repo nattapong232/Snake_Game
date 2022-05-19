@@ -2,11 +2,9 @@ package base;
 
 public class Stamina {
 	private int sp;
-//	private boolean isStop;
 
 	public Stamina(int staminaPoint) {
 		this.sp = staminaPoint;
-//		this.isStop = true;
 	}
 
 	public void decrementStamina(int amount) { 
@@ -20,18 +18,6 @@ public class Stamina {
 		return sp <= 0;
 	}
 
-//	public String toString() {
-//		return String.format("Stamina = %02d", sp);
-//	}
-
-//	public boolean isStop() {
-//		return isStop;
-//	}
-//
-//	public void setStop(boolean isStop) {
-//		this.isStop = isStop;
-//	}
-
 	public int getSp() {
 		return sp;
 	}
@@ -39,6 +25,4 @@ public class Stamina {
 	public void setSp(int sp) {
 		this.sp = sp;
 	}
-	
-	
 }

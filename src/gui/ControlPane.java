@@ -1,13 +1,8 @@
 package gui;
 
-import java.util.ArrayList;
-import java.util.Set;
-
-import item.SlowPotion;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,13 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import logic.GameLogic;
-import snake.Body;
-import snake.Tail;
-import javafx.scene.media.AudioClip;
-//import logic.MovingThread;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import java.io.File;
 
 public class ControlPane extends VBox {
 	private Button bgmButton;
@@ -35,22 +23,13 @@ public class ControlPane extends VBox {
 	private Text scoreText;
 	private Text scoreToNextLevelText;
 	private Text staminaText;
-//	private GamePane gamePane;
-//	private MediaPlayer bgmPlayer;
-//	private MediaPlayer sfxPlayer;
-//	Media sound = new Media(new File(musicFile).toURI().toString());
-//	MediaPlayer mediaPlayer = new MediaPlayer(sound);
-//	mediaPlayer.play();
 
 	public ControlPane(GamePane gamePane) {
 		HBox hBox = new HBox();
-//		this.gamePane = gamePane;
 		this.setAlignment(Pos.CENTER);
 		this.setPrefWidth(300);
 		this.setPrefHeight(600);
 		this.setSpacing(20);
-//		this.setPadding(new Insets(8));
-//		this.setPrefWidth(500);
 		initializeBgmButton();
 		initializeSfxButton();
 		initializeNewGameButton();
@@ -73,15 +52,10 @@ public class ControlPane extends VBox {
 		ImageView bgmOff = new ImageView(new Image("control/bgm/BGMOff.png", 30, 30, false, false));
 		bgmButton.setGraphic(bgmOn);
 		bgmButton.setPrefWidth(150);
-//		String bgmFile = "bgm.mp3"; // For example
-//		Media bgm = new Media(new File(bgmFile).toURI().toString());
-//		bgmPlayer = new MediaPlayer(bgm);
-//		bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
-//		bgmPlayer.play();
+		
 		bgmButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				if (!GameLogic.getInstance().isGameEnd()) {
-//					System.out.println(GameLogic.getInstance().isBgmOn());
 					GameLogic.getInstance().toggleBgm();
 					// turn on sound,turn off sound
 					if (GameLogic.getInstance().isBgmOn()) {
@@ -102,10 +76,6 @@ public class ControlPane extends VBox {
 		ImageView sfxOff = new ImageView(new Image("control/sfx/SFXOff.jpg", 30, 30, false, false));
 		sfxButton.setGraphic(sfxOn);
 		sfxButton.setPrefWidth(150);
-//		String eatingSoundFile = "eating-sound.wav"; // For example
-//		Media eatingSfx = new Media(new File(eatingSoundFile).toURI().toString());
-//		sfxPlayer = new MediaPlayer(eatingSfx);
-//		sfxPlayer.play();
 		sfxButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				if (!GameLogic.getInstance().isGameEnd()) {
@@ -115,8 +85,7 @@ public class ControlPane extends VBox {
 					} else {
 						sfxButton.setGraphic(sfxOff);
 					}
-				}
-//				System.out.println(GameLogic.getInstance().getNumberOfMovingThread());
+				}		
 			}
 		});
 	}
@@ -128,11 +97,10 @@ public class ControlPane extends VBox {
 		newGameButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				GameLogic.getInstance().newGame(1);
-				pauseText.setText("Pause mode : OFF");
-				levelText.setText("Level : " + GameLogic.getInstance().getLevel());
-				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
+				pauseText.setText("Pause mode: OFF");
+				levelText.setText("Level: " + GameLogic.getInstance().getLevel());
+				scoreText.setText("Score: " + GameLogic.getInstance().getScore());
 				scoreToNextLevelText.setText("Score to next Level: "+ GameLogic.getInstance().getScoreToNextLevel());
-//				System.out.println(GameLogic.getInstance().isGameEnd());
 			}
 		});
 	}
@@ -146,10 +114,9 @@ public class ControlPane extends VBox {
 		
 		pauseButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				
 					GameLogic.getInstance().togglePauseMode();
 					if (GameLogic.getInstance().isPause()) {
-						pauseText.setText("Pause mode : ON");
+						pauseText.setText("Pause mode: ON");
 						pauseButton.setGraphic(play);
 						GameLogic.stop();
 						if (GameLogic.getInstance().getLevel() == 5)
@@ -160,7 +127,7 @@ public class ControlPane extends VBox {
 							;
 						}
 					} else {
-						pauseText.setText("Pause mode : OFF");
+						pauseText.setText("Pause mode: OFF");
 						pauseButton.setGraphic(pause);
 						GameLogic.start();
 						if (GameLogic.getInstance().getLevel() == 5)
@@ -171,7 +138,6 @@ public class ControlPane extends VBox {
 								;
 							}
 					}
-				
 			}
 		});
 	}
@@ -181,11 +147,10 @@ public class ControlPane extends VBox {
 		nextLevelButton.setFont(Font.font(15));
 		nextLevelButton.setMinWidth(200);
 		nextLevelButton.setMaxWidth(200);
-//		newGameButton.setPrefWidth(100);
-//		newGameButton.setMinWidth(100);
 		nextLevelButton.setStyle("-fx-font-family: 'Jungle Adventurer'");
 		nextLevelButton.setPrefWidth(50);
 		nextLevelButton.setVisible(false);
+		
 		nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				if (nextLevelButton.isVisible()) {
@@ -193,12 +158,11 @@ public class ControlPane extends VBox {
 					GameLogic.getInstance().setLevel(GameLogic.getInstance().getLevel() + 1);
 					GameLogic.getInstance().newGame(GameLogic.getInstance().getLevel());
 					pauseText.setText("Pause mode : OFF");
-					levelText.setText("Level : " + GameLogic.getInstance().getLevel());
-					scoreText.setText("Score : " + GameLogic.getInstance().getScore());
+					levelText.setText("Level: " + GameLogic.getInstance().getLevel());
+					scoreText.setText("Score: " + GameLogic.getInstance().getScore());
 					scoreToNextLevelText.setText("Score to next Level : "+GameLogic.getInstance().getScoreToNextLevel());
 					GameLogic.getInstance().getGamePane().getSnake().initialize();
 					GameLogic.getInstance().getGamePane().getApple().initialize();
-//					System.out.println(GameLogic.getInstance().isGameEnd());
 				}
 			}
 		});
@@ -272,7 +236,7 @@ public class ControlPane extends VBox {
 
 	public void setNextLevelButton(Button nextLevelButton) {
 		this.nextLevelButton = nextLevelButton;
-		nextLevelButton.setStyle("-fx-font-family: 'serif'");
+		nextLevelButton.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	public Text getLevelText() {
@@ -345,13 +309,4 @@ public class ControlPane extends VBox {
 			staminaText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 		}
 	}
-
-//	public GamePane getGamePane() {
-//		return gamePane;
-//	}
-//
-//	public void setGamePane(GamePane gamePane) {
-//		this.gamePane = gamePane;
-//	}
-
 }

@@ -2,23 +2,13 @@ package monster;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import base.Coordinate;
-import base.MoveableObject;
 import etc.Bullet;
-import food.Food;
-import gui.GamePane;
-import interfaces.Eatable;
-import interfaces.Moveable;
-import item.SlowPotion;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class Peashooter extends Monster {
 	private static int amount = 0; // represent amount of monster that visible = true
 	private static ArrayList<Peashooter> allPeaShooter = new ArrayList<Peashooter>();
-//	Coordinate location;
-//	Image picture;
 	private Bullet bullet;
 
 	public Peashooter() {
@@ -63,12 +53,10 @@ public class Peashooter extends Monster {
 	
 	@Override
 	public void randomLocation() {
-		// TODO Auto-generated method stub
 		Random rand = new Random();
 		this.setLocation(rand.nextInt(17) * 30, rand.nextInt(17) * 30);
 	}
 	
-
 	public static int getAmount() {
 		return amount;
 	}
@@ -76,8 +64,6 @@ public class Peashooter extends Monster {
 	public static void setAmount(int amount) {
 		Peashooter.amount = amount;
 	}
-
-	
 
 	public static ArrayList<Peashooter> getAllPeaShooter() {
 		return allPeaShooter;
@@ -94,29 +80,4 @@ public class Peashooter extends Monster {
 	public void setBullet(Bullet bullet) {
 		this.bullet = bullet;
 	}
-
-	
-//	public void setLocation(int x, int y) {
-//		if (x >= 600) {
-//			this.location.setX(0);
-//		} else if (x < 0) {
-//			this.location.setX(570);
-//		} else {
-//			this.location.setX(x);
-//		}
-//		if (y >= 600) {
-//			this.location.setY(0);
-//		} else if (y < 0) {
-//			this.location.setY(570);
-//		} else {
-//			this.location.setY(y);
-//		}
-//	}
-//	
-//	@Override
-//	public void randomLocation() {
-//		// TODO Auto-generated method stub
-//		Random rand = new Random();
-//		this.setLocation(rand.nextInt(18) * 30, rand.nextInt(18) * 30);
-//	}
 }

@@ -1,21 +1,14 @@
 package snake;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import base.Coordinate;
 import base.Stamina;
-import interfaces.Moveable;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import logic.GameLogic;
 
 public class Snake extends Pane  {
 	private ArrayList<Body> snake;
 	private int length;
 	private boolean isCrash;
-	private boolean canChangeDirection;//main purpose is for prevent user from press many direction key in a short time
-//	private int speed;
+	private boolean canChangeDirection; //main purpose is for prevent user from press many direction key in a short time
 	private Stamina stamina;
 	
 	public Snake(int x, int y) {
@@ -31,7 +24,7 @@ public class Snake extends Pane  {
 			snake.get(i).setVisible(false);
 			this.getChildren().add(snake.get(i));
 		}
-		initialize();// initialize visibility, location, direction + update length
+		initialize(); // initialize visibility, location, direction + update length
 	}
 
 	public ArrayList<Body> getSnake() {
@@ -73,7 +66,6 @@ public class Snake extends Pane  {
 		int y = getHead().getYLocation();
 		int d = getHead().getDirection();
 		int headDirection = getHead().getDirection();
-//		System.out.println("Case :" + this.direction);
 		switch (headDirection) {
 		case (0):
 			getHead().setLocation(x - 30, y);
@@ -89,8 +81,6 @@ public class Snake extends Pane  {
 			break;
 		}
 		for (int i = 1; i < 15; i++) {
-			
-
 			Tail tail = (Tail) snake.get(i);
 			int tempX = tail.getXLocation();
 			int tempY = tail.getYLocation();
@@ -115,7 +105,6 @@ public class Snake extends Pane  {
 			snake.get(i).setTranslateY(snake.get(i).getYLocation());
 		}
 	}
-
 
 	public boolean isCrash() {
 		return isCrash;
@@ -162,36 +151,4 @@ public class Snake extends Pane  {
 		stamina.setSp(100);
 		updateLength();
 	}
-
-	
-//	public int getXLocation() {
-//		// TODO Auto-generated method stub
-//		return getHead().getXLocation();
-//	}
-//
-//	
-//	public int getYLocation() {
-//		// TODO Auto-generated method stub
-//		return getHead().getYLocation();
-//	}
-//
-//	
-//	public Coordinate getLocation() {
-//		// TODO Auto-generated method stub
-//		return getHead().getLocation();
-//	}
-//
-//	
-//	public void setLocation(int x, int y) {
-//		// TODO Auto-generated method stub
-//		getHead().setLocation(x, y);
-//	}
-//
-//	
-//	public void randomLocation() {
-//		// TODO Auto-generated method stub
-//		Random rand = new Random();
-//		getHead().setLocation(rand.nextInt(19)*30, rand.nextInt(19)*30);
-//	}
-
 }
