@@ -12,7 +12,7 @@ public class Bullet extends MoveableObject {
 	
 	public Bullet() {
 		this.location = new Coordinate(0,0);
-		String bulletUrl = ClassLoader.getSystemResource("apple.png").toString();
+		String bulletUrl = ClassLoader.getSystemResource("monster/Bullet.png").toString();
 		this.setPicture(new Image(bulletUrl));
 		this.setImage(this.picture);
 		this.setFitWidth(24);

@@ -28,7 +28,7 @@ import javafx.scene.media.MediaPlayer;
 import logic.GameLogic;
 import monster.Bullet;
 import monster.Demon;
-import monster.Monster2;
+import monster.Peashooter;
 import monster.Wall;
 import snake.Body;
 import snake.Head;
@@ -96,7 +96,7 @@ public class GamePane extends Pane {
 
 		for (int i = 0; i < 5; i++) {
 
-			Monster2 m = new Monster2();
+			Peashooter m = new Peashooter();
 			m.setLocation(540, (i + 1) * 120 - 90);
 			m.move();
 			allMoveableObject.add(m);
@@ -304,7 +304,7 @@ public class GamePane extends Pane {
 	}
 
 	public void checkHit() {
-		for (Monster2 mo2: Monster2.getAllMonster2()) {
+		for (Peashooter mo2: Peashooter.getAllMonster2()) {
 			for (Body b : snake.getSnake()) {
 				if (mo2.getBullet().getBoundsInParent().intersects(b.getBoundsInParent()) && b.isVisible()) {
 					System.out.println("Hit!");

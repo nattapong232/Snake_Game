@@ -13,17 +13,17 @@ import item.SlowPotion;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Monster2 extends Monster {
+public class Peashooter extends Monster {
 	private static int amount = 0; // represent amount of monster that visible = true
-	private static ArrayList<Monster2> allMonster2 = new ArrayList<Monster2>();
+	private static ArrayList<Peashooter> allMonster2 = new ArrayList<Peashooter>();
 //	Coordinate location;
 //	Image picture;
 	private Bullet bullet;
 
-	public Monster2() {
+	public Peashooter() {
 		this.setBullet(new Bullet());
 		this.location = new Coordinate(0,0);
-		String monster2Url = ClassLoader.getSystemResource("monster/Demon.png").toString();
+		String monster2Url = ClassLoader.getSystemResource("monster/Peashooter.png").toString();
 		this.setPicture(new Image(monster2Url));
 		this.setImage(this.picture);
 		this.setFitWidth(60);
@@ -39,7 +39,7 @@ public class Monster2 extends Monster {
 		this.bullet.setLocation(this.getXLocation()-30, this.getYLocation()+3);
 		this.bullet.move();
 		this.setVisible(true);
-		Monster2.amount += 1;
+		Peashooter.amount += 1;
 		this.bullet.initialize();
 	}
 	
@@ -49,15 +49,15 @@ public class Monster2 extends Monster {
 	}
 
 	public static void setAmount(int amount) {
-		Monster2.amount = amount;
+		Peashooter.amount = amount;
 	}
 
-	public static ArrayList<Monster2> getAllMonster2() {
+	public static ArrayList<Peashooter> getAllMonster2() {
 		return allMonster2;
 	}
 
-	public static void setAllMonster2(ArrayList<Monster2> allMonster2) {
-		Monster2.allMonster2 = allMonster2;
+	public static void setAllMonster2(ArrayList<Peashooter> allMonster2) {
+		Peashooter.allMonster2 = allMonster2;
 	}
 
 	public Bullet getBullet() {

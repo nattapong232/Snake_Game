@@ -22,7 +22,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import monster.Demon;
-import monster.Monster2;
+import monster.Peashooter;
 import monster.Wall;
 import snake.Body;
 import snake.Head;
@@ -148,7 +148,7 @@ public class GameLogic {
 		BadApple.setAmount(0);
 		SlowPotion.setAmount(0);
 		Demon.setAmount(0);
-		Monster2.setAmount(0);
+		Peashooter.setAmount(0);
 		SpeedPotion.setAmount(0);
 		Wall.setAmount(0);
 		Battery.setAmount(0);
@@ -259,7 +259,7 @@ public class GameLogic {
 //			for (Wall w : Wall.getAllWall()) {
 //				w.initialize();
 //			}
-			for (Monster2 mo2 : Monster2.getAllMonster2()) {
+			for (Peashooter mo2 : Peashooter.getAllMonster2()) {
 				mo2.initialize();
 			}
 //			GameLogic.stop();
@@ -284,7 +284,7 @@ public class GameLogic {
 			BadApple.setAmount(0);
 			SlowPotion.setAmount(0);
 			Demon.setAmount(0);
-			Monster2.setAmount(0);
+			Peashooter.setAmount(0);
 			SpeedPotion.setAmount(0);
 			Wall.setAmount(0);
 			Battery.setAmount(0);
@@ -502,7 +502,7 @@ public class GameLogic {
 
 	public static void fire() throws InterruptedException {
 //		System.out.println("Fire!");
-		for (Monster2 mo2 : Monster2.getAllMonster2()) {
+		for (Peashooter mo2 : Peashooter.getAllMonster2()) {
 			int currentXLocation = mo2.getBullet().getXLocation();
 			int currentYLocation = mo2.getBullet().getYLocation();
 //			System.out.println("x = " + currentXLocation + " y = " + currentYLocation);

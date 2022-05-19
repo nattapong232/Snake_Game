@@ -25,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -34,11 +35,10 @@ import snake.Head;
 
 public class Main extends Application {
 
-	
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		// Scene 1
-		GridPane root1 = new GridPane();
+		StackPane root1 = new StackPane();
 //		root1.getColumnConstraints().add(new ColumnConstraints(450));
 //		root1.getRowConstraints().add(new RowConstraints(250));
 		
@@ -48,17 +48,17 @@ public class Main extends Application {
 		howToPlay.setMinSize(100, 100);
 		Button close = new Button("X");
 		close.setMinSize(100, 100);
-		ImageView htp = new ImageView(new Image(ClassLoader.getSystemResource("background/HowToPlay.png").toString()));
+		ImageView htp = new ImageView(new Image(ClassLoader.getSystemResource("background/HowToPlayBG.png").toString()));
 		
 
 		close.setVisible(false);
 		htp.setVisible(false);
 
 		root1.setAlignment(Pos.CENTER);
-		root1.add(start, 10, 10);
-//		root1.add(howToPlay, 10, 20);
-		root1.add(htp, 7, 7, 10, 20);
-		root1.add(close, 17, 20);
+		root1.getChildren().add(start);
+
+		root1.getChildren().add(htp);
+		root1.getChildren().add(close);
 		root1.setPrefWidth(900);
 		root1.setPrefHeight(600);
 		
