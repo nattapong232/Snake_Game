@@ -6,6 +6,8 @@ import java.util.Random;
 
 import base.Coordinate;
 import base.MoveableObject;
+import etc.Bullet;
+import etc.Wall;
 import food.Apple;
 import food.BadApple;
 import food.Food;
@@ -26,10 +28,8 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import logic.GameLogic;
-import monster.Bullet;
 import monster.Demon;
 import monster.Peashooter;
-import monster.Wall;
 import snake.Body;
 import snake.Head;
 import snake.Snake;
@@ -304,7 +304,7 @@ public class GamePane extends Pane {
 	}
 
 	public void checkHit() {
-		for (Peashooter mo2: Peashooter.getAllMonster2()) {
+		for (Peashooter mo2: Peashooter.getAllPeaShooter()) {
 			for (Body b : snake.getSnake()) {
 				if (mo2.getBullet().getBoundsInParent().intersects(b.getBoundsInParent()) && b.isVisible()) {
 					System.out.println("Hit!");

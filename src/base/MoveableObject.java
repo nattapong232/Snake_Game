@@ -57,7 +57,7 @@ public abstract class MoveableObject extends ImageView implements Moveable{
 		this.setTranslateY(this.getYLocation());
 	}
 
-	@Override
+	
 	public void randomLocation() { //default : for 1x1 object
 		// TODO Auto-generated method stub
 		Random rand = new Random();

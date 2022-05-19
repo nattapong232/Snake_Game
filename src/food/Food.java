@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 import snake.Head;
 
 public abstract class Food extends MoveableObject implements Eatable{
-	public abstract void initialize();
+//	public abstract void initialize();
 }
 //	Coordinate location;
 //	Image picture;

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import base.Coordinate;
 import base.MoveableObject;
+import etc.Bullet;
 import food.Food;
 import gui.GamePane;
 import interfaces.Eatable;
@@ -15,7 +16,7 @@ import javafx.scene.image.ImageView;
 
 public class Peashooter extends Monster {
 	private static int amount = 0; // represent amount of monster that visible = true
-	private static ArrayList<Peashooter> allMonster2 = new ArrayList<Peashooter>();
+	private static ArrayList<Peashooter> allPeaShooter = new ArrayList<Peashooter>();
 //	Coordinate location;
 //	Image picture;
 	private Bullet bullet;
@@ -32,7 +33,7 @@ public class Peashooter extends Monster {
 		this.setTranslateY(this.getYLocation());
 		this.setVisible(false);
 
-		allMonster2.add(this);
+		allPeaShooter.add(this);
 	}
 	
 	public void initialize() {
@@ -52,12 +53,14 @@ public class Peashooter extends Monster {
 		Peashooter.amount = amount;
 	}
 
-	public static ArrayList<Peashooter> getAllMonster2() {
-		return allMonster2;
+	
+
+	public static ArrayList<Peashooter> getAllPeaShooter() {
+		return allPeaShooter;
 	}
 
-	public static void setAllMonster2(ArrayList<Peashooter> allMonster2) {
-		Peashooter.allMonster2 = allMonster2;
+	public static void setAllPeaShooter(ArrayList<Peashooter> allPeaShooter) {
+		Peashooter.allPeaShooter = allPeaShooter;
 	}
 
 	public Bullet getBullet() {

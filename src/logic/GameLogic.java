@@ -5,6 +5,7 @@ import java.util.Random;
 
 import base.MoveableObject;
 import base.Stamina;
+import etc.Wall;
 import food.Apple;
 import food.BadApple;
 import gui.ControlPane;
@@ -23,7 +24,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import monster.Demon;
 import monster.Peashooter;
-import monster.Wall;
 import snake.Body;
 import snake.Head;
 import snake.Snake;
@@ -46,12 +46,14 @@ public class GameLogic {
 	private int scoreToNextLevel;
 	private GamePane gamePane;
 	private ControlPane controlPane;
+	
 	private static MediaPlayer bgmSound;
 	private static MediaPlayer eatingSound;
 	private static MediaPlayer collectItemSound;
-
 	private static MediaPlayer gameWinSound;
 	private static MediaPlayer gameOverSound;
+	private static MediaPlayer shootingSound;
+	
 	private static Thread moving;
 	private static Thread usingStamina;
 	private static Thread firing;
@@ -90,7 +92,7 @@ public class GameLogic {
 		Media gameOverSFx = new Media(getClass().getClassLoader().getResource(gameOverSoundFile).toString());
 		gameOverSound = new MediaPlayer(gameOverSFx);
 
-		String eatingSoundFile = "sound/Eating.wav"; // For example
+		String eatingSoundFile = "sound/Eating.wav";
 		Media eatingSfx = new Media(getClass().getClassLoader().getResource(eatingSoundFile).toString());
 		eatingSound = new MediaPlayer(eatingSfx);
 
@@ -98,8 +100,12 @@ public class GameLogic {
 		Media collectingItemSfx = new Media(
 				getClass().getClassLoader().getResource(collectingItemSoundFile).toString());
 		collectItemSound = new MediaPlayer(collectingItemSfx);
+		
+		String shootingSoundFile = "sound/ShootingSound.mp3";
+		Media shootingSfx = new Media(getClass().getClassLoader().getResource(shootingSoundFile).toString());
+		shootingSound = new MediaPlayer(shootingSfx);
 
-		String bgmFile = "sound/BGM.mp3"; // For example
+		String bgmFile = "sound/BGM.mp3";
 		Media bgm = new Media(getClass().getClassLoader().getResource(bgmFile).toString());
 		bgmSound = new MediaPlayer(bgm);
 		bgmSound.setCycleCount(AudioClip.INDEFINITE);
@@ -205,7 +211,7 @@ public class GameLogic {
 				this.gamePane.moveToRandomLocation(b);
 			}
 			for (int i = 0; i < 3; i++) {
-				Battery e = Battery.getAllEnergyPotion().get(i);
+				Battery e = Battery.getAllBattery().get(i);
 				e.initialize();
 				this.gamePane.moveToRandomLocation(e);
 			}
@@ -223,7 +229,7 @@ public class GameLogic {
 				this.gamePane.moveToRandomLocation(m);
 			}
 			for (int i = 0; i < 3; i++) {
-				Battery e = Battery.getAllEnergyPotion().get(i);
+				Battery e = Battery.getAllBattery().get(i);
 				e.initialize();
 				this.gamePane.moveToRandomLocation(e);
 			}
@@ -259,7 +265,7 @@ public class GameLogic {
 //			for (Wall w : Wall.getAllWall()) {
 //				w.initialize();
 //			}
-			for (Peashooter mo2 : Peashooter.getAllMonster2()) {
+			for (Peashooter mo2 : Peashooter.getAllPeaShooter()) {
 				mo2.initialize();
 			}
 //			GameLogic.stop();
@@ -375,7 +381,7 @@ public class GameLogic {
 
 	public void checkGameEnd() {
 		if (GameLogic.getInstance().isMoveFinished()) {
-			if (score == 1) {// scoreToNextLevel
+			if (score == 5) {// scoreToNextLevel
 				this.setGameEnd(true);
 				this.setGameWin(true);
 				GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
@@ -502,13 +508,15 @@ public class GameLogic {
 
 	public static void fire() throws InterruptedException {
 //		System.out.println("Fire!");
-		for (Peashooter mo2 : Peashooter.getAllMonster2()) {
+		for (Peashooter mo2 : Peashooter.getAllPeaShooter()) {
 			int currentXLocation = mo2.getBullet().getXLocation();
 			int currentYLocation = mo2.getBullet().getYLocation();
 //			System.out.println("x = " + currentXLocation + " y = " + currentYLocation);
 //			mo2.getBullet().setLocation(currentXLocation - 30, currentYLocation);
 			if (mo2.getBullet().getXLocation() <= 0) {
-				mo2.getBullet().setLocation(450, currentYLocation);
+				firing.interrupt();
+				initFiring();
+//				mo2.getBullet().setLocation(450, currentYLocation);
 			}
 			else {
 				mo2.getBullet().setLocation(currentXLocation - 30, currentYLocation);
@@ -608,7 +616,7 @@ public class GameLogic {
 	}
 
 	public void setGameWinSound(MediaPlayer gameWinSound) {
-		this.gameWinSound = gameWinSound;
+		GameLogic.gameWinSound = gameWinSound;
 	}
 
 	public MediaPlayer getGameOverSound() {
@@ -616,7 +624,7 @@ public class GameLogic {
 	}
 
 	public void setGameOverSound(MediaPlayer gameOverSound) {
-		this.gameOverSound = gameOverSound;
+		GameLogic.gameOverSound = gameOverSound;
 	}
 
 	public int getNumberOfMovingThread() {
@@ -695,6 +703,13 @@ public class GameLogic {
 	public static void initFiring() {
 		firing = new Thread() {
 			public void run() {
+				for (Peashooter p : Peashooter.getAllPeaShooter()) {
+						p.getBullet().setLocation(p.getXLocation()-30, p.getYLocation()+3);
+				}
+				if (GameLogic.getInstance().isSfxOn()) {
+					shootingSound.seek(shootingSound.getStartTime());
+					shootingSound.play();
+				}
 				GameLogic.getInstance().setNumberOfFiringThread(GameLogic.getInstance().getNumberOfFiringThread() + 1);
 //				System.out.println("initFiring");
 				while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()
@@ -745,6 +760,14 @@ public class GameLogic {
 
 	public void setNumberOfFiringThread(int numberOfFiringThread) {
 		this.numberOfFiringThread = numberOfFiringThread;
+	}
+
+	public static MediaPlayer getShootingSound() {
+		return shootingSound;
+	}
+
+	public static void setShootingSound(MediaPlayer shootingSound) {
+		GameLogic.shootingSound = shootingSound;
 	}
 
 }

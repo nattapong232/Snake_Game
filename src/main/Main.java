@@ -54,9 +54,8 @@ public class Main extends Application {
 //		close.setVisible(false);
 		htp.setVisible(false);
 
-		root1.setAlignment(Pos.CENTER);
-		root1.getChildren().add(start);
 
+		root1.getChildren().add(start);
 		root1.getChildren().add(htp);
 //		root1.getChildren().add(close);
 		root1.setPrefWidth(900);
