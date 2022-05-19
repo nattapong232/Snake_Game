@@ -53,7 +53,7 @@ public class GamePane extends Pane {
 //			}
 //		}
 
-		for (int i = 1; i < 40; i++) {
+		for (int i = 1; i < 15; i++) {
 			Tail t = (Tail) snake.getSnake().get(i);
 			allMoveableObject.add(t);
 		}
@@ -347,6 +347,9 @@ public class GamePane extends Pane {
 					}
 				}
 				if (mo.getBoundsInParent().intersects(tempObject.getBoundsInParent())) {
+					canChange = false;
+				}
+				if (mo.getBoundsInParent().intersects(snake.getHead().getBoundsInParent())) {
 					canChange = false;
 				}
 

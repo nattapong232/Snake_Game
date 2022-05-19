@@ -26,7 +26,7 @@ public class Snake extends Pane  {
 		snake.add(new Tail(x, y - 30));
 		this.getChildren().add(snake.get(0));
 		this.getChildren().add(snake.get(1));
-		for (int i = 2; i < 40; i++) {
+		for (int i = 2; i < 15; i++) {
 			snake.add(new Tail(x, y - 30 * i));
 			snake.get(i).setVisible(false);
 			this.getChildren().add(snake.get(i));
@@ -88,10 +88,9 @@ public class Snake extends Pane  {
 			getHead().setLocation(x, y + 30);
 			break;
 		}
-		for (int i = 1; i < 40; i++) {
+		for (int i = 1; i < 15; i++) {
 			
 
-			
 			Tail tail = (Tail) snake.get(i);
 			int tempX = tail.getXLocation();
 			int tempY = tail.getYLocation();
@@ -111,7 +110,7 @@ public class Snake extends Pane  {
 	}
 
 	public void move() {
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 15; i++) {
 			snake.get(i).setTranslateX(snake.get(i).getXLocation());
 			snake.get(i).setTranslateY(snake.get(i).getYLocation());
 		}
@@ -146,11 +145,11 @@ public class Snake extends Pane  {
 		for (int i = 0; i < 2; i++) {
 			snake.get(i).setVisible(true);
 		}
-		for (int i = 2; i < 40; i++) {
+		for (int i = 2; i < 15; i++) {
 			snake.get(i).setVisible(false);
 		}
 		((Head) snake.get(0)).initialize();
-		for (int i = 1; i < 40; i++) {
+		for (int i = 1; i < 15; i++) {
 			int x = snake.get(i - 1).getXLocation();
 			int y = snake.get(i - 1).getYLocation();
 			int dir = snake.get(i - 1).getDirection();
