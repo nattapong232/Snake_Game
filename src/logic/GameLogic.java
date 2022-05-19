@@ -52,6 +52,7 @@ public class GameLogic {
 	private static MediaPlayer collectItemSound;
 	private static MediaPlayer gameWinSound;
 	private static MediaPlayer gameOverSound;
+	private static MediaPlayer shootingSound;
 	
 	private static Thread moving;
 	private static Thread usingStamina;
@@ -91,7 +92,7 @@ public class GameLogic {
 		Media gameOverSFx = new Media(getClass().getClassLoader().getResource(gameOverSoundFile).toString());
 		gameOverSound = new MediaPlayer(gameOverSFx);
 
-		String eatingSoundFile = "sound/Eating.wav"; // For example
+		String eatingSoundFile = "sound/Eating.wav";
 		Media eatingSfx = new Media(getClass().getClassLoader().getResource(eatingSoundFile).toString());
 		eatingSound = new MediaPlayer(eatingSfx);
 
@@ -99,8 +100,12 @@ public class GameLogic {
 		Media collectingItemSfx = new Media(
 				getClass().getClassLoader().getResource(collectingItemSoundFile).toString());
 		collectItemSound = new MediaPlayer(collectingItemSfx);
+		
+		String shootingSoundFile = "sound/ShootingSound.mp3";
+		Media shootingSfx = new Media(getClass().getClassLoader().getResource(shootingSoundFile).toString());
+		shootingSound = new MediaPlayer(shootingSfx);
 
-		String bgmFile = "sound/BGM.mp3"; // For example
+		String bgmFile = "sound/BGM.mp3";
 		Media bgm = new Media(getClass().getClassLoader().getResource(bgmFile).toString());
 		bgmSound = new MediaPlayer(bgm);
 		bgmSound.setCycleCount(AudioClip.INDEFINITE);
@@ -509,7 +514,9 @@ public class GameLogic {
 //			System.out.println("x = " + currentXLocation + " y = " + currentYLocation);
 //			mo2.getBullet().setLocation(currentXLocation - 30, currentYLocation);
 			if (mo2.getBullet().getXLocation() <= 0) {
-				mo2.getBullet().setLocation(450, currentYLocation);
+				firing.interrupt();
+				initFiring();
+//				mo2.getBullet().setLocation(450, currentYLocation);
 			}
 			else {
 				mo2.getBullet().setLocation(currentXLocation - 30, currentYLocation);
@@ -696,6 +703,13 @@ public class GameLogic {
 	public static void initFiring() {
 		firing = new Thread() {
 			public void run() {
+				for (Peashooter p : Peashooter.getAllPeaShooter()) {
+						p.getBullet().setLocation(p.getXLocation()-30, p.getYLocation()+3);
+				}
+				if (GameLogic.getInstance().isSfxOn()) {
+					shootingSound.seek(shootingSound.getStartTime());
+					shootingSound.play();
+				}
 				GameLogic.getInstance().setNumberOfFiringThread(GameLogic.getInstance().getNumberOfFiringThread() + 1);
 //				System.out.println("initFiring");
 				while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()
@@ -746,6 +760,14 @@ public class GameLogic {
 
 	public void setNumberOfFiringThread(int numberOfFiringThread) {
 		this.numberOfFiringThread = numberOfFiringThread;
+	}
+
+	public static MediaPlayer getShootingSound() {
+		return shootingSound;
+	}
+
+	public static void setShootingSound(MediaPlayer shootingSound) {
+		GameLogic.shootingSound = shootingSound;
 	}
 
 }
