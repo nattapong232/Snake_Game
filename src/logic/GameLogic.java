@@ -269,7 +269,7 @@ public class GameLogic {
 				mo2.initialize();
 			}
 //			GameLogic.stop();
-			GameLogic.initFiring();
+			startFiring();
 
 //			for (int i = 0; i < 1; i++) {
 //				Demon m = Demon.getAllMonster().get(i);
@@ -432,6 +432,15 @@ public class GameLogic {
 		usingStamina.interrupt();
 	}
 
+	public static void startFiring() {
+		initFiring();
+		firing.start();
+	}
+	
+	public static void stopFiring() {
+		firing.interrupt();
+	}
+	
 	public static void moveSnake() throws InterruptedException {
 		GameLogic.getInstance().setMoveFinished(false);
 		GamePane temp = GameLogic.getInstance().getGamePane();
@@ -507,24 +516,25 @@ public class GameLogic {
 	}
 
 	public static void fire() throws InterruptedException {
-//		System.out.println("Fire!");
-		for (Peashooter mo2 : Peashooter.getAllPeaShooter()) {
-			int currentXLocation = mo2.getBullet().getXLocation();
-			int currentYLocation = mo2.getBullet().getYLocation();
+		System.out.println("Fire!");
+		for (Peashooter p : Peashooter.getAllPeaShooter()) {
+			int currentXLocation = p.getBullet().getXLocation();
+			int currentYLocation = p.getBullet().getYLocation();
 //			System.out.println("x = " + currentXLocation + " y = " + currentYLocation);
 //			mo2.getBullet().setLocation(currentXLocation - 30, currentYLocation);
-			if (mo2.getBullet().getXLocation() <= 0) {
-				firing.interrupt();
-				initFiring();
-//				mo2.getBullet().setLocation(450, currentYLocation);
+			if (p.getBullet().getXLocation() <= 0) {
+//				firing.interrupt();
+				stopFiring();
+				startFiring();
+//				p.getBullet().setLocation(p.getXLocation()-27, currentYLocation);
 			}
 			else {
-				mo2.getBullet().setLocation(currentXLocation - 30, currentYLocation);
+				p.getBullet().setLocation(currentXLocation - 30, currentYLocation);
 			}
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					mo2.getBullet().move();
+					p.getBullet().move();
 				}
 			});
 			GameLogic.getInstance().getGamePane().checkHit();
@@ -704,14 +714,15 @@ public class GameLogic {
 		firing = new Thread() {
 			public void run() {
 				for (Peashooter p : Peashooter.getAllPeaShooter()) {
-						p.getBullet().setLocation(p.getXLocation()-30, p.getYLocation()+3);
+					if(p.getBullet().getXLocation() <= 0)
+						p.getBullet().setLocation(p.getXLocation()-27, p.getYLocation()+3);
 				}
 				if (GameLogic.getInstance().isSfxOn()) {
 					shootingSound.seek(shootingSound.getStartTime());
 					shootingSound.play();
 				}
 				GameLogic.getInstance().setNumberOfFiringThread(GameLogic.getInstance().getNumberOfFiringThread() + 1);
-//				System.out.println("initFiring");
+				System.out.println("initFiring");
 				while ((!GameLogic.getInstance().isGameEnd()) && !GameLogic.getInstance().isPause()
 						&& GameLogic.getInstance().getNumberOfFiringThread() <= 1) {
 					try {
@@ -727,7 +738,6 @@ public class GameLogic {
 				GameLogic.getInstance().setNumberOfFiringThread(GameLogic.getInstance().getNumberOfFiringThread() - 1);
 			}
 		};
-		firing.start();
 	}
 
 	public static MediaPlayer getBgmSound() {

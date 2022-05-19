@@ -152,10 +152,17 @@ public class ControlPane extends VBox {
 						pauseText.setText("Pause mode : ON");
 						pauseButton.setGraphic(play);
 						GameLogic.stop();
+						try {
+							GameLogic.stopFiring();
+						}
+						catch (Exception e){
+							;
+						}
 					} else {
 						pauseText.setText("Pause mode : OFF");
 						pauseButton.setGraphic(pause);
 						GameLogic.start();
+						GameLogic.startFiring();
 					}
 				}
 			}

@@ -25,8 +25,8 @@ public abstract class Body extends MoveableObject{
 		}
 	}
 	
-	@Override
-	public abstract void initialize();
+//	@Override
+//	public abstract void initialize();
 	
 //	public Image getPicture() {
 //	return picture;

@@ -2,7 +2,6 @@ package snake;
 import javafx.scene.image.Image;
 import base.Coordinate;
 public class Head extends Body{
-	public static int speed = 00;
 	public Head(int x,int y) {
 		this.location = new Coordinate(x,y);
 		this.setDirection(3);
@@ -18,6 +17,8 @@ public class Head extends Body{
 	public void initialize() {
 		this.setRotate(this.getRotate()*0);
 		this.setLocation(60, 60);
+		this.move();
+		this.setVisible(true);
 		this.setDirection(3);
 		this.setTranslateX(this.getXLocation());
 		this.setTranslateY(this.getYLocation());

@@ -37,11 +37,35 @@ public class Peashooter extends Monster {
 	}
 	
 	public void initialize() {
-		this.bullet.setLocation(this.getXLocation()-30, this.getYLocation()+3);
+		this.bullet.setLocation(this.getXLocation()-27, this.getYLocation()+3);
 		this.bullet.move();
 		this.setVisible(true);
 		Peashooter.amount += 1;
 		this.bullet.initialize();
+	}
+	
+	public void setLocation(int x, int y) {
+		if (x >= 570) {
+			this.location.setX(0);
+		} else if (x < 0) {
+			this.location.setX(540);
+		} else {
+			this.location.setX(x);
+		}
+		if (y >= 570) {
+			this.location.setY(0);
+		} else if (y < 0) {
+			this.location.setY(540);
+		} else {
+			this.location.setY(y);
+		}
+	}
+	
+	@Override
+	public void randomLocation() {
+		// TODO Auto-generated method stub
+		Random rand = new Random();
+		this.setLocation(rand.nextInt(17) * 30, rand.nextInt(17) * 30);
 	}
 	
 

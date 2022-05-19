@@ -306,8 +306,9 @@ public class GamePane extends Pane {
 	public void checkHit() {
 		for (Peashooter mo2: Peashooter.getAllPeaShooter()) {
 			for (Body b : snake.getSnake()) {
-				if (mo2.getBullet().getBoundsInParent().intersects(b.getBoundsInParent()) && b.isVisible()) {
+				if (mo2.getBullet().getBoundsInParent().intersects(b.getBoundsInParent()) && b.isVisible() && mo2.getBullet().isVisible()) {
 					System.out.println("Hit!");
+					mo2.getBullet().setVisible(false);
 					GameLogic.getInstance().setGameEnd(true);
 					GameLogic.getInstance().setGameWin(false);
 					GameLogic.getInstance().checkGameEnd();

@@ -31,8 +31,8 @@ public class Bullet extends MoveableObject {
 	public void setLocation(int x, int y) { //default : for 1x1 object
 		if (x >= 600) {
 			this.location.setX(0);
-		} else if (x < 0) {
-			this.setVisible(false);
+//		} else if (x < 0) {
+////			this.setVisible(false);
 		} else {
 			this.location.setX(x);
 		}
