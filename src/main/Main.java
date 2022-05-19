@@ -43,21 +43,21 @@ public class Main extends Application {
 //		root1.getRowConstraints().add(new RowConstraints(250));
 		
 		Button start = new Button("Start");
-		start.setMinSize(100, 50);
-		Button howToPlay = new Button("How to play");
-		howToPlay.setMinSize(100, 50);
-		Button close = new Button("X");
-		close.setMinSize(100, 100);
+		start.setMinSize(100, 100);
+//		Button howToPlay = new Button("How to play");
+//		howToPlay.setMinSize(100, 100);
+//		Button close = new Button("X");
+//		close.setMinSize(100, 100);
 		ImageView htp = new ImageView(new Image(ClassLoader.getSystemResource("background/HowToPlayBG.png").toString()));
 		
 
-		close.setVisible(false);
+//		close.setVisible(false);
 		htp.setVisible(false);
 
 
 		root1.getChildren().add(start);
 		root1.getChildren().add(htp);
-		root1.getChildren().add(close);
+//		root1.getChildren().add(close);
 		root1.setPrefWidth(900);
 		root1.setPrefHeight(600);
 		
@@ -100,20 +100,20 @@ public class Main extends Application {
 		
 		primaryStage.setResizable(false);
 		
-		howToPlay.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				htp.setVisible(true);
-				
-				close.setVisible(true);
-			}
-		});
+//		howToPlay.setOnAction(new EventHandler<ActionEvent>() {
+//			public void handle(ActionEvent event) {
+//				htp.setVisible(true);
+//				
+//				close.setVisible(true);
+//			}
+//		});
 		
-		close.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				htp.setVisible(false);
-				close.setVisible(false);
-			}
-		});
+//		close.setOnAction(new EventHandler<ActionEvent>() {
+//			public void handle(ActionEvent event) {
+//				htp.setVisible(false);
+//				close.setVisible(false);
+//			}
+//		});
 
 		back.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
