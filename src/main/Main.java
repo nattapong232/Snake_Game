@@ -26,7 +26,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -38,14 +37,12 @@ public class Main extends Application {
 
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-		Font font = Font.loadFont("JungleAdventurer.ttf", 0);
 		// Scene 1
 		StackPane root1 = new StackPane();
 //		root1.getColumnConstraints().add(new ColumnConstraints(450));
 //		root1.getRowConstraints().add(new RowConstraints(250));
 		
 		Button start = new Button("Start");
-		start.setFont(font);
 		start.setMinSize(100, 100);
 //		Button howToPlay = new Button("How to play");
 //		howToPlay.setMinSize(100, 100);
@@ -80,7 +77,6 @@ public class Main extends Application {
 		GamePane gamePane = new GamePane();
 		ControlPane controlPane = new ControlPane(gamePane);
 		Button back = new Button("Back to main menu");
-		back.setFont(font);
 
 		controlPane.getChildren().add(back);
 		root2.getChildren().add(gamePane);

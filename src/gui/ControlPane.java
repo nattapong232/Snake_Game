@@ -41,8 +41,6 @@ public class ControlPane extends VBox {
 //	Media sound = new Media(new File(musicFile).toURI().toString());
 //	MediaPlayer mediaPlayer = new MediaPlayer(sound);
 //	mediaPlayer.play();
-	
-	Font font = Font.loadFont("JungleAdventurer.ttf", 0);
 
 	public ControlPane(GamePane gamePane) {
 		HBox hBox = new HBox();
@@ -131,7 +129,6 @@ public class ControlPane extends VBox {
 			public void handle(ActionEvent event) {
 				GameLogic.getInstance().newGame(1);
 				pauseText.setText("Pause mode : OFF");
-				pauseText.setFont(font);
 				levelText.setText("Level : " + GameLogic.getInstance().getLevel());
 				scoreText.setText("Score : " + GameLogic.getInstance().getScore());
 				scoreToNextLevelText.setText("Score to next Level: "+ GameLogic.getInstance().getScoreToNextLevel());
@@ -153,7 +150,6 @@ public class ControlPane extends VBox {
 					GameLogic.getInstance().togglePauseMode();
 					if (GameLogic.getInstance().isPause()) {
 						pauseText.setText("Pause mode : ON");
-						pauseText.setFont(font);
 						pauseButton.setGraphic(play);
 						GameLogic.stop();
 						if (GameLogic.getInstance().getLevel() == 5)
@@ -165,7 +161,6 @@ public class ControlPane extends VBox {
 						}
 					} else {
 						pauseText.setText("Pause mode : OFF");
-						pauseText.setFont(font);
 						pauseButton.setGraphic(pause);
 						GameLogic.start();
 						if (GameLogic.getInstance().getLevel() == 5)
@@ -184,12 +179,11 @@ public class ControlPane extends VBox {
 	private void initializeNextLevelButton() {
 		nextLevelButton = new Button("Click to go to next level");
 		nextLevelButton.setFont(Font.font(15));
-		nextLevelButton.setFont(font);
 		nextLevelButton.setMinWidth(200);
 		nextLevelButton.setMaxWidth(200);
 //		newGameButton.setPrefWidth(100);
 //		newGameButton.setMinWidth(100);
-		nextLevelButton.setFont(font);;
+		nextLevelButton.setStyle("-fx-font-family: 'Jungle Adventurer'");
 		nextLevelButton.setPrefWidth(50);
 		nextLevelButton.setVisible(false);
 		nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
