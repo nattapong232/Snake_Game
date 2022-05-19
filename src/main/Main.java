@@ -43,7 +43,7 @@ public class Main extends Application {
 //		root1.getRowConstraints().add(new RowConstraints(250));
 		
 		Button start = new Button("Start");
-		start.setMinSize(100, 100);
+		start.setMinSize(110, 110);
 //		Button howToPlay = new Button("How to play");
 //		howToPlay.setMinSize(100, 100);
 //		Button close = new Button("X");
