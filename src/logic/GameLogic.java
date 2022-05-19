@@ -140,7 +140,7 @@ public class GameLogic {
 		this.setPause(false);
 		this.setSleepTime(300);
 		this.setScore(0);
-		this.setScoreToNextLevel(3 * level);
+//		this.setScoreToNextLevel(3 * level);
 		this.setLevel(level);
 //		this.gamePane.getSnake().initialize();
 //		this.gamePane.getApple().initialize();
@@ -196,6 +196,7 @@ public class GameLogic {
 
 		switch (level) {
 		case 1:
+			this.setScoreToNextLevel(3);
 			this.setSleepTime(120);
 			for (int i = 0; i < 1; i++) {
 				BadApple b = BadApple.getAllBadApple().get(i);
@@ -204,6 +205,7 @@ public class GameLogic {
 			}
 			break;
 		case 2:
+			this.setScoreToNextLevel(5);
 			this.setSleepTime(110);
 			for (int i = 0; i < 1; i++) {
 				BadApple b = BadApple.getAllBadApple().get(i);
@@ -217,6 +219,7 @@ public class GameLogic {
 			}
 			break;
 		case 3:
+			this.setScoreToNextLevel(5);
 			this.setSleepTime(100);
 			for (int i = 0; i < 1; i++) {
 				BadApple b = BadApple.getAllBadApple().get(i);
@@ -235,15 +238,16 @@ public class GameLogic {
 			}
 			break;
 		case 4:
+			this.setScoreToNextLevel(5);
 			this.setSleepTime(80);
 			for (Wall w : Wall.getAllWall()) {
 				w.initialize();
 			}
-			for (int i = 0; i < 1; i++) {
-				BadApple b = BadApple.getAllBadApple().get(i);
-				b.initialize();
-				this.gamePane.moveToRandomLocation(b);
-			}
+//			for (int i = 0; i < 1; i++) {
+//				BadApple b = BadApple.getAllBadApple().get(i);
+//				b.initialize();
+//				this.gamePane.moveToRandomLocation(b);
+//			}
 			for (int i = 0; i < 1; i++) {
 				SlowPotion m = SlowPotion.getAllSlowPotion().get(i);
 				m.initialize();
@@ -261,6 +265,7 @@ public class GameLogic {
 			}
 			break;
 		case 5:
+			this.setScoreToNextLevel(5);
 			this.setSleepTime(150);
 //			for (Wall w : Wall.getAllWall()) {
 //				w.initialize();
@@ -381,7 +386,7 @@ public class GameLogic {
 
 	public void checkGameEnd() {
 		if (GameLogic.getInstance().isMoveFinished()) {
-			if (score == 1) {// scoreToNextLevel
+			if (score == scoreToNextLevel) {// scoreToNextLevel
 				this.setGameEnd(true);
 				this.setGameWin(true);
 				GameLogic.getInstance().getControlPane().getNextLevelButton().setVisible(true);
@@ -489,7 +494,7 @@ public class GameLogic {
 		Stamina snakeStamina = GameLogic.getInstance().getGamePane().getSnake().getStamina();
 //		System.out.println(GameLogic.getInstance().getControlPane().getStaminaText());
 //		System.out.println(GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp());
-		snakeStamina.decrementStamina(5);
+		snakeStamina.decrementStamina(8);
 //		System.out.println(GameLogic.getInstance().getNumberOfMovingThread());
 		Platform.runLater(new Runnable() {
 			@Override

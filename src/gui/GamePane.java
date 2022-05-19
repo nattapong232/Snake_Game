@@ -262,19 +262,22 @@ public class GamePane extends Pane {
 
 			if (m instanceof Apple) {
 				GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() + 1);
-				GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
+				if (GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp() < 100) {
+					GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
+				}
+//				GameLogic.getInstance().getGamePane().getSnake().getStamina().setSp(100);
 				snake.getSnake().get((snake.getLength())).initialize();
 				snake.updateLength();
 				snake.setLength(snake.getLength());
 				moveToRandomLocation(m);
-				System.out.println("Eat Apple");
+//				System.out.println("Eat Apple");
 			} else if (m instanceof BadApple) {
 				GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 1);
 				snake.getSnake().get((snake.getLength())).initialize();
 				snake.updateLength();
 				snake.setLength(snake.getLength());
 				m.setVisible(false);
-				System.out.println("Eat Bad Apple");
+//				System.out.println("Eat Bad Apple");
 			}
 
 		} else if (m instanceof Item) {
@@ -284,20 +287,20 @@ public class GamePane extends Pane {
 			}
 
 			if (m instanceof SlowPotion) {
-				GameLogic.getInstance().setSleepTime(120);
+				GameLogic.getInstance().setSleepTime(140);
 				m.setVisible(false);
 			} else if (m instanceof SpeedPotion) {
 //			Deduct point, increase snake length, increase speed
-				GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 2);
-				for (int i = 0; i < 3; i++) {
-					snake.getSnake().get((snake.getLength())).setVisible(true);
-					snake.updateLength();
-				}
+//				GameLogic.getInstance().updateScore(GameLogic.getInstance().getScore() - 2);
+//				for (int i = 0; i < 3; i++) {
+//					snake.getSnake().get((snake.getLength())).setVisible(true);
+//					snake.updateLength();
+//				}
 				GameLogic.getInstance().setSleepTime(50);
 				m.setVisible(false);
 			} else if (m instanceof Battery) {
 				int currentSp = GameLogic.getInstance().getGamePane().getSnake().getStamina().getSp();
-				snake.getStamina().setSp(currentSp + 20);
+				snake.getStamina().setSp(currentSp + 30);
 				m.setVisible(false);
 			}
 		}
