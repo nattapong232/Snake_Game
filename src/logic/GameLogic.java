@@ -219,7 +219,7 @@ public class GameLogic {
 			}
 			break;
 		case 3:
-			this.setScoreToNextLevel(1);
+			this.setScoreToNextLevel(5);
 			this.setSleepTime(100);
 			for (int i = 0; i < 1; i++) {
 				BadApple b = BadApple.getAllBadApple().get(i);
