@@ -85,7 +85,7 @@ public class Main extends Application {
 			}
 		});
 		
-		primaryStage.setTitle("Snake Game");
+		primaryStage.setTitle("Snake the Explorer");
 		primaryStage.setScene(scene1);
 		primaryStage.setMinHeight(600);
 		primaryStage.setMinWidth(900);
