@@ -164,8 +164,12 @@ public class ControlPane extends VBox {
 
 	private void initializeNextLevelButton() {
 		nextLevelButton = new Button("Click to go to next level");
-		nextLevelButton.setFont(Font.font(25));
-		nextLevelButton.setStyle("-fx-font-family: 'serif'");
+		nextLevelButton.setFont(Font.font(15));
+		nextLevelButton.setMinWidth(200);
+		nextLevelButton.setMaxWidth(200);
+//		newGameButton.setPrefWidth(100);
+//		newGameButton.setMinWidth(100);
+		nextLevelButton.setStyle("-fx-font-family: 'Jungle Adventurer'");
 		nextLevelButton.setPrefWidth(50);
 		nextLevelButton.setVisible(false);
 		nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -189,30 +193,30 @@ public class ControlPane extends VBox {
 	private void initializeLevelText() {
 		levelText = new Text("Level : " + 1);
 		levelText.setFont(Font.font(30));
-		levelText.setStyle("-fx-font-family: 'serif'");
+		levelText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	private void initializePauseModeText() {
 		pauseText = new Text("Pause mode : OFF");
 		pauseText.setFont(Font.font(30));
-		pauseText.setStyle("-fx-font-family: 'serif'");	}
+		pauseText.setStyle("-fx-font-family: 'Jungle Adventurer'");	}
 
 	private void initializeScoreText() {
 		scoreText = new Text("Score : " + 0);
 		scoreText.setFont(Font.font(30));
-		scoreText.setStyle("-fx-font-family: 'serif'");
+		scoreText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	private void initializeScoreToNextLevelText() {
 		scoreToNextLevelText = new Text("Score to next level : " + 10);
 		scoreToNextLevelText.setFont(Font.font(30));
-		scoreToNextLevelText.setStyle("-fx-font-family: 'serif'");
+		scoreToNextLevelText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	private void initializeStaminaText() {
 		staminaText = new Text("Stamina : " + 100);
 		staminaText.setFont(Font.font(30));
-		staminaText.setStyle("-fx-font-family: 'serif'");
+		staminaText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 		
 	}
 
@@ -263,7 +267,7 @@ public class ControlPane extends VBox {
 
 	public void setLevelText(String text) {
 		levelText.setText(text);
-		levelText.setStyle("-fx-font-family: 'serif'");
+		levelText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	public Text getPauseText() {
@@ -272,7 +276,7 @@ public class ControlPane extends VBox {
 
 	public void setPauseText(Text pauseText) {
 		this.pauseText = pauseText;
-		pauseText.setStyle("-fx-font-family: 'serif'");
+		pauseText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	public Text getScoreText() {
@@ -281,7 +285,7 @@ public class ControlPane extends VBox {
 
 	public void setScoreText(Text scoreText) {
 		this.scoreText = scoreText;
-		scoreText.setStyle("-fx-font-family: 'serif'");
+		scoreText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	public Text getScoreToNextLevelText() {
@@ -290,27 +294,27 @@ public class ControlPane extends VBox {
 
 	public void setScoreToNextLevelText(Text scoreToNextLevelText) {
 		this.scoreToNextLevelText = scoreToNextLevelText;
-		scoreToNextLevelText.setStyle("-fx-font-family: 'serif'");
+		scoreToNextLevelText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	public void setNextLevelButtonText(String text) {
 		nextLevelButton.setText(text);
-		nextLevelButton.setStyle("-fx-font-family: 'serif'");
+		nextLevelButton.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	public void setScoreText(String text) {
 		scoreText.setText(text);
-		scoreText.setStyle("-fx-font-family: 'serif'");
+		scoreText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	public void setScoreToNextLevelText(String text) {
 		scoreText.setText(text);
-		scoreText.setStyle("-fx-font-family: 'serif'");
+		scoreText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	public void setLevelText(Text levelText) {
 		this.levelText = levelText;
-		levelText.setStyle("-fx-font-family: 'serif'");
+		levelText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 	}
 
 	public Text getStaminaText() {
@@ -320,11 +324,11 @@ public class ControlPane extends VBox {
 	public void setStaminaText(int sp) {
 		if(sp < 0) {
 			staminaText.setText("Stamina = " + 0);
-			staminaText.setStyle("-fx-font-family: 'serif'");
+			staminaText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 		}
 		else {
 			staminaText.setText("Stamina = " + sp);
-			staminaText.setStyle("-fx-font-family: 'serif'");
+			staminaText.setStyle("-fx-font-family: 'Jungle Adventurer'");
 		}
 	}
 
