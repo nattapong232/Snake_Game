@@ -1,6 +1,6 @@
 # Snake_Game
 
-This project is a part of the final project in Programming Methodology.
+This project is a part of the final project in Programming Methodology subject.
 
 **Members:**
 - Nattapong Anansomsin  
